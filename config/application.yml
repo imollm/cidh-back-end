@@ -1,0 +1,19 @@
+
+spring:
+  main:
+    banner-mode: log
+    allow-bean-definition-overriding: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: Pass2021!
+    url: jdbc:postgresql://localhost:6432/postgres
+    initialization-mode: never
+  security:
+    jwt:
+      keystore-path: keys/keystore.jks
+      keystore-password: OrchPass00
+      private-key-passphrase: OrchPass00
+      key-alias: orchjwt
+      refreshTokenExpirationMinutes: 1440
+      jwtTokenExpirationMinutes: 60

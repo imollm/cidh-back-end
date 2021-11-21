@@ -20,17 +20,16 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
 	mavenCentral()
 }
+buildscript {
+	dependencies {
+		val postgresVer = "42.2.19"
+		classpath("org.postgresql:postgresql:$postgresVer")
+	}
+}
 
 sourceSets.main {
 	withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
 		kotlin.srcDirs("src/main/kotlin", "src/generated")
-	}
-}
-
-buildscript {
-	dependencies {
-		val postgresVer = "42.2.19" // ⚠️
-		classpath("org.postgresql:postgresql:$postgresVer")
 	}
 }
 
@@ -45,7 +44,6 @@ dependencies {
 	implementation("com.auth0", "java-jwt", "3.11.0")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server:$springBootVer")
 
-
 	//Logging
 	implementation("io.github.microutils:kotlin-logging:2.1.0")
 
@@ -59,6 +57,7 @@ dependencies {
 	//Database
 	implementation("org.flywaydb:flyway-core:8.0.2")
 	implementation("org.springframework.boot:spring-boot-starter-jooq:$springBootVer")
+	runtimeOnly("org.postgresql:postgresql:$postgresVer")
 
 	//Language
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -81,7 +80,7 @@ tasks.withType<Test> {
 }
 
 
-val dbUrl = "jdbc:postgresql://localhost:5432/postgres"
+val dbUrl = "jdbc:postgresql://localhost:6432/postgres"
 val dbUser = "postgres"
 val dbPassword = "Pass2021!"
 
@@ -90,7 +89,7 @@ flyway {
 	user = dbUser
 	password = dbPassword
 	baselineOnMigrate = true
-	locations = arrayOf("filesystem:/Users/ivan/git/sm-spring-backend/orchestrator/src/main/resources/db/migration/")
+	locations = arrayOf("filesystem:~/git/cidh-back-end/src/main/resources/db/migration")
 }
 
 jooq {
