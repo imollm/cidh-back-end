@@ -7,9 +7,11 @@ plugins {
 	id("nu.studer.jooq") version "5.2.1"
 	id("org.flywaydb.flyway") version "5.2.4"
 
-	val kotlinVer = "1.5.31"
+	val kotlinVer = "1.6.0"
 	kotlin("jvm") version kotlinVer
 	kotlin("plugin.spring") version kotlinVer
+	kotlin("kapt") version kotlinVer
+
 }
 
 group = "edu.uoc.hagendazs"
@@ -22,7 +24,7 @@ repositories {
 }
 buildscript {
 	dependencies {
-		val postgresVer = "42.2.19"
+		val postgresVer = "42.3.1"
 		classpath("org.postgresql:postgresql:$postgresVer")
 	}
 }
@@ -34,7 +36,7 @@ sourceSets.main {
 }
 
 val springBootVer = "2.5.6"
-val postgresVer = "42.2.19"
+val postgresVer = "42.3.1"
 
 dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:$springBootVer")
