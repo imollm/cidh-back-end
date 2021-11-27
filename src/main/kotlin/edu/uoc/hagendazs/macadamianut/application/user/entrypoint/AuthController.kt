@@ -5,6 +5,7 @@ import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshT
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UserPasswordReq
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.output.AuthenticationResponse
 import edu.uoc.hagendazs.macadamianut.application.user.service.AppUserDetailService
+import edu.uoc.hagendazs.macadamianut.application.user.service.JwtConstants
 import edu.uoc.hagendazs.macadamianut.application.user.service.RefreshTokenService
 import edu.uoc.hagendazs.macadamianut.application.user.service.helper.JwtHelper
 import edu.uoc.hagendazs.macadamianut.common.entrypoint.output.MessageResponse
@@ -57,7 +58,7 @@ class AuthController {
     }
 
     @PostAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN', 'USER')")
-    @PostMapping(path = ["/v2/users/invalidate-token"])
+    @PostMapping(path = ["users/invalidate-token"])
     fun invalidateRefreshToken(
         @RequestBody refreshTokenInvalidateReq: RefreshTokenInvalidateRequest,
         jwtToken: Authentication,
@@ -78,7 +79,7 @@ class AuthController {
 
     }
 
-    @PostMapping(path = ["/v2/users/refresh-token"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(path = ["users/refresh-token"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun renewJwtFromRefreshToken(
         @RequestBody refreshTokenReq: RefreshTokenReq
     ): ResponseEntity<AuthenticationResponse> {

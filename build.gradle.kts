@@ -119,7 +119,10 @@ jooq {
 						forcedTypes.apply {
 							forcedTypes.addAll(
 								arrayOf(
-
+									org.jooq.meta.jaxb.ForcedType()
+										.withEnumConverter(true)
+										.withUserType("edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.SystemLanguage")
+										.withIncludeTypes("SystemLanguageType"),
 								)
 							)
 						}
