@@ -52,6 +52,8 @@ dependencies {
 	//Spring core dependencies
 	implementation("org.springframework.boot:spring-boot-starter-web:$springBootVer")
 	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVer")
+	implementation("org.springframework.boot:spring-boot-starter-validation:2.6.0")
+
 
 	// Serialization / Deserialization
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")

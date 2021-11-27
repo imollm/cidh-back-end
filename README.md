@@ -14,9 +14,9 @@ Macadamia Nut has been written using `Kotlin` ver `1.6.0`, and uses `Spring Boot
 
 ## Project Build
 
-1 - Project uses [Gradle](https://gradle.org) as build tool
-2 - It is recommended to build and run the project using JetBrains [IntelliJ IDEA](https://www.jetbrains.com/idea/) IDE
-3 - Project contains a default run configuration, called `MACADAMIANUTCONFIGURATION`. These are the settings:
+1 - Project uses [Gradle](https://gradle.org) as build tool  
+2 - It is recommended to build and run the project using JetBrains [IntelliJ IDEA](https://www.jetbrains.com/idea/) IDE  
+3 - Project contains a default run configuration, called `MACADAMIANUTCONFIGURATION`. These are the settings:  
 
 ![MacadamiaNutConfig](https://i.imgur.com/YaofAsn.png)
 
@@ -24,7 +24,8 @@ Macadamia Nut has been written using `Kotlin` ver `1.6.0`, and uses `Spring Boot
 
 ### Running the server
 
-1 - Make sure you have a Postgres database running locally. make sure that the port, user and password matches with the configuration file of the server.
+1 - Make sure you have a Postgres database running locally. make sure that the port, user and password matches with the configuration file of the server.  
+
 2 - Once the database is running, execute the server by using the `MACADAMIANUTCONFIGURATION`.
 
 
