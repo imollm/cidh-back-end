@@ -11,7 +11,6 @@ plugins {
 	kotlin("jvm") version kotlinVer
 	kotlin("plugin.spring") version kotlinVer
 	kotlin("kapt") version kotlinVer
-
 }
 
 group = "edu.uoc.hagendazs"

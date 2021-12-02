@@ -5,7 +5,7 @@ create type SystemLanguageType as enum (
     'French'
     );
 
-CREATE TABLE user
+CREATE TABLE "user"
 (
     id                varchar PRIMARY KEY,
     first_name        varchar,
@@ -15,7 +15,7 @@ CREATE TABLE user
     email             varchar UNIQUE,
     email_token       varchar,
     is_valid_email    boolean default false,
-    preferredLanguage SystemLanguageType NOT NULL DEFAULT 'English',
+    preferred_language SystemLanguageType NOT NULL DEFAULT 'English',
     password          varchar NOT NULL,
     deleted_at        timestamp,
     created_at        timestamp
@@ -30,7 +30,7 @@ CREATE TABLE password_reset
     created_at        timestamp NOT NULL,
     used_at           timestamp,
 
-    CONSTRAINT person_reset_password FOREIGN KEY (person_id) REFERENCES person (id)
+    CONSTRAINT person_reset_password FOREIGN KEY (person_id) REFERENCES "user" (id)
 );
 
 CREATE TABLE role
@@ -45,7 +45,7 @@ CREATE TABLE user_role
     id     varchar PRIMARY KEY,
     person varchar NOT NULL,
     role   varchar NOT NULL,
-    CONSTRAINT role_person FOREIGN KEY (person) REFERENCES person (id) ON DELETE CASCADE,
+    CONSTRAINT role_person FOREIGN KEY (person) REFERENCES "user" (id) ON DELETE CASCADE,
     CONSTRAINT role_person_role FOREIGN KEY (role) REFERENCES role (id),
     CONSTRAINT unique_pairs UNIQUE (person, role)
 );

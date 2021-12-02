@@ -13,6 +13,7 @@ data class UserUpdateReq(
     @field:NotBlank val firstName: String,
     @field:NotBlank val lastName: String,
     @field:NotBlank val nif: String,
+    @field:NotBlank val address: String,
     @field:NotBlank val preferredLanguage: SystemLanguage,
 ) {
     init {
