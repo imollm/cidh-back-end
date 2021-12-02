@@ -31,6 +31,12 @@ class UserController {
             email = newUserReq.email,
             plainTextPassword = newUserReq.password,
         )
+        user ?: run {
+            throw throw ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Unable to create user with given payload: $newUserReq"
+            )
+        }
         val userUriString = request.requestURL.toString().plus("/${user.id}")
         val personUri = URI.create(userUriString)
         return ResponseEntity.created(personUri).body(user)
