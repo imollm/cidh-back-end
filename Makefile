@@ -2,7 +2,7 @@
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=Pass2021!
 POSTGRES_DB=postgres
-SQL_SCRIPT_FOLDER=/Users/Ivan/Sites/pdp/cidh-back-end/src/main/resources/db/migration
+SQL_SCRIPT_FOLDER=src/main/resources/db/migration
 SQL_SCRIPT_NAME=V1__initial_data_model.sql
 CONTAINER_POSTGRES_DATA_FOLDER=/var/lib/postgresql/dump
 OUTGOING_PORT=6432
@@ -29,7 +29,7 @@ run:
 	-e POSTGRES_USER=$(POSTGRES_USER) \
 	-e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) \
 	-e POSTGRES_DB=$(POSTGRES_DB) \
-	-v "$(SQL_SCRIPT_FOLDER):$(CONTAINER_POSTGRES_DATA_FOLDER)" \
+	-v "$(shell pwd)/$(SQL_SCRIPT_FOLDER):$(CONTAINER_POSTGRES_DATA_FOLDER)" \
 	-p $(OUTGOING_PORT):$(INCOMING_PORT) \
 	-d \
 	$(DOCKER_IMAGE)
@@ -67,3 +67,5 @@ init:
 
 #tables:
 #	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
+
+test:
