@@ -24,13 +24,13 @@ CREATE TABLE "user"
 CREATE TABLE password_reset
 (
     id                varchar PRIMARY KEY,
-    person_id         varchar   NOT NULL,
+    user_id         varchar   NOT NULL,
     hashed_token      varchar   NOT NULL,
     requester_ip_addr varchar,
     created_at        timestamp NOT NULL,
     used_at           timestamp,
 
-    CONSTRAINT person_reset_password FOREIGN KEY (person_id) REFERENCES "user" (id)
+    CONSTRAINT user_reset_password FOREIGN KEY (user_id) REFERENCES "user" (id)
 );
 
 CREATE TABLE role
@@ -43,11 +43,11 @@ CREATE TABLE role
 CREATE TABLE user_role
 (
     id     varchar PRIMARY KEY,
-    person varchar NOT NULL,
+    "user" varchar NOT NULL,
     role   varchar NOT NULL,
-    CONSTRAINT role_person FOREIGN KEY (person) REFERENCES "user" (id) ON DELETE CASCADE,
-    CONSTRAINT role_person_role FOREIGN KEY (role) REFERENCES role (id),
-    CONSTRAINT unique_pairs UNIQUE (person, role)
+    CONSTRAINT role_user FOREIGN KEY ("user") REFERENCES "user" (id) ON DELETE CASCADE,
+    CONSTRAINT role_user_role FOREIGN KEY (role) REFERENCES role (id),
+    CONSTRAINT unique_pairs UNIQUE ("user", role)
 );
 
 INSERT INTO role(id, role_name, role_definition_json)

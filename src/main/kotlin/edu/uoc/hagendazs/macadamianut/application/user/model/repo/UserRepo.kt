@@ -8,7 +8,7 @@ interface UserRepo {
     fun findUserByEmail(email: String): MNUser?
     fun findAll(): Collection<MNUser>
     fun updateUser(user: MNUser?): MNUser?
-    fun userRolesForUserId(userId: String): Iterable<String>
+    fun userRolesForUserId(userId: String): Iterable<UserRole>
     fun changePassword(user: MNUser, newPassword: String)
     fun deleteUser(userId: String)
     fun existsByEmail(email: String): Boolean

@@ -79,9 +79,9 @@ class UserRepoImpl : UserRepo {
         return this.findById(newUser.id)
     }
 
-    override fun userRolesForUserId(userId: String): Iterable<String> {
+    override fun userRolesForUserId(userId: String): Iterable<UserRole> {
         return dsl.selectFrom(USER_ROLE)
             .where(USER_ROLE.PERSON.eq(userId))
-            .fetchInto(String::class.java)
+            .fetchInto(UserRole::class.java)
     }
 }
