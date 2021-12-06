@@ -81,7 +81,7 @@ class UserRepoImpl : UserRepo {
 
     override fun userRolesForUserId(userId: String): Iterable<UserRole> {
         return dsl.selectFrom(USER_ROLE)
-            .where(USER_ROLE.PERSON.eq(userId))
+            .where(USER_ROLE.USER.eq(userId))
             .fetchInto(UserRole::class.java)
     }
 }
