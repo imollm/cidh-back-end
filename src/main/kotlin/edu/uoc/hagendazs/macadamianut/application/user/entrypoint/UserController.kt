@@ -1,7 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.user.entrypoint
 
-import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UserPasswordReq
-import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UserUpdateReq
+import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.CreateUserRequest
+import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UpdateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -22,15 +23,17 @@ class UserController {
     @Autowired
     lateinit var userService: UserService
 
+    @Autowired
+    private lateinit var passwordEncoder: PasswordEncoder
+
     @PostMapping(value = ["users"])
     fun createUser(
-        @RequestBody newUserReq: UserPasswordReq,
+        @RequestBody newUserReq: CreateUserRequest,
         request: HttpServletRequest
     ): ResponseEntity<MNUser> {
-        val user = userService.createUser(
-            email = newUserReq.email,
-            plainTextPassword = newUserReq.password,
-        )
+
+        val internalUser = newUserReq.toInternalUserModel(passwordEncoder)
+        val user = userService.createUser(internalUser)
         user ?: run {
             throw throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
@@ -67,7 +70,7 @@ class UserController {
     @PostMapping(value = ["users/{userId}", "users/me"])
     fun updateUser(
         @PathVariable("userId") userId: String?,
-        @RequestBody @Valid personData: UserUpdateReq,
+        @RequestBody @Valid personData: UpdateUserRequest,
         jwtToken: Authentication
     ): ResponseEntity<MNUser> {
         validateUpdateUserAuthorization(userId, personData, jwtToken.name)
@@ -91,7 +94,7 @@ class UserController {
          */
         private fun validateUpdateUserAuthorization(
             personId: String?,
-            updateRequest: UserUpdateReq,
+            updateRequest: UpdateUserRequest,
             jwtTokenPersonId: String?,
         ) {
             val requestedTargetPersonId = personId ?: jwtTokenPersonId ?: kotlin.run {

@@ -36,12 +36,13 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             // USER EndPoints
             .antMatchers(HttpMethod.GET, "/users/*").authenticated()
             .antMatchers(HttpMethod.POST, "/users").permitAll()
+            .antMatchers(HttpMethod.POST,"/users/login").permitAll()
+
             .antMatchers(HttpMethod.POST, "/users/refresh-token").permitAll()
             .antMatchers(HttpMethod.POST, "/users/*/verify/*").permitAll()
             .antMatchers(HttpMethod.POST, "/users/credentials/start-password-reset").permitAll()
             .antMatchers(HttpMethod.POST, "/users/*/lifecycle/send-verification-email").permitAll()
             .antMatchers(HttpMethod.POST, "/users/*/credentials/change-password").permitAll()
-            .antMatchers("/users/login").permitAll()
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer(fun(obj: OAuth2ResourceServerConfigurer<HttpSecurity?>) {

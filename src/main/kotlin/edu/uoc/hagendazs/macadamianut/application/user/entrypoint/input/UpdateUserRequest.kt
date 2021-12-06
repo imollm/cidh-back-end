@@ -6,15 +6,15 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 
-data class UserUpdateReq(
+data class UpdateUserRequest(
     val id: String? = null,
-    @field:NotEmpty(message = "Email cannot be empty")
-    @field:Email var email: String,
-    @field:NotBlank val firstName: String,
-    @field:NotBlank val lastName: String,
-    @field:NotBlank val nif: String,
-    @field:NotBlank val address: String,
-    @field:NotBlank val preferredLanguage: SystemLanguage,
+
+    var email: String,
+    val firstName: String?,
+    val lastName: String?,
+    val nif: String?,
+    val address: String?,
+    val preferredLanguage: SystemLanguage,
 ) {
     init {
         email = StringUtils.validateAndLowerCaseEmail(email)

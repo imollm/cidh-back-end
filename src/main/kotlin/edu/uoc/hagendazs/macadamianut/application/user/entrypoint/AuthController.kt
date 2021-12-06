@@ -2,7 +2,7 @@ package edu.uoc.hagendazs.macadamianut.application.user.entrypoint
 
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshTokenInvalidateRequest
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshTokenReq
-import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UserPasswordReq
+import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.CreateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.output.AuthenticationResponse
 import edu.uoc.hagendazs.macadamianut.application.user.service.AppUserDetailService
 import edu.uoc.hagendazs.macadamianut.application.user.service.JwtConstants
@@ -44,7 +44,7 @@ class AuthController {
 
     @PostMapping(path = ["/users/login"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun login(
-        @RequestBody loginReq: UserPasswordReq,
+        @RequestBody loginReq: CreateUserRequest,
     ): ResponseEntity<AuthenticationResponse> {
         val email = loginReq.email
         val password = loginReq.password
@@ -91,7 +91,7 @@ class AuthController {
             )
         }
         val refreshTokenObj = refreshTokenService.findByToken(refreshTokenReq.refreshToken)
-        val userDetails = userDetailsService.loadUserById(refreshTokenObj?.personId)
+        val userDetails = userDetailsService.loadUserById(refreshTokenObj?.userId)
 
         val authResponse = generateAuthenticationResponseForUser(userDetails)
         refreshTokenService.deleteToken(refreshTokenReq.refreshToken)

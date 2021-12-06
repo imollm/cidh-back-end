@@ -5,7 +5,8 @@ class PasswordUtils {
     companion object {
         private val passwordRegex = Regex("^(?=.*[A-Z])(?=.*[a-z]).{8,}\$")
 
-        fun isPasswordSecure(password: String): Boolean {
+        fun isPasswordSecure(password: String?): Boolean {
+            password ?: return false
             return passwordRegex.matches(password)
         }
 

@@ -5,6 +5,6 @@ import java.util.*
 
 data class RefreshToken(
     val id: String = UUID.randomUUID().toString(),
-    val personId: String,
+    val userId: String,
     val expiryDate: LocalDateTime,
 )

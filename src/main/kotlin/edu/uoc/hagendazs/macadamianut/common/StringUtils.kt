@@ -8,17 +8,18 @@ class StringUtils {
 
         private val emailRegex = Regex(".+@.+\\..+")
 
-        fun validateAndLowerCaseEmail(email: String): String {
-            require(emailRegex.matches(email)) {
+        fun validateAndLowerCaseEmail(email: String?): String {
+            require(emailRegex.matches(email.toString())) {
                 throw ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "The received email address is not valid: \"$email\""
                 )
             }
-            return email.toLowerCase()
+            return email?.lowercase() ?: ""
         }
 
-        fun checkEmailRegex(email: String): Boolean {
+        fun checkEmailRegex(email: String?): Boolean {
+            email ?: return false
             return emailRegex.matches(email)
         }
     }
