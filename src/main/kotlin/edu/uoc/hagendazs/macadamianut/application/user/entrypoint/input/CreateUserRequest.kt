@@ -17,7 +17,7 @@ data class CreateUserRequest(
     var lastName: String?,
     var nif: String?,
     var address: String?,
-    var preferredLanguage: SystemLanguage,
+    var preferredLanguage: SystemLanguage?,
 ) {
 
     fun toInternalUserModel(

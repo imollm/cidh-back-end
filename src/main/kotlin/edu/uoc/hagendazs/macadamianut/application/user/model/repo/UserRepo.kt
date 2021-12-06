@@ -1,6 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.user.model.repo
 
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.UserRole
 
 interface UserRepo {
@@ -12,5 +13,11 @@ interface UserRepo {
     fun changePassword(user: MNUser, newPassword: String)
     fun deleteUser(userId: String)
     fun existsByEmail(email: String): Boolean
-    fun createUser(newUser: MNUser): MNUser?
+
+    fun createUser(
+        newUser: MNUser,
+        role: RoleEnum,
+    ): MNUser?
+
+    fun permissionsForRole(userId: String?): String?
 }

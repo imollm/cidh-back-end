@@ -8,4 +8,5 @@ interface UserService {
     fun updatePerson(resolvedUserId: String, userData: UpdateUserRequest): MNUser?
     fun findUserById(resolvedPersonId: String): MNUser?
     fun createUser(user: MNUser): MNUser?
+    fun permissionsForRole(role: String?): String?
 }

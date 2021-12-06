@@ -7,6 +7,7 @@ import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.output.Authent
 import edu.uoc.hagendazs.macadamianut.application.user.service.AppUserDetailService
 import edu.uoc.hagendazs.macadamianut.application.user.service.JwtConstants
 import edu.uoc.hagendazs.macadamianut.application.user.service.RefreshTokenService
+import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import edu.uoc.hagendazs.macadamianut.application.user.service.helper.JwtHelper
 import edu.uoc.hagendazs.macadamianut.common.entrypoint.output.MessageResponse
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -36,6 +38,9 @@ class AuthController {
 
     @Autowired
     private lateinit var refreshTokenService: RefreshTokenService
+
+    @Autowired
+    private lateinit var userService: UserService
 
     private val deleteRefreshTokenGenericError = ResponseStatusException(
         HttpStatus.FORBIDDEN,
@@ -106,7 +111,16 @@ class AuthController {
         val refreshToken = refreshTokenService.createRefreshToken(userDetails.username) ?: run {
             throw IllegalStateException("Unable to save refresh token in DB!")
         }
-        return ResponseEntity.ok(AuthenticationResponse(jwt, refreshToken.id))
+//        val userHigherAuthority = this.determineHigherAuthority(userDetails.authorities)
+//        val permissions = userService.permissionsForRole(userDetails.authorities) ?: ""
+        return ResponseEntity.ok(AuthenticationResponse(jwt, refreshToken.id, "Bearer", ""))//todo fixme!!!!
+    }
+
+    private fun determineHigherAuthority(
+        authorities: Collection<GrantedAuthority>
+    ): GrantedAuthority {
+        TODO()
+//        if (authorities.contains(GrantedAuthority { "SUPERADMIN" }))
     }
 
 

@@ -2,6 +2,7 @@ package edu.uoc.hagendazs.macadamianut.application.user.service.impl
 
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UpdateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.model.repo.UserRepo
 import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import edu.uoc.hagendazs.macadamianut.application.user.service.exceptions.UserAlreadyExistsException
@@ -39,7 +40,11 @@ class UserServiceImpl: UserService {
         if (userRepo.existsByEmail(user.email)) {
             throw UserAlreadyExistsException("Unable to create user with given email: $user")
         }
-        return userRepo.createUser(user)
+        return userRepo.createUser(user, RoleEnum.User) //todo allow admin and super admin
+    }
+
+    override fun permissionsForRole(role: String?): String? {
+        return userRepo.permissionsForRole(role)
     }
 
     companion object {
