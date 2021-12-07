@@ -1,8 +1,8 @@
-package edu.uoc.hagendazs.macadamianut.event.categories.entrypoint
+package edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint
 
-import edu.uoc.hagendazs.macadamianut.event.categories.entrypoint.input.CreateCategoryRequest
-import edu.uoc.hagendazs.macadamianut.event.categories.model.dataClass.Category
-import edu.uoc.hagendazs.macadamianut.event.categories.service.CategoryService
+import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.input.CreateCategoryRequest
+import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
+import edu.uoc.hagendazs.macadamianut.application.event.category.service.CategoryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

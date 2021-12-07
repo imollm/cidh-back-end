@@ -1,6 +1,6 @@
-package edu.uoc.hagendazs.macadamianut.event.categories.model.repo
+package edu.uoc.hagendazs.macadamianut.application.event.category.model.repo
 
-import edu.uoc.hagendazs.macadamianut.event.categories.model.dataClass.Category
+import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
 
 interface CategoryRepo {
     fun addCategory(category: Category): Category?
