@@ -1,0 +1,7 @@
+build/
+
+.vscode/
+.idea/*
+!.idea/runConfigurations/MacadamiaNutApplication.xml
+.gradle/
+/docker/psql/data/
