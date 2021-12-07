@@ -1,12 +1,21 @@
-### Manage PostgresSQL server
+### PSQL CREDENTIALS ###
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=Pass2021!
 POSTGRES_DB=postgres
+
+### SQL SCRIPTS ###
 SQL_SCRIPT_FOLDER=src/main/resources/db/migration
-SQL_SCRIPT_NAME=V1__initial_data_model.sql
-CONTAINER_POSTGRES_DATA_FOLDER=/var/lib/postgresql/dump
+CONTAINER_SQL_SCRIPT_FOLDER=/var/lib/postgresql/dump
+
+### PSQL PERSIST VOLUME ###
+CONTAINER_DATA_VOLUME=/var/lib/postgresql/data
+DATA_FOLDER_VOLUME=docker/psql/data
+
+### PORTS ###
 OUTGOING_PORT=6432
 INCOMING_PORT=5432
+
+### CONTAINER ID & DOCKER IMAGE ###
 CONTAINER_NAME=cidh-postgres
 DOCKER_IMAGE=postgres:alpine
 
@@ -29,7 +38,8 @@ run:
 	-e POSTGRES_USER=$(POSTGRES_USER) \
 	-e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) \
 	-e POSTGRES_DB=$(POSTGRES_DB) \
-	-v "$(shell pwd)/$(SQL_SCRIPT_FOLDER):$(CONTAINER_POSTGRES_DATA_FOLDER)" \
+	-v "$(shell pwd)/$(SQL_SCRIPT_FOLDER):$(CONTAINER_SQL_SCRIPT_FOLDER)" \
+	-v "$(shell pwd)/$(DATA_FOLDER_VOLUME):$(CONTAINER_DATA_VOLUME)" \
 	-p $(OUTGOING_PORT):$(INCOMING_PORT) \
 	-d \
 	$(DOCKER_IMAGE)
@@ -65,7 +75,3 @@ init:
 	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) \
 	psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(CONTAINER_POSTGRES_DATA_FOLDER)/$(SQL_SCRIPT_NAME)
 
-#tables:
-#	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
-
-test:
