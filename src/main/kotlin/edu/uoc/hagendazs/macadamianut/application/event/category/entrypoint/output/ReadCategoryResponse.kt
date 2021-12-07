@@ -1,9 +1,9 @@
 package edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.output
 
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
-import edu.uoc.hagendazs.macadamianut.common.entrypoint.output.CommonResponse
+//import edu.uoc.hagendazs.macadamianut.common.entrypoint.output.CommonResponse
 
 data class ReadCategoryResponse(
-    val response: CommonResponse,
+//    val response: CommonResponse,
     val category: Category?
 )

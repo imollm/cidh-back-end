@@ -34,7 +34,7 @@ class CategoryRepoImpl: CategoryRepo {
         TODO("Not yet implemented")
     }
 
-    override fun existsByName(name: String): Boolean? {
+    override fun existsByName(name: String): Boolean {
         return dsl.fetchExists(
             dsl.selectFrom(CATEGORIES)
                 .where(CATEGORIES.NAME.eq(name))
@@ -44,8 +44,8 @@ class CategoryRepoImpl: CategoryRepo {
     override fun findById(id: String): Category? {
         return dsl.selectFrom(CATEGORIES)
             .where(CATEGORIES.ID.eq(id))
-            .fetchSingle()
-            .into(Category::class.java)
+            .fetchOne()
+            ?.into(Category::class.java)
     }
 
 }

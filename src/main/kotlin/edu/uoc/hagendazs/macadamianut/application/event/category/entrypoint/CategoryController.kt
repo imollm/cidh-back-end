@@ -27,7 +27,7 @@ class CategoryController {
         request: HttpServletRequest
     ): ResponseEntity<Category> {
 
-        val incomingCategory = newCategoryReq.recieve()
+        val incomingCategory = newCategoryReq.receive()
         val category = categoryService.addCategory(incomingCategory)
         category ?: run {
             throw ResponseStatusException(

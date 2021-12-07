@@ -8,10 +8,12 @@ data class CreateCategoryRequest(
     val name: String,
     val description: String
 ) {
-    fun recieve(): Category {
-        if (name.isBlank() || description.isBlank()) {
-            throw CategoryMissingValues(HTTPMessages.MISSING_VALUES.message)
-        }
+    init {
+        require(name.isNotBlank()) { "Name is blank" }
+        require(description.isNotBlank()) { "Name is blank" }
+    }
+
+    fun receive(): Category {
         return Category(
             name = name,
             description = description

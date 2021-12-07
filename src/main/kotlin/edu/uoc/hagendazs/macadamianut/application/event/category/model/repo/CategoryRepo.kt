@@ -8,5 +8,5 @@ interface CategoryRepo {
     fun showCategory(id: String): Category?
     fun listAllCategories(): Collection<Category>
     fun existsByName(name: String): Boolean
-    fun findById(id: String): Category
+    fun findById(id: String): Category?
 }

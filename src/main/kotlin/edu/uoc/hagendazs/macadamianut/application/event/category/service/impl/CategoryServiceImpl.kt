@@ -5,6 +5,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
 import edu.uoc.hagendazs.macadamianut.application.event.category.service.CategoryService
 import edu.uoc.hagendazs.macadamianut.application.event.category.service.exceptions.CategoryAlreadyExistsException
+import edu.uoc.hagendazs.macadamianut.common.exceptions.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -22,7 +23,10 @@ class CategoryServiceImpl: CategoryService {
     }
 
     override fun updateCategory(id: String, name: String, description: String): Category? {
-        TODO("Not yet implemented")
+        val targetCategory = categoryRepo.findById(id) ?: run {
+            throw EntityNotFoundException("Category with Id $id, not found")
+        }
+        TODO()
     }
 
     override fun showCategory(id: String): Category? {

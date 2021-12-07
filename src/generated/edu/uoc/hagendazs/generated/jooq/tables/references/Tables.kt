@@ -4,7 +4,7 @@
 package edu.uoc.hagendazs.generated.jooq.tables.references
 
 
-import edu.uoc.hagendazs.generated.jooq.tables.Categories
+import edu.uoc.hagendazs.generated.jooq.tables.Category
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
@@ -15,9 +15,9 @@ import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 
 
 /**
- * The table <code>public.categories</code>.
+ * The table <code>public.category</code>.
  */
-val CATEGORIES = Categories.CATEGORIES
+val CATEGORY = Category.CATEGORY
 
 /**
  * The table <code>public.flyway_schema_history</code>.
