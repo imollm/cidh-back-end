@@ -1,14 +1,23 @@
-### Manage PostgresSQL server
+### PSQL CREDENTIALS ###
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=Pass2021!
 POSTGRES_DB=postgres
+
+### SQL SCRIPTS ###
 SQL_SCRIPT_FOLDER=src/main/resources/db/migration
-SQL_SCRIPT_NAME=V1__initial_data_model.sql
-CONTAINER_POSTGRES_DATA_FOLDER=/var/lib/postgresql/dump
+CONTAINER_SQL_SCRIPT_FOLDER=/var/lib/postgresql/dump
+
+### PSQL PERSIST VOLUME ###
+CONTAINER_DATA_VOLUME=/var/lib/postgresql/data
+DATA_FOLDER_VOLUME=docker/psql/data
+
+### PORTS ###
 OUTGOING_PORT=6432
 INCOMING_PORT=5432
+
+### CONTAINER ID & DOCKER IMAGE ###
 CONTAINER_NAME=cidh-postgres
-DOCKER_IMAGE=postgres:alpine
+DOCKER_IMAGE=postgres:13-alpine
 
 help:
 	@echo "run        	- Run database container for local development with name cidh-postgres."
@@ -22,14 +31,15 @@ help:
 	@echo ""
 	@echo "bash       	- Run a bash terminal in the database container."
 	@echo "psql       	- Run a postgresql shell against a running container."
-	@echo "init       	- Create database from script file in src/main/resources/db/migration."
+	@echo "init       	- Create database from script files in src/main/resources/db/migration."
 
 run:
 	docker run --name="$(CONTAINER_NAME)" \
 	-e POSTGRES_USER=$(POSTGRES_USER) \
 	-e POSTGRES_PASSWORD=$(POSTGRES_PASSWORD) \
 	-e POSTGRES_DB=$(POSTGRES_DB) \
-	-v "$(shell pwd)/$(SQL_SCRIPT_FOLDER):$(CONTAINER_POSTGRES_DATA_FOLDER)" \
+	-v "$(shell pwd)/$(SQL_SCRIPT_FOLDER):$(CONTAINER_SQL_SCRIPT_FOLDER)" \
+	-v "$(shell pwd)/$(DATA_FOLDER_VOLUME):$(CONTAINER_DATA_VOLUME)" \
 	-p $(OUTGOING_PORT):$(INCOMING_PORT) \
 	-d \
 	$(DOCKER_IMAGE)
@@ -50,6 +60,7 @@ restart:
 rm:
 	make stop
 	docker rm $$(docker ps -aqf name=$(CONTAINER_NAME))
+	$(shell rm -rf $(shell pwd)/$(DATA_FOLDER_VOLUME)/*)
 
 refresh:
 	make rm
@@ -62,10 +73,6 @@ psql:
 	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
 init:
-	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) \
-	psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(CONTAINER_POSTGRES_DATA_FOLDER)/$(SQL_SCRIPT_NAME)
-
-#tables:
-#	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
-
-test:
+	@for f in $(shell ls $(SQL_SCRIPT_FOLDER)); do \
+		docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) \
+		psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(shell pwd)/$(SQL_SCRIPT_FOLDER)/$${f}; done
