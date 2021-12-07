@@ -43,7 +43,7 @@ class UserServiceImpl: UserService {
         return userRepo.createUser(user, RoleEnum.User) //todo allow admin and super admin
     }
 
-    override fun permissionsForRole(role: String?): String? {
+    override fun permissionsForRole(role: RoleEnum): String? {
         return userRepo.permissionsForRole(role)
     }
 

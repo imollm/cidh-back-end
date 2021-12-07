@@ -1,4 +1,4 @@
-truncate role;
+truncate role cascade;
 
 INSERT INTO role(id, role_name, role_definition_json)
 VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{

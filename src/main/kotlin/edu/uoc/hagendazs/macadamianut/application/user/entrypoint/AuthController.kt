@@ -4,12 +4,14 @@ import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshT
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshTokenReq
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.CreateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.output.AuthenticationResponse
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.service.AppUserDetailService
 import edu.uoc.hagendazs.macadamianut.application.user.service.JwtConstants
 import edu.uoc.hagendazs.macadamianut.application.user.service.RefreshTokenService
 import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import edu.uoc.hagendazs.macadamianut.application.user.service.helper.JwtHelper
 import edu.uoc.hagendazs.macadamianut.common.entrypoint.output.MessageResponse
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -41,6 +43,8 @@ class AuthController {
 
     @Autowired
     private lateinit var userService: UserService
+
+    private val logger = KotlinLogging.logger {}
 
     private val deleteRefreshTokenGenericError = ResponseStatusException(
         HttpStatus.FORBIDDEN,
@@ -111,16 +115,32 @@ class AuthController {
         val refreshToken = refreshTokenService.createRefreshToken(userDetails.username) ?: run {
             throw IllegalStateException("Unable to save refresh token in DB!")
         }
-//        val userHigherAuthority = this.determineHigherAuthority(userDetails.authorities)
-//        val permissions = userService.permissionsForRole(userDetails.authorities) ?: ""
-        return ResponseEntity.ok(AuthenticationResponse(jwt, refreshToken.id, "Bearer", ""))//todo fixme!!!!
+        val userHigherRole = this.determineHigherAuthority(userDetails.authorities)
+        val permissions = userService.permissionsForRole(userHigherRole) ?: ""
+        val authenticationResponse = AuthenticationResponse(
+            jwt = jwt,
+            refreshToken = refreshToken.id,
+            permissions =  permissions,
+            role = userHigherRole
+        )
+        return ResponseEntity.ok(authenticationResponse)
     }
 
     private fun determineHigherAuthority(
         authorities: Collection<GrantedAuthority>
-    ): GrantedAuthority {
-        TODO()
-//        if (authorities.contains(GrantedAuthority { "SUPERADMIN" }))
+    ): RoleEnum {
+        val authoritiesAsRoles = authorities
+            .mapNotNull { it.authority }
+            .map { RoleEnum.valueOf(it) }
+
+        if (authoritiesAsRoles.contains(RoleEnum.SuperAdmin)) {
+            return RoleEnum.SuperAdmin
+        }
+
+        if (authoritiesAsRoles.contains(RoleEnum.Administrator)) {
+            return RoleEnum.Administrator
+        }
+        return RoleEnum.User
     }
 
 

@@ -54,7 +54,7 @@ class UserController {
     }
 
     // ############# GET SINGLE USER #############
-    @PreAuthorize("#personId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'DENTIST') or #personId == null")
+    @PreAuthorize("#personId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIn') or #personId == null")
     @GetMapping(value = ["users/{userId}", "users/me"])
     fun getUser(
         @PathVariable("userId") personId: String?,
@@ -66,7 +66,7 @@ class UserController {
     }
 
     // ############# UPDATE USER #############
-    @PreAuthorize("#userId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'DENTIST') or #userId == null")
+    @PreAuthorize("#userId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN') or #userId == null")
     @PostMapping(value = ["users/{userId}", "users/me"])
     fun updateUser(
         @PathVariable("userId") userId: String?,

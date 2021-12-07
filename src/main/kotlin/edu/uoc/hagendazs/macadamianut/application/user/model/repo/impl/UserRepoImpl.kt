@@ -1,5 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.user.model.repo.impl
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import edu.uoc.hagendazs.generated.jooq.tables.references.ROLE
 import edu.uoc.hagendazs.generated.jooq.tables.references.USER
 import edu.uoc.hagendazs.generated.jooq.tables.references.USER_ROLE
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
@@ -18,6 +20,9 @@ class UserRepoImpl : UserRepo {
 
     @Autowired
     protected lateinit var dsl: DSLContext
+
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
     override fun findById(userId: String?): MNUser? {
         return dsl.selectFrom(USER)
@@ -92,10 +97,14 @@ class UserRepoImpl : UserRepo {
         return this.findById(newUser.id)
     }
 
-    override fun permissionsForRole(roleName: String?): String? {
-        return dsl.selectFrom(USER_ROLE)
-            .where(USER_ROLE.ID.eq(roleName))
+    override fun permissionsForRole(role: RoleEnum): String? {
+        val stringPermission =  dsl.select(ROLE.ROLE_DEFINITION_JSON)
+            .from(ROLE)
+            .where(ROLE.ID.eq(role.toString().uppercase()))
             .fetchOne()?.into(String::class.java)
+
+        return objectMapper.readTree(stringPermission).toString()
+
     }
 
     override fun userRolesForUserId(userId: String): Iterable<UserRole> {

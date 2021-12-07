@@ -19,5 +19,5 @@ interface UserRepo {
         role: RoleEnum,
     ): MNUser?
 
-    fun permissionsForRole(userId: String?): String?
+    fun permissionsForRole(role: RoleEnum): String?
 }
