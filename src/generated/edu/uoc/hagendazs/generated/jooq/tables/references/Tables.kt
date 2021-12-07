@@ -6,6 +6,7 @@ package edu.uoc.hagendazs.generated.jooq.tables.references
 
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
+import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
@@ -21,6 +22,11 @@ val FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
  * The table <code>public.password_reset</code>.
  */
 val PASSWORD_RESET = PasswordReset.PASSWORD_RESET
+
+/**
+ * The table <code>public.refresh_token</code>.
+ */
+val REFRESH_TOKEN = RefreshToken.REFRESH_TOKEN
 
 /**
  * The table <code>public.role</code>.

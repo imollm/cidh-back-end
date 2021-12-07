@@ -81,9 +81,9 @@ open class User(
     val LAST_NAME: TableField<UserRecord, String?> = createField(DSL.name("last_name"), SQLDataType.VARCHAR, this, "")
 
     /**
-     * The column <code>public.user.nif</code>.
+     * The column <code>public.user.fiscal_id</code>.
      */
-    val NIF: TableField<UserRecord, String?> = createField(DSL.name("nif"), SQLDataType.VARCHAR, this, "")
+    val FISCAL_ID: TableField<UserRecord, String?> = createField(DSL.name("fiscal_id"), SQLDataType.VARCHAR, this, "")
 
     /**
      * The column <code>public.user.address</code>.

@@ -7,8 +7,8 @@ package edu.uoc.hagendazs.generated.jooq.tables
 import edu.uoc.hagendazs.generated.jooq.Public
 import edu.uoc.hagendazs.generated.jooq.keys.UNIQUE_PAIRS
 import edu.uoc.hagendazs.generated.jooq.keys.USER_ROLE_PKEY
-import edu.uoc.hagendazs.generated.jooq.keys.USER_ROLE__ROLE_PERSON
-import edu.uoc.hagendazs.generated.jooq.keys.USER_ROLE__ROLE_PERSON_ROLE
+import edu.uoc.hagendazs.generated.jooq.keys.USER_ROLE__ROLE_USER
+import edu.uoc.hagendazs.generated.jooq.keys.USER_ROLE__ROLE_USER_ROLE
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserRoleRecord
 
 import kotlin.collections.List
@@ -68,9 +68,9 @@ open class UserRole(
     val ID: TableField<UserRoleRecord, String?> = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
-     * The column <code>public.user_role.person</code>.
+     * The column <code>public.user_role.user</code>.
      */
-    val PERSON: TableField<UserRoleRecord, String?> = createField(DSL.name("person"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val USER: TableField<UserRoleRecord, String?> = createField(DSL.name("user"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
      * The column <code>public.user_role.role</code>.
@@ -99,19 +99,19 @@ open class UserRole(
     override fun getSchema(): Schema = Public.PUBLIC
     override fun getPrimaryKey(): UniqueKey<UserRoleRecord> = USER_ROLE_PKEY
     override fun getKeys(): List<UniqueKey<UserRoleRecord>> = listOf(USER_ROLE_PKEY, UNIQUE_PAIRS)
-    override fun getReferences(): List<ForeignKey<UserRoleRecord, *>> = listOf(USER_ROLE__ROLE_PERSON, USER_ROLE__ROLE_PERSON_ROLE)
+    override fun getReferences(): List<ForeignKey<UserRoleRecord, *>> = listOf(USER_ROLE__ROLE_USER, USER_ROLE__ROLE_USER_ROLE)
 
     private lateinit var _user: User
     private lateinit var _role: Role
     fun user(): User {
         if (!this::_user.isInitialized)
-            _user = User(this, USER_ROLE__ROLE_PERSON)
+            _user = User(this, USER_ROLE__ROLE_USER)
 
         return _user;
     }
     fun role(): Role {
         if (!this::_role.isInitialized)
-            _role = Role(this, USER_ROLE__ROLE_PERSON_ROLE)
+            _role = Role(this, USER_ROLE__ROLE_USER_ROLE)
 
         return _role;
     }

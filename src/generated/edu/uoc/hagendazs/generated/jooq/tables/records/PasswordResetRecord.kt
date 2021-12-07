@@ -25,7 +25,7 @@ open class PasswordResetRecord() : UpdatableRecordImpl<PasswordResetRecord>(Pass
         set(value) = set(0, value)
         get() = get(0) as String?
 
-    var personId: String?
+    var userId: String?
         set(value) = set(1, value)
         get() = get(1) as String?
 
@@ -58,19 +58,19 @@ open class PasswordResetRecord() : UpdatableRecordImpl<PasswordResetRecord>(Pass
     override fun fieldsRow(): Row6<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?> = super.fieldsRow() as Row6<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?>
     override fun valuesRow(): Row6<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?> = super.valuesRow() as Row6<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?>
     override fun field1(): Field<String?> = PasswordReset.PASSWORD_RESET.ID
-    override fun field2(): Field<String?> = PasswordReset.PASSWORD_RESET.PERSON_ID
+    override fun field2(): Field<String?> = PasswordReset.PASSWORD_RESET.USER_ID
     override fun field3(): Field<String?> = PasswordReset.PASSWORD_RESET.HASHED_TOKEN
     override fun field4(): Field<String?> = PasswordReset.PASSWORD_RESET.REQUESTER_IP_ADDR
     override fun field5(): Field<LocalDateTime?> = PasswordReset.PASSWORD_RESET.CREATED_AT
     override fun field6(): Field<LocalDateTime?> = PasswordReset.PASSWORD_RESET.USED_AT
     override fun component1(): String? = id
-    override fun component2(): String? = personId
+    override fun component2(): String? = userId
     override fun component3(): String? = hashedToken
     override fun component4(): String? = requesterIpAddr
     override fun component5(): LocalDateTime? = createdAt
     override fun component6(): LocalDateTime? = usedAt
     override fun value1(): String? = id
-    override fun value2(): String? = personId
+    override fun value2(): String? = userId
     override fun value3(): String? = hashedToken
     override fun value4(): String? = requesterIpAddr
     override fun value5(): LocalDateTime? = createdAt
@@ -82,7 +82,7 @@ open class PasswordResetRecord() : UpdatableRecordImpl<PasswordResetRecord>(Pass
     }
 
     override fun value2(value: String?): PasswordResetRecord {
-        this.personId = value
+        this.userId = value
         return this
     }
 
@@ -119,9 +119,9 @@ open class PasswordResetRecord() : UpdatableRecordImpl<PasswordResetRecord>(Pass
     /**
      * Create a detached, initialised PasswordResetRecord
      */
-    constructor(id: String? = null, personId: String? = null, hashedToken: String? = null, requesterIpAddr: String? = null, createdAt: LocalDateTime? = null, usedAt: LocalDateTime? = null): this() {
+    constructor(id: String? = null, userId: String? = null, hashedToken: String? = null, requesterIpAddr: String? = null, createdAt: LocalDateTime? = null, usedAt: LocalDateTime? = null): this() {
         this.id = id
-        this.personId = personId
+        this.userId = userId
         this.hashedToken = hashedToken
         this.requesterIpAddr = requesterIpAddr
         this.createdAt = createdAt

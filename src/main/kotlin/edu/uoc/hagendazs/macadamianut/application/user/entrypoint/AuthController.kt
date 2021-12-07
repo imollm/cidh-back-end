@@ -2,19 +2,23 @@ package edu.uoc.hagendazs.macadamianut.application.user.entrypoint
 
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshTokenInvalidateRequest
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.RefreshTokenReq
-import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UserPasswordReq
+import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.CreateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.output.AuthenticationResponse
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.service.AppUserDetailService
 import edu.uoc.hagendazs.macadamianut.application.user.service.JwtConstants
 import edu.uoc.hagendazs.macadamianut.application.user.service.RefreshTokenService
+import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import edu.uoc.hagendazs.macadamianut.application.user.service.helper.JwtHelper
 import edu.uoc.hagendazs.macadamianut.common.entrypoint.output.MessageResponse
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -37,6 +41,11 @@ class AuthController {
     @Autowired
     private lateinit var refreshTokenService: RefreshTokenService
 
+    @Autowired
+    private lateinit var userService: UserService
+
+    private val logger = KotlinLogging.logger {}
+
     private val deleteRefreshTokenGenericError = ResponseStatusException(
         HttpStatus.FORBIDDEN,
         "You are not authorized to delete the token, or the token does not exist"
@@ -44,7 +53,7 @@ class AuthController {
 
     @PostMapping(path = ["/users/login"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun login(
-        @RequestBody loginReq: UserPasswordReq,
+        @RequestBody loginReq: CreateUserRequest,
     ): ResponseEntity<AuthenticationResponse> {
         val email = loginReq.email
         val password = loginReq.password
@@ -91,7 +100,7 @@ class AuthController {
             )
         }
         val refreshTokenObj = refreshTokenService.findByToken(refreshTokenReq.refreshToken)
-        val userDetails = userDetailsService.loadUserById(refreshTokenObj?.personId)
+        val userDetails = userDetailsService.loadUserById(refreshTokenObj?.userId)
 
         val authResponse = generateAuthenticationResponseForUser(userDetails)
         refreshTokenService.deleteToken(refreshTokenReq.refreshToken)
@@ -106,7 +115,32 @@ class AuthController {
         val refreshToken = refreshTokenService.createRefreshToken(userDetails.username) ?: run {
             throw IllegalStateException("Unable to save refresh token in DB!")
         }
-        return ResponseEntity.ok(AuthenticationResponse(jwt, refreshToken.id))
+        val userHigherRole = this.determineHigherAuthority(userDetails.authorities)
+        val permissions = userService.permissionsForRole(userHigherRole) ?: ""
+        val authenticationResponse = AuthenticationResponse(
+            jwt = jwt,
+            refreshToken = refreshToken.id,
+            permissions =  permissions,
+            role = userHigherRole
+        )
+        return ResponseEntity.ok(authenticationResponse)
+    }
+
+    private fun determineHigherAuthority(
+        authorities: Collection<GrantedAuthority>
+    ): RoleEnum {
+        val authoritiesAsRoles = authorities
+            .mapNotNull { it.authority }
+            .map { RoleEnum.valueOf(it) }
+
+        if (authoritiesAsRoles.contains(RoleEnum.SuperAdmin)) {
+            return RoleEnum.SuperAdmin
+        }
+
+        if (authoritiesAsRoles.contains(RoleEnum.Administrator)) {
+            return RoleEnum.Administrator
+        }
+        return RoleEnum.User
     }
 
 

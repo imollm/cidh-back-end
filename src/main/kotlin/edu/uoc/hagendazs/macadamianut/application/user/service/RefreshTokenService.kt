@@ -7,7 +7,7 @@ interface RefreshTokenService {
     fun findByToken(token: String?): RefreshToken?
     fun createRefreshToken(personId: String?): RefreshToken?
     fun isTokenExpired(token: RefreshToken?): Boolean
-    fun deleteTokensForPerson(personId: String?)
+    fun deleteTokensForUserId(userId: String?)
     fun isTokenNotExpiredAndValid(refreshToken: String): Boolean
     fun deleteToken(refreshToken: String)
     fun refreshTokenOwner(refreshToken: String): MNUser?

@@ -34,7 +34,7 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER), Record12<S
         set(value) = set(2, value)
         get() = get(2) as String?
 
-    var nif: String?
+    var fiscalId: String?
         set(value) = set(3, value)
         get() = get(3) as String?
 
@@ -85,7 +85,7 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER), Record12<S
     override fun field1(): Field<String?> = User.USER.ID
     override fun field2(): Field<String?> = User.USER.FIRST_NAME
     override fun field3(): Field<String?> = User.USER.LAST_NAME
-    override fun field4(): Field<String?> = User.USER.NIF
+    override fun field4(): Field<String?> = User.USER.FISCAL_ID
     override fun field5(): Field<String?> = User.USER.ADDRESS
     override fun field6(): Field<String?> = User.USER.EMAIL
     override fun field7(): Field<String?> = User.USER.EMAIL_TOKEN
@@ -97,7 +97,7 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER), Record12<S
     override fun component1(): String? = id
     override fun component2(): String? = firstName
     override fun component3(): String? = lastName
-    override fun component4(): String? = nif
+    override fun component4(): String? = fiscalId
     override fun component5(): String? = address
     override fun component6(): String? = email
     override fun component7(): String? = emailToken
@@ -109,7 +109,7 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER), Record12<S
     override fun value1(): String? = id
     override fun value2(): String? = firstName
     override fun value3(): String? = lastName
-    override fun value4(): String? = nif
+    override fun value4(): String? = fiscalId
     override fun value5(): String? = address
     override fun value6(): String? = email
     override fun value7(): String? = emailToken
@@ -135,7 +135,7 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER), Record12<S
     }
 
     override fun value4(value: String?): UserRecord {
-        this.nif = value
+        this.fiscalId = value
         return this
     }
 
@@ -198,11 +198,11 @@ open class UserRecord() : UpdatableRecordImpl<UserRecord>(User.USER), Record12<S
     /**
      * Create a detached, initialised UserRecord
      */
-    constructor(id: String? = null, firstName: String? = null, lastName: String? = null, nif: String? = null, address: String? = null, email: String? = null, emailToken: String? = null, isValidEmail: Boolean? = null, preferredLanguage: SystemLanguage? = null, password: String? = null, deletedAt: LocalDateTime? = null, createdAt: LocalDateTime? = null): this() {
+    constructor(id: String? = null, firstName: String? = null, lastName: String? = null, fiscalId: String? = null, address: String? = null, email: String? = null, emailToken: String? = null, isValidEmail: Boolean? = null, preferredLanguage: SystemLanguage? = null, password: String? = null, deletedAt: LocalDateTime? = null, createdAt: LocalDateTime? = null): this() {
         this.id = id
         this.firstName = firstName
         this.lastName = lastName
-        this.nif = nif
+        this.fiscalId = fiscalId
         this.address = address
         this.email = email
         this.emailToken = emailToken

@@ -6,7 +6,7 @@ package edu.uoc.hagendazs.generated.jooq.tables
 
 import edu.uoc.hagendazs.generated.jooq.Public
 import edu.uoc.hagendazs.generated.jooq.keys.PASSWORD_RESET_PKEY
-import edu.uoc.hagendazs.generated.jooq.keys.PASSWORD_RESET__PERSON_RESET_PASSWORD
+import edu.uoc.hagendazs.generated.jooq.keys.PASSWORD_RESET__USER_RESET_PASSWORD
 import edu.uoc.hagendazs.generated.jooq.tables.records.PasswordResetRecord
 
 import java.time.LocalDateTime
@@ -68,9 +68,9 @@ open class PasswordReset(
     val ID: TableField<PasswordResetRecord, String?> = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
-     * The column <code>public.password_reset.person_id</code>.
+     * The column <code>public.password_reset.user_id</code>.
      */
-    val PERSON_ID: TableField<PasswordResetRecord, String?> = createField(DSL.name("person_id"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val USER_ID: TableField<PasswordResetRecord, String?> = createField(DSL.name("user_id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
      * The column <code>public.password_reset.hashed_token</code>.
@@ -114,12 +114,12 @@ open class PasswordReset(
     override fun getSchema(): Schema = Public.PUBLIC
     override fun getPrimaryKey(): UniqueKey<PasswordResetRecord> = PASSWORD_RESET_PKEY
     override fun getKeys(): List<UniqueKey<PasswordResetRecord>> = listOf(PASSWORD_RESET_PKEY)
-    override fun getReferences(): List<ForeignKey<PasswordResetRecord, *>> = listOf(PASSWORD_RESET__PERSON_RESET_PASSWORD)
+    override fun getReferences(): List<ForeignKey<PasswordResetRecord, *>> = listOf(PASSWORD_RESET__USER_RESET_PASSWORD)
 
     private lateinit var _user: User
     fun user(): User {
         if (!this::_user.isInitialized)
-            _user = User(this, PASSWORD_RESET__PERSON_RESET_PASSWORD)
+            _user = User(this, PASSWORD_RESET__USER_RESET_PASSWORD)
 
         return _user;
     }

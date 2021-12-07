@@ -6,11 +6,13 @@ package edu.uoc.hagendazs.generated.jooq.keys
 
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
+import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 import edu.uoc.hagendazs.generated.jooq.tables.records.FlywaySchemaHistoryRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.PasswordResetRecord
+import edu.uoc.hagendazs.generated.jooq.tables.records.RefreshTokenRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.RoleRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserRoleRecord
@@ -28,16 +30,18 @@ import org.jooq.impl.Internal
 
 val FLYWAY_SCHEMA_HISTORY_PK: UniqueKey<FlywaySchemaHistoryRecord> = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), arrayOf(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK), true)
 val PASSWORD_RESET_PKEY: UniqueKey<PasswordResetRecord> = Internal.createUniqueKey(PasswordReset.PASSWORD_RESET, DSL.name("password_reset_pkey"), arrayOf(PasswordReset.PASSWORD_RESET.ID), true)
+val REFRESH_TOKEN_PKEY: UniqueKey<RefreshTokenRecord> = Internal.createUniqueKey(RefreshToken.REFRESH_TOKEN, DSL.name("refresh_token_pkey"), arrayOf(RefreshToken.REFRESH_TOKEN.ID), true)
 val ROLE_PKEY: UniqueKey<RoleRecord> = Internal.createUniqueKey(Role.ROLE, DSL.name("role_pkey"), arrayOf(Role.ROLE.ID), true)
 val USER_EMAIL_KEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), arrayOf(User.USER.EMAIL), true)
 val USER_PKEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), arrayOf(User.USER.ID), true)
-val UNIQUE_PAIRS: UniqueKey<UserRoleRecord> = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("unique_pairs"), arrayOf(UserRole.USER_ROLE.PERSON, UserRole.USER_ROLE.ROLE), true)
+val UNIQUE_PAIRS: UniqueKey<UserRoleRecord> = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("unique_pairs"), arrayOf(UserRole.USER_ROLE.USER, UserRole.USER_ROLE.ROLE), true)
 val USER_ROLE_PKEY: UniqueKey<UserRoleRecord> = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("user_role_pkey"), arrayOf(UserRole.USER_ROLE.ID), true)
 
 // -------------------------------------------------------------------------
 // FOREIGN KEY definitions
 // -------------------------------------------------------------------------
 
-val PASSWORD_RESET__PERSON_RESET_PASSWORD: ForeignKey<PasswordResetRecord, UserRecord> = Internal.createForeignKey(PasswordReset.PASSWORD_RESET, DSL.name("person_reset_password"), arrayOf(PasswordReset.PASSWORD_RESET.PERSON_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
-val USER_ROLE__ROLE_PERSON: ForeignKey<UserRoleRecord, UserRecord> = Internal.createForeignKey(UserRole.USER_ROLE, DSL.name("role_person"), arrayOf(UserRole.USER_ROLE.PERSON), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
-val USER_ROLE__ROLE_PERSON_ROLE: ForeignKey<UserRoleRecord, RoleRecord> = Internal.createForeignKey(UserRole.USER_ROLE, DSL.name("role_person_role"), arrayOf(UserRole.USER_ROLE.ROLE), edu.uoc.hagendazs.generated.jooq.keys.ROLE_PKEY, arrayOf(Role.ROLE.ID), true)
+val PASSWORD_RESET__USER_RESET_PASSWORD: ForeignKey<PasswordResetRecord, UserRecord> = Internal.createForeignKey(PasswordReset.PASSWORD_RESET, DSL.name("user_reset_password"), arrayOf(PasswordReset.PASSWORD_RESET.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
+val REFRESH_TOKEN__REFRESH_TOKEN_USER_ID: ForeignKey<RefreshTokenRecord, UserRecord> = Internal.createForeignKey(RefreshToken.REFRESH_TOKEN, DSL.name("refresh_token_user_id"), arrayOf(RefreshToken.REFRESH_TOKEN.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
+val USER_ROLE__ROLE_USER: ForeignKey<UserRoleRecord, UserRecord> = Internal.createForeignKey(UserRole.USER_ROLE, DSL.name("role_user"), arrayOf(UserRole.USER_ROLE.USER), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
+val USER_ROLE__ROLE_USER_ROLE: ForeignKey<UserRoleRecord, RoleRecord> = Internal.createForeignKey(UserRole.USER_ROLE, DSL.name("role_user_role"), arrayOf(UserRole.USER_ROLE.ROLE), edu.uoc.hagendazs.generated.jooq.keys.ROLE_PKEY, arrayOf(Role.ROLE.ID), true)

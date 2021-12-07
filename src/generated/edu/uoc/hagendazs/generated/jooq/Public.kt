@@ -6,6 +6,7 @@ package edu.uoc.hagendazs.generated.jooq
 
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
+import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
@@ -41,6 +42,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val PASSWORD_RESET get() = PasswordReset.PASSWORD_RESET
 
     /**
+     * The table <code>public.refresh_token</code>.
+     */
+    val REFRESH_TOKEN get() = RefreshToken.REFRESH_TOKEN
+
+    /**
      * The table <code>public.role</code>.
      */
     val ROLE get() = Role.ROLE
@@ -60,6 +66,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     override fun getTables(): List<Table<*>> = listOf(
         FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
         PasswordReset.PASSWORD_RESET,
+        RefreshToken.REFRESH_TOKEN,
         Role.ROLE,
         User.USER,
         UserRole.USER_ROLE
