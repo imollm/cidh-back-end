@@ -1,4 +1,4 @@
-package edu.uoc.hagendazs.macadamianut.administration.categories.entrypoint.input
+package edu.uoc.hagendazs.macadamianut.event.categories.entrypoint.input
 
 data class UpdateCategoryRequest(
     val id: String?,

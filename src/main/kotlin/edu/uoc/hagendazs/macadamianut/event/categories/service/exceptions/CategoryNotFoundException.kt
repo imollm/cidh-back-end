@@ -1,4 +1,4 @@
-package edu.uoc.hagendazs.macadamianut.administration.categories.service.exceptions
+package edu.uoc.hagendazs.macadamianut.event.categories.service.exceptions
 
 import org.springframework.web.bind.annotation.ResponseStatus
 
