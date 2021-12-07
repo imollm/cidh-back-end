@@ -1,5 +1,6 @@
 build/
 
 .vscode/
-.idea/dataSources/
+.idea/*
+!.idea/runConfigurations/MacadamiaNutApplication.xml
 .gradle/
