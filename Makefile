@@ -31,7 +31,7 @@ help:
 	@echo ""
 	@echo "bash       	- Run a bash terminal in the database container."
 	@echo "psql       	- Run a postgresql shell against a running container."
-	@echo "init       	- Create database from script file in src/main/resources/db/migration."
+	@echo "init       	- Create database from script files in src/main/resources/db/migration."
 
 run:
 	docker run --name="$(CONTAINER_NAME)" \
@@ -60,6 +60,7 @@ restart:
 rm:
 	make stop
 	docker rm $$(docker ps -aqf name=$(CONTAINER_NAME))
+	shell rm -rf $(shell pwd)/$(DATA_FOLDER_VOLUME)
 
 refresh:
 	make rm
@@ -72,6 +73,6 @@ psql:
 	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 
 init:
-	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) \
-	psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(CONTAINER_POSTGRES_DATA_FOLDER)/$(SQL_SCRIPT_NAME)
-
+	@for f in $(shell ls $(SQL_SCRIPT_FOLDER)); do \
+		docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) \
+		psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(shell pwd)/$(SQL_SCRIPT_FOLDER)/$${f}; done
