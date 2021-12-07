@@ -1,8 +1,8 @@
-package edu.uoc.hagendazs.macadamianut.event.categories.model.repo.impl
+package edu.uoc.hagendazs.macadamianut.application.event.categories.model.repo.impl
 
-import edu.uoc.hagendazs.macadamianut.event.categories.model.dataClass.Category
+import edu.uoc.hagendazs.macadamianut.application.event.categories.model.dataClass.Category
 import org.springframework.stereotype.Repository
-import edu.uoc.hagendazs.macadamianut.event.categories.model.repo.CategoryRepo
+import edu.uoc.hagendazs.macadamianut.application.event.categories.model.repo.CategoryRepo
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORIES
