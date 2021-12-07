@@ -7,24 +7,24 @@ create type SystemLanguageType as enum (
 
 CREATE TABLE "user"
 (
-    id                varchar PRIMARY KEY,
-    first_name        varchar,
-    last_name         varchar,
-    nif               varchar,
-    address           varchar,
-    email             varchar UNIQUE,
-    email_token       varchar,
-    is_valid_email    boolean default false,
+    id                 varchar PRIMARY KEY,
+    first_name          varchar,
+    last_name          varchar,
+    fiscal_id           varchar,
+    address            varchar,
+    email              varchar UNIQUE,
+    email_token        varchar,
+    is_valid_email     boolean                     default false,
     preferred_language SystemLanguageType NOT NULL DEFAULT 'English',
-    password          varchar NOT NULL,
-    deleted_at        timestamp,
-    created_at        timestamp
+    password           varchar            NOT NULL,
+    deleted_at         timestamp,
+    created_at         timestamp
 );
 
 CREATE TABLE password_reset
 (
     id                varchar PRIMARY KEY,
-    user_id         varchar   NOT NULL,
+    user_id           varchar   NOT NULL,
     hashed_token      varchar   NOT NULL,
     requester_ip_addr varchar,
     created_at        timestamp NOT NULL,

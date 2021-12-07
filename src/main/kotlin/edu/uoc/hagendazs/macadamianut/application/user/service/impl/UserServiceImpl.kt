@@ -53,7 +53,7 @@ class UserServiceImpl: UserService {
                 email = userData.email,
                 firstName = userData.firstName,
                 lastName = userData.lastName,
-                nif = userData.nif,
+                fiscalId = userData.fiscalId,
                 address = userData.address,
                 preferredLanguage = userData.preferredLanguage,
             )

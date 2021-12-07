@@ -34,8 +34,8 @@ class UserRepoImpl : UserRepo {
     override fun findUserByEmail(email: String): MNUser? {
         return dsl.selectFrom(USER)
             .where(USER.EMAIL.eq(email))
-            .fetchSingle()
-            .into(MNUser::class.java)
+            .fetchOne()
+            ?.into(MNUser::class.java)
     }
 
     override fun findAll(): Collection<MNUser> {
@@ -50,7 +50,7 @@ class UserRepoImpl : UserRepo {
         dsl.update(USER)
             .set(USER.FIRST_NAME, user.firstName)
             .set(USER.LAST_NAME, user.lastName)
-            .set(USER.NIF, user.nif)
+            .set(USER.FISCAL_ID, user.fiscalId)
             .set(USER.ADDRESS, user.address)
             .set(USER.EMAIL, user.email)
             .set(USER.IS_VALID_EMAIL, user.isValidEmail)

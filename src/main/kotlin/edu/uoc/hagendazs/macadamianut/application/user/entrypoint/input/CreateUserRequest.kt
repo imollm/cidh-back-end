@@ -15,7 +15,7 @@ data class CreateUserRequest(
     //optional fields
     var firstName: String?,
     var lastName: String?,
-    var nif: String?,
+    var fiscalId: String?,
     var address: String?,
     var preferredLanguage: SystemLanguage?,
 ) {
@@ -35,7 +35,7 @@ data class CreateUserRequest(
             password = hashedSaltedPassword,
             firstName = firstName,
             lastName = lastName,
-            nif = nif,
+            fiscalId = fiscalId,
             address = address,
             preferredLanguage = preferredLanguage ?: SystemLanguage.English,
         )
