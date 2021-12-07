@@ -4,12 +4,14 @@
 package edu.uoc.hagendazs.generated.jooq.keys
 
 
+import edu.uoc.hagendazs.generated.jooq.tables.Categories
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
+import edu.uoc.hagendazs.generated.jooq.tables.records.CategoriesRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.FlywaySchemaHistoryRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.PasswordResetRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.RefreshTokenRecord
@@ -28,6 +30,7 @@ import org.jooq.impl.Internal
 // UNIQUE and PRIMARY KEY definitions
 // -------------------------------------------------------------------------
 
+val CATEGORIES_PKEY: UniqueKey<CategoriesRecord> = Internal.createUniqueKey(Categories.CATEGORIES, DSL.name("categories_pkey"), arrayOf(Categories.CATEGORIES.ID), true)
 val FLYWAY_SCHEMA_HISTORY_PK: UniqueKey<FlywaySchemaHistoryRecord> = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), arrayOf(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK), true)
 val PASSWORD_RESET_PKEY: UniqueKey<PasswordResetRecord> = Internal.createUniqueKey(PasswordReset.PASSWORD_RESET, DSL.name("password_reset_pkey"), arrayOf(PasswordReset.PASSWORD_RESET.ID), true)
 val REFRESH_TOKEN_PKEY: UniqueKey<RefreshTokenRecord> = Internal.createUniqueKey(RefreshToken.REFRESH_TOKEN, DSL.name("refresh_token_pkey"), arrayOf(RefreshToken.REFRESH_TOKEN.ID), true)

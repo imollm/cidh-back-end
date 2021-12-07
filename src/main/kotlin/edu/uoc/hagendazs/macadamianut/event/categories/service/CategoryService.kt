@@ -1,0 +1,10 @@
+package edu.uoc.hagendazs.macadamianut.event.categories.service
+
+import edu.uoc.hagendazs.macadamianut.event.categories.model.dataClass.Category
+
+interface CategoryService {
+    fun addCategory(category: Category): Category?
+    fun updateCategory(id: String, name: String, description: String): Category?
+    fun showCategory(id: String): Category?
+    fun listAllCategories(): Collection<Category>
+}
