@@ -57,7 +57,7 @@ class UserRepoImpl : UserRepo {
             .set(USER.PREFERRED_LANGUAGE, user.preferredLanguage)
             .execute()
 
-        return this.findUserByEmail(user.id)
+        return this.findById(user.id)
 
     }
 
