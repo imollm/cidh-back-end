@@ -9,6 +9,7 @@ import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.UserRole
 import edu.uoc.hagendazs.macadamianut.application.user.model.repo.UserRepo
 import org.jooq.DSLContext
+import org.jooq.impl.DSL.asterisk
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -27,8 +28,8 @@ class UserRepoImpl : UserRepo {
     override fun findById(userId: String?): MNUser? {
         return dsl.selectFrom(USER)
             .where(USER.ID.eq(userId))
-            .fetchSingle()
-            .into(MNUser::class.java)
+            .fetchOne()
+            ?.into(MNUser::class.java)
     }
 
     override fun findUserByEmail(email: String): MNUser? {
@@ -38,8 +39,12 @@ class UserRepoImpl : UserRepo {
             ?.into(MNUser::class.java)
     }
 
-    override fun findAll(): Collection<MNUser> {
-        return dsl.selectFrom(USER)
+    override fun findAll(roleFilter: Collection<RoleEnum>): Collection<MNUser> {
+        val rolesAsStrings = roleFilter.map { it.toString().uppercase() }
+        return dsl.select(USER.asterisk())
+            .from(USER)
+            .join(USER_ROLE).on(USER_ROLE.USER.eq(USER.ID))
+            .where(USER_ROLE.ROLE.`in`(rolesAsStrings))
             .fetchInto(MNUser::class.java)
     }
 
@@ -90,9 +95,9 @@ class UserRepoImpl : UserRepo {
 
         dsl.insertInto(USER_ROLE)
             .set(USER_ROLE.ID, UUID.randomUUID().toString())
-            .set(USER_ROLE.USER, userRecord.id)
-            .set(USER_ROLE.ROLE, role.toString())
-
+            .set(USER_ROLE.USER, newUser.id)
+            .set(USER_ROLE.ROLE, role.toString().uppercase())
+            .execute()
 
         return this.findById(newUser.id)
     }

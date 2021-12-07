@@ -7,7 +7,7 @@ import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.UserRole
 interface UserRepo {
     fun findById(userId: String?): MNUser?
     fun findUserByEmail(email: String): MNUser?
-    fun findAll(): Collection<MNUser>
+    fun findAll(roleFilter: Collection<RoleEnum>): Collection<MNUser>
     fun updateUser(user: MNUser?): MNUser?
     fun userRolesForUserId(userId: String): Iterable<UserRole>
     fun changePassword(user: MNUser, newPassword: String)

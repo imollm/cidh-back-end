@@ -20,8 +20,8 @@ class UserServiceImpl: UserService {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
-    override fun findAll(): Collection<MNUser> {
-        return userRepo.findAll()
+    override fun findAll(roleFilter: Collection<RoleEnum>): Collection<MNUser> {
+        return userRepo.findAll(roleFilter)
     }
 
     override fun updatePerson(resolvedUserId: String, userData: UpdateUserRequest): MNUser? {

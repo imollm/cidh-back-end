@@ -18,7 +18,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
@@ -115,34 +114,17 @@ class AuthController {
         val refreshToken = refreshTokenService.createRefreshToken(userDetails.username) ?: run {
             throw IllegalStateException("Unable to save refresh token in DB!")
         }
-        val userHigherRole = this.determineHigherAuthority(userDetails.authorities)
+        val authoritiesAsStrings = userDetails.authorities.map { it.authority }
+        val userHigherRole = RoleEnum.determineHigherAuthority(authoritiesAsStrings)
         val permissions = userService.permissionsForRole(userHigherRole) ?: ""
         val authenticationResponse = AuthenticationResponse(
             jwt = jwt,
             refreshToken = refreshToken.id,
-            permissions =  permissions,
+            permissions = permissions,
             role = userHigherRole
         )
         return ResponseEntity.ok(authenticationResponse)
     }
-
-    private fun determineHigherAuthority(
-        authorities: Collection<GrantedAuthority>
-    ): RoleEnum {
-        val authoritiesAsRoles = authorities
-            .mapNotNull { it.authority }
-            .map { RoleEnum.valueOf(it) }
-
-        if (authoritiesAsRoles.contains(RoleEnum.SuperAdmin)) {
-            return RoleEnum.SuperAdmin
-        }
-
-        if (authoritiesAsRoles.contains(RoleEnum.Administrator)) {
-            return RoleEnum.Administrator
-        }
-        return RoleEnum.User
-    }
-
 
     private fun generateClaims(userDetails: UserDetails): Map<String, String> {
         val authorities = userDetails.authorities.joinToString { it.authority }
