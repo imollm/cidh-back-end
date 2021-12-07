@@ -1,6 +1,6 @@
-package edu.uoc.hagendazs.macadamianut.event.categories.service
+package edu.uoc.hagendazs.macadamianut.application.event.category.service
 
-import edu.uoc.hagendazs.macadamianut.event.categories.model.dataClass.Category
+import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
 
 interface CategoryService {
     fun addCategory(category: Category): Category?
