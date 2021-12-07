@@ -6,4 +6,5 @@ data class UserRole(
     val id: String = UUID.randomUUID().toString(),
     val person: String? = null,
     val role: String? = null,
+    val roleDefinitionJson: String? = ""
 )

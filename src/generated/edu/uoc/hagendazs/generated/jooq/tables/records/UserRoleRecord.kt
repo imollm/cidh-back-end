@@ -23,7 +23,7 @@ open class UserRoleRecord() : UpdatableRecordImpl<UserRoleRecord>(UserRole.USER_
         set(value) = set(0, value)
         get() = get(0) as String?
 
-    var person: String?
+    var user: String?
         set(value) = set(1, value)
         get() = get(1) as String?
 
@@ -44,13 +44,13 @@ open class UserRoleRecord() : UpdatableRecordImpl<UserRoleRecord>(UserRole.USER_
     override fun fieldsRow(): Row3<String?, String?, String?> = super.fieldsRow() as Row3<String?, String?, String?>
     override fun valuesRow(): Row3<String?, String?, String?> = super.valuesRow() as Row3<String?, String?, String?>
     override fun field1(): Field<String?> = UserRole.USER_ROLE.ID
-    override fun field2(): Field<String?> = UserRole.USER_ROLE.PERSON
+    override fun field2(): Field<String?> = UserRole.USER_ROLE.USER
     override fun field3(): Field<String?> = UserRole.USER_ROLE.ROLE
     override fun component1(): String? = id
-    override fun component2(): String? = person
+    override fun component2(): String? = user
     override fun component3(): String? = role
     override fun value1(): String? = id
-    override fun value2(): String? = person
+    override fun value2(): String? = user
     override fun value3(): String? = role
 
     override fun value1(value: String?): UserRoleRecord {
@@ -59,7 +59,7 @@ open class UserRoleRecord() : UpdatableRecordImpl<UserRoleRecord>(UserRole.USER_
     }
 
     override fun value2(value: String?): UserRoleRecord {
-        this.person = value
+        this.user = value
         return this
     }
 
@@ -78,9 +78,9 @@ open class UserRoleRecord() : UpdatableRecordImpl<UserRoleRecord>(UserRole.USER_
     /**
      * Create a detached, initialised UserRoleRecord
      */
-    constructor(id: String? = null, person: String? = null, role: String? = null): this() {
+    constructor(id: String? = null, user: String? = null, role: String? = null): this() {
         this.id = id
-        this.person = person
+        this.user = user
         this.role = role
     }
 }
