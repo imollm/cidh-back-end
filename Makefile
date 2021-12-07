@@ -17,7 +17,7 @@ INCOMING_PORT=5432
 
 ### CONTAINER ID & DOCKER IMAGE ###
 CONTAINER_NAME=cidh-postgres
-DOCKER_IMAGE=postgres:alpine
+DOCKER_IMAGE=postgres:13-alpine
 
 help:
 	@echo "run        	- Run database container for local development with name cidh-postgres."
@@ -60,7 +60,7 @@ restart:
 rm:
 	make stop
 	docker rm $$(docker ps -aqf name=$(CONTAINER_NAME))
-	shell rm -rf $(shell pwd)/$(DATA_FOLDER_VOLUME)
+	$(shell rm -rf $(shell pwd)/$(DATA_FOLDER_VOLUME)/*)
 
 refresh:
 	make rm
