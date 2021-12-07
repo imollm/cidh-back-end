@@ -4,6 +4,7 @@
 package edu.uoc.hagendazs.generated.jooq
 
 
+import edu.uoc.hagendazs.generated.jooq.tables.Categories
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
@@ -30,6 +31,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
          */
         val PUBLIC = Public()
     }
+
+    /**
+     * The table <code>public.categories</code>.
+     */
+    val CATEGORIES get() = Categories.CATEGORIES
 
     /**
      * The table <code>public.flyway_schema_history</code>.
@@ -64,6 +70,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     override fun getTables(): List<Table<*>> = listOf(
+        Categories.CATEGORIES,
         FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
         PasswordReset.PASSWORD_RESET,
         RefreshToken.REFRESH_TOKEN,
