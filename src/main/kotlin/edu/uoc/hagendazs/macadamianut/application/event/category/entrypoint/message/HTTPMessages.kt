@@ -1,4 +1,4 @@
-package edu.uoc.hagendazs.macadamianut.application.event.categories.entrypoint.message
+package edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.message
 
 enum class HTTPMessages(val message: String) {
     MISSING_VALUES("Some fields doesn't have value"),
