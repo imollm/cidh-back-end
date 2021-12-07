@@ -3,6 +3,7 @@ package edu.uoc.hagendazs.macadamianut.application.user.entrypoint
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.CreateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UpdateUserRequest
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.net.URI
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
@@ -46,15 +48,17 @@ class UserController {
     }
 
     // ############# LIST ALL USERS #############
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN')")
+    @PreAuthorize("hasAnyRole('SUPERADMIN')")
     @RequestMapping(value = ["users"], method = [(RequestMethod.GET)])
-    fun getAllUsers(): ResponseEntity<Collection<MNUser>> {
-        val persons = userService.findAll()
+    fun getAllUsers(
+        @RequestParam role: Array<RoleEnum>?,
+    ): ResponseEntity<Collection<MNUser>> {
+        val persons = userService.findAll(roleFilter = role?.asList() ?:RoleEnum.values().asList())
         return ResponseEntity.ok(persons)
     }
 
     // ############# GET SINGLE USER #############
-    @PreAuthorize("#personId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIn') or #personId == null")
+    @PreAuthorize("#personId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN') or #personId == null")
     @GetMapping(value = ["users/{userId}", "users/me"])
     fun getUser(
         @PathVariable("userId") personId: String?,
