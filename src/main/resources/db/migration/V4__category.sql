@@ -1,4 +1,4 @@
-CREATE TABLE categories (
+CREATE TABLE category (
     id          VARCHAR PRIMARY KEY,
     name        VARCHAR NOT NULL,
     description VARCHAR NOT NULL,

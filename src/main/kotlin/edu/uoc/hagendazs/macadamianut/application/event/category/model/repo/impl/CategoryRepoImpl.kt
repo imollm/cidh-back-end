@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
-import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORIES
+import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
