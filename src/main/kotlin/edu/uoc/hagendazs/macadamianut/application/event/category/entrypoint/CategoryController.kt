@@ -68,4 +68,10 @@ class CategoryController {
         return ResponseEntity.ok(category)
     }
 
+    @GetMapping(value = [""])
+    fun getAllCategories(): ResponseEntity<Collection<Category>> {
+        val categories = categoryService.listAllCategories()
+        return ResponseEntity.ok(categories)
+    }
+
 }

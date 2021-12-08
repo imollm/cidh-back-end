@@ -39,7 +39,7 @@ class CategoryRepoImpl : CategoryRepo {
     }
 
     override fun listAllCategories(): Collection<Category> {
-        TODO("Not yet implemented")
+        return dsl.selectFrom(CATEGORY).fetchInto(Category::class.java)
     }
 
     override fun existsByName(name: String): Boolean {

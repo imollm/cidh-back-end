@@ -36,7 +36,7 @@ class CategoryServiceImpl: CategoryService {
     }
 
     override fun listAllCategories(): Collection<Category> {
-        TODO("Not yet implemented")
+        return categoryRepo.listAllCategories()
     }
 
     private fun copyCategoryEntity(categoryToUpdate: Category, incomingCategory: Category): Category {
