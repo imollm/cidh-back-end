@@ -6,6 +6,9 @@ import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.Cate
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
+import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.message.HTTPMessages
+import edu.uoc.hagendazs.macadamianut.application.event.category.service.exceptions.CategoryNotFoundException
+import org.jooq.exception.NoDataFoundException
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
@@ -31,8 +34,8 @@ class CategoryRepoImpl : CategoryRepo {
         return this.findById(category.id)
     }
 
-    override fun showCategory(id: String): Category? {
-        TODO("Not yet implemented")
+    override fun showCategory(categoryId: String): Category? {
+        return this.findById(categoryId)
     }
 
     override fun listAllCategories(): Collection<Category> {
@@ -47,10 +50,14 @@ class CategoryRepoImpl : CategoryRepo {
     }
 
     override fun findById(id: String): Category? {
-        return dsl.selectFrom(CATEGORY)
-            .where(CATEGORY.ID.eq(id))
-            .fetchSingle()
-            .into(Category::class.java)
+        try {
+            return dsl.selectFrom(CATEGORY)
+                .where(CATEGORY.ID.eq(id))
+                .fetchSingle()
+                .into(Category::class.java)
+        } catch (e: NoDataFoundException) {
+            throw CategoryNotFoundException(HTTPMessages.NOT_FOUND.message)
+        }
     }
 
     override fun existsById(id: String): Boolean {

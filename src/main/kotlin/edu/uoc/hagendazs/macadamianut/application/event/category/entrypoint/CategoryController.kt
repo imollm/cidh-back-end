@@ -5,6 +5,8 @@ import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.inpu
 import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.message.HTTPMessages
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
 import edu.uoc.hagendazs.macadamianut.application.event.category.service.CategoryService
+import edu.uoc.hagendazs.macadamianut.application.event.category.service.exceptions.CategoryNotFoundException
+import org.jooq.exception.NoDataFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -55,6 +57,14 @@ class CategoryController {
                 )
         }
         val category = categoryService.updateCategory(categoryId, updateCategoryReq)
+        return ResponseEntity.ok(category)
+    }
+
+    @GetMapping(value = ["/{categoryId}"])
+    fun getCategoryById(
+        @PathVariable categoryId: String
+    ): ResponseEntity<Category> {
+        val category = categoryService.showCategory(categoryId)
         return ResponseEntity.ok(category)
     }
 

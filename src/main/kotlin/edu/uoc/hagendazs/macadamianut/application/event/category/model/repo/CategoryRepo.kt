@@ -5,7 +5,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass
 interface CategoryRepo {
     fun addCategory(category: Category): Category?
     fun updateCategory(category: Category): Category?
-    fun showCategory(id: String): Category?
+    fun showCategory(categoryId: String): Category?
     fun listAllCategories(): Collection<Category>
     fun existsByName(name: String): Boolean
     fun findById(id: String): Category?

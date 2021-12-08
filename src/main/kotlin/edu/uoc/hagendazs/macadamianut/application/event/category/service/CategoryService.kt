@@ -6,6 +6,6 @@ import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass
 interface CategoryService {
     fun addCategory(category: Category): Category?
     fun updateCategory(categoryId: String, updateCategoryRequest: UpdateCategoryRequest): Category?
-    fun showCategory(id: String): Category?
+    fun showCategory(categoryId: String): Category?
     fun listAllCategories(): Collection<Category>
 }

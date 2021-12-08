@@ -31,8 +31,8 @@ class CategoryServiceImpl: CategoryService {
         return categoryRepo.updateCategory(this.copyCategoryEntity(categoryToUpdate, categoryBody))
     }
 
-    override fun showCategory(id: String): Category? {
-        TODO("Not yet implemented")
+    override fun showCategory(categoryId: String): Category? {
+        return categoryRepo.showCategory(categoryId)
     }
 
     override fun listAllCategories(): Collection<Category> {
