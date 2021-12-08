@@ -9,21 +9,26 @@ import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-class CategoryRepoImpl: CategoryRepo {
+class CategoryRepoImpl : CategoryRepo {
 
     @Autowired
     protected lateinit var dsl: DSLContext
 
     @Transactional
     override fun addCategory(category: Category): Category? {
-        val categoryRecord = dsl.newRecord(CATEGORIES, category)
+        val categoryRecord = dsl.newRecord(CATEGORY, category)
         categoryRecord.store()
 
         return this.findById(category.id)
     }
 
-    override fun updateCategory(name: String, description: String): Category? {
-        TODO("Not yet implemented")
+    override fun updateCategory(category: Category): Category? {
+        dsl.update(CATEGORY)
+            .set(CATEGORY.NAME, category.name)
+            .set(CATEGORY.DESCRIPTION, category.description)
+            .execute()
+
+        return this.findById(category.id)
     }
 
     override fun showCategory(id: String): Category? {
@@ -34,18 +39,25 @@ class CategoryRepoImpl: CategoryRepo {
         TODO("Not yet implemented")
     }
 
-    override fun existsByName(name: String): Boolean? {
+    override fun existsByName(name: String): Boolean {
         return dsl.fetchExists(
-            dsl.selectFrom(CATEGORIES)
-                .where(CATEGORIES.NAME.eq(name))
+            dsl.selectFrom(CATEGORY)
+                .where(CATEGORY.NAME.eq(name))
         )
     }
 
     override fun findById(id: String): Category? {
-        return dsl.selectFrom(CATEGORIES)
-            .where(CATEGORIES.ID.eq(id))
+        return dsl.selectFrom(CATEGORY)
+            .where(CATEGORY.ID.eq(id))
             .fetchSingle()
             .into(Category::class.java)
+    }
+
+    override fun existsById(id: String): Boolean {
+        return dsl.fetchExists(
+            dsl.selectFrom(CATEGORY)
+                .where(CATEGORY.ID.eq(id))
+        )
     }
 
 }
