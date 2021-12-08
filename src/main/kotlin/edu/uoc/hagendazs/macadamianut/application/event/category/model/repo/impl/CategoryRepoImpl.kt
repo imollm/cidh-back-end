@@ -50,14 +50,10 @@ class CategoryRepoImpl : CategoryRepo {
     }
 
     override fun findById(id: String): Category? {
-        try {
-            return dsl.selectFrom(CATEGORY)
-                .where(CATEGORY.ID.eq(id))
-                .fetchSingle()
-                .into(Category::class.java)
-        } catch (e: NoDataFoundException) {
-            throw CategoryNotFoundException(HTTPMessages.NOT_FOUND.message)
-        }
+        return dsl.selectFrom(CATEGORY)
+            .where(CATEGORY.ID.eq(id))
+            .fetchOne()
+            ?.into(Category::class.java)
     }
 
     override fun existsById(id: String): Boolean {

@@ -8,9 +8,9 @@ data class CreateCategoryRequest(
     val name: String,
     val description: String
 ) {
-    fun recieve(): Category {
+    fun receive(): Category {
         if (name.isBlank() || description.isBlank()) {
-            throw CategoryMissingValues(HTTPMessages.MISSING_VALUES.message)
+            throw CategoryMissingValues(HTTPMessages.MISSING_VALUES)
         }
         return Category(
             name = name,
