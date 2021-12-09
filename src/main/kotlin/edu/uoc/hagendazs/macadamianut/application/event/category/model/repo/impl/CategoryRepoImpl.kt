@@ -6,9 +6,6 @@ import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.Cate
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
-import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.message.HTTPMessages
-import edu.uoc.hagendazs.macadamianut.application.event.category.service.exceptions.CategoryNotFoundException
-import org.jooq.exception.NoDataFoundException
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
@@ -51,16 +48,8 @@ class CategoryRepoImpl : CategoryRepo {
 
     override fun findById(id: String): Category? {
         return dsl.selectFrom(CATEGORY)
-            .where(CATEGORY.ID.eq(id))
+            .where(CATEGORY.NAME.eq(id))
             .fetchOne()
             ?.into(Category::class.java)
     }
-
-    override fun existsById(id: String): Boolean {
-        return dsl.fetchExists(
-            dsl.selectFrom(CATEGORY)
-                .where(CATEGORY.ID.eq(id))
-        )
-    }
-
 }
