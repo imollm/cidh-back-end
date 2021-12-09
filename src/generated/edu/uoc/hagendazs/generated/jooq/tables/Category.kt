@@ -16,7 +16,7 @@ import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row4
+import org.jooq.Row3
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -60,11 +60,6 @@ open class Category(
      * The class holding records for this type
      */
     override fun getRecordType(): Class<CategoryRecord> = CategoryRecord::class.java
-
-    /**
-     * The column <code>public.category.id</code>.
-     */
-    val ID: TableField<CategoryRecord, String?> = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
      * The column <code>public.category.name</code>.
@@ -117,7 +112,7 @@ open class Category(
     override fun rename(name: Name): Category = Category(name, null)
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row4<String?, String?, String?, LocalDateTime?> = super.fieldsRow() as Row4<String?, String?, String?, LocalDateTime?>
+    override fun fieldsRow(): Row3<String?, String?, LocalDateTime?> = super.fieldsRow() as Row3<String?, String?, LocalDateTime?>
 }

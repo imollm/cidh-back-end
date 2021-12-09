@@ -1,6 +1,5 @@
 CREATE TABLE category (
-    id          VARCHAR PRIMARY KEY,
-    name        VARCHAR NOT NULL,
+    name        VARCHAR PRIMARY KEY,
     description VARCHAR NOT NULL,
     created_at  TIMESTAMP NOT NULL
 );

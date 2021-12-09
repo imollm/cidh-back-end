@@ -30,7 +30,7 @@ import org.jooq.impl.Internal
 // UNIQUE and PRIMARY KEY definitions
 // -------------------------------------------------------------------------
 
-val CATEGORY_PKEY: UniqueKey<CategoryRecord> = Internal.createUniqueKey(Category.CATEGORY, DSL.name("category_pkey"), arrayOf(Category.CATEGORY.ID), true)
+val CATEGORY_PKEY: UniqueKey<CategoryRecord> = Internal.createUniqueKey(Category.CATEGORY, DSL.name("category_pkey"), arrayOf(Category.CATEGORY.NAME), true)
 val FLYWAY_SCHEMA_HISTORY_PK: UniqueKey<FlywaySchemaHistoryRecord> = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), arrayOf(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK), true)
 val PASSWORD_RESET_PKEY: UniqueKey<PasswordResetRecord> = Internal.createUniqueKey(PasswordReset.PASSWORD_RESET, DSL.name("password_reset_pkey"), arrayOf(PasswordReset.PASSWORD_RESET.ID), true)
 val REFRESH_TOKEN_PKEY: UniqueKey<RefreshTokenRecord> = Internal.createUniqueKey(RefreshToken.REFRESH_TOKEN, DSL.name("refresh_token_pkey"), arrayOf(RefreshToken.REFRESH_TOKEN.ID), true)
