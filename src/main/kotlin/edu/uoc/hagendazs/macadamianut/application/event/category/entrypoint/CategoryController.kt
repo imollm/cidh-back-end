@@ -2,7 +2,7 @@ package edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint
 
 import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.input.CreateCategoryRequest
 import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.input.UpdateCategoryRequest
-import edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.message.HTTPMessages
+import edu.uoc.hagendazs.macadamianut.common.HTTPMessages
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
 import edu.uoc.hagendazs.macadamianut.application.event.category.service.CategoryService
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.net.URI
 import javax.servlet.http.HttpServletRequest
-import javax.validation.constraints.NotBlank
 
 @RestController
 @RequestMapping("/api/v1/categories")

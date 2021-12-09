@@ -1,4 +1,4 @@
-package edu.uoc.hagendazs.macadamianut.application.event.category.entrypoint.message
+package edu.uoc.hagendazs.macadamianut.common
 
 class HTTPMessages() {
     companion object {
