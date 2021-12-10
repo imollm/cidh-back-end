@@ -7,6 +7,7 @@ interface CategoryRepo {
     fun updateCategory(category: Category): Category?
     fun showCategory(categoryId: String): Category?
     fun listAllCategories(): Collection<Category>
-    fun existsByName(name: String): Boolean
-    fun findById(id: String): Category?
+    fun existsByName(categoryName: String): Boolean
+    fun findByName(categoryName: String): Category?
+    fun findById(categoryId: String): Category?
 }

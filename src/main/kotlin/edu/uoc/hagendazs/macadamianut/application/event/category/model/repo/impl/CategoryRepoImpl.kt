@@ -19,7 +19,7 @@ class CategoryRepoImpl : CategoryRepo {
         val categoryRecord = dsl.newRecord(CATEGORY, category)
         categoryRecord.store()
 
-        return this.findById(category.id)
+        return this.findByName(category.name)
     }
 
     override fun updateCategory(category: Category): Category? {
@@ -39,16 +39,23 @@ class CategoryRepoImpl : CategoryRepo {
         return dsl.selectFrom(CATEGORY).fetchInto(Category::class.java)
     }
 
-    override fun existsByName(name: String): Boolean {
+    override fun existsByName(categoryName: String): Boolean {
         return dsl.fetchExists(
             dsl.selectFrom(CATEGORY)
-                .where(CATEGORY.NAME.eq(name))
+                .where(CATEGORY.NAME.eq(categoryName))
         )
     }
 
-    override fun findById(id: String): Category? {
+    override fun findByName(categoryName: String): Category? {
         return dsl.selectFrom(CATEGORY)
-            .where(CATEGORY.NAME.eq(id))
+            .where(CATEGORY.NAME.eq(categoryName))
+            .fetchOne()
+            ?.into(Category::class.java)
+    }
+
+    override fun findById(categoryId: String): Category? {
+        return dsl.selectFrom(CATEGORY)
+            .where(CATEGORY.ID.eq(categoryId))
             .fetchOne()
             ?.into(Category::class.java)
     }

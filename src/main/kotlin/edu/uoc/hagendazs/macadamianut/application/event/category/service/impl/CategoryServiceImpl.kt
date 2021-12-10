@@ -44,6 +44,7 @@ class CategoryServiceImpl: CategoryService {
 
     private fun copyCategoryEntity(categoryToUpdate: Category, incomingCategory: Category): Category {
         return categoryToUpdate.copy(
+            id = categoryToUpdate.id,
             name = incomingCategory.name,
             description = incomingCategory.description
         )
