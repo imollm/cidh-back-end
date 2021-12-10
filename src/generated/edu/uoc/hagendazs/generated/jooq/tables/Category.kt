@@ -5,6 +5,7 @@ package edu.uoc.hagendazs.generated.jooq.tables
 
 
 import edu.uoc.hagendazs.generated.jooq.Public
+import edu.uoc.hagendazs.generated.jooq.keys.CATEGORY_NAME_KEY
 import edu.uoc.hagendazs.generated.jooq.keys.CATEGORY_PKEY
 import edu.uoc.hagendazs.generated.jooq.tables.records.CategoryRecord
 
@@ -16,7 +17,7 @@ import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row3
+import org.jooq.Row4
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -62,9 +63,14 @@ open class Category(
     override fun getRecordType(): Class<CategoryRecord> = CategoryRecord::class.java
 
     /**
+     * The column <code>public.category.id</code>.
+     */
+    val ID: TableField<CategoryRecord, String?> = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "")
+
+    /**
      * The column <code>public.category.name</code>.
      */
-    val NAME: TableField<CategoryRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val NAME: TableField<CategoryRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR, this, "")
 
     /**
      * The column <code>public.category.description</code>.
@@ -97,7 +103,7 @@ open class Category(
     constructor(child: Table<out Record>, key: ForeignKey<out Record, CategoryRecord>): this(Internal.createPathAlias(child, key), child, key, CATEGORY, null)
     override fun getSchema(): Schema = Public.PUBLIC
     override fun getPrimaryKey(): UniqueKey<CategoryRecord> = CATEGORY_PKEY
-    override fun getKeys(): List<UniqueKey<CategoryRecord>> = listOf(CATEGORY_PKEY)
+    override fun getKeys(): List<UniqueKey<CategoryRecord>> = listOf(CATEGORY_PKEY, CATEGORY_NAME_KEY)
     override fun `as`(alias: String): Category = Category(DSL.name(alias), this)
     override fun `as`(alias: Name): Category = Category(alias, this)
 
@@ -112,7 +118,7 @@ open class Category(
     override fun rename(name: Name): Category = Category(name, null)
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row3<String?, String?, LocalDateTime?> = super.fieldsRow() as Row3<String?, String?, LocalDateTime?>
+    override fun fieldsRow(): Row4<String?, String?, String?, LocalDateTime?> = super.fieldsRow() as Row4<String?, String?, String?, LocalDateTime?>
 }
