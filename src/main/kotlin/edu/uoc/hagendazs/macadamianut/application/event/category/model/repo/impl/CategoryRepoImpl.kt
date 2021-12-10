@@ -26,6 +26,7 @@ class CategoryRepoImpl : CategoryRepo {
         dsl.update(CATEGORY)
             .set(CATEGORY.NAME, category.name)
             .set(CATEGORY.DESCRIPTION, category.description)
+            .where(CATEGORY.ID.eq(category.id))
             .execute()
 
         return this.findById(category.id)
