@@ -3,14 +3,14 @@ truncate role cascade;
 INSERT INTO role(id, role_name, role_definition_json)
 VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
   "administration": {
-    "manageCategories": true,
-    "manageEventOrganizers": true,
-    "manageAdministrators": true,
-    "associateAdminToEventOrganizer": true,
-    "manageLabels": true
+    "manageCategories": false,
+    "manageEventOrganizers": false,
+    "manageAdministrators": false,
+    "associateAdminToEventOrganizer": false,
+    "manageLabels": false
   },
   "profile": {
-    "manageEvents": false,
+    "manageEvents": true,
     "modifyPersonalData": false
   },
   "event": {
@@ -35,34 +35,34 @@ VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
 }'),
        ('USER', 'USER', JSON '{
          "administration": {
-           "manageCategories": true,
-           "manageEventOrganizers": true,
-           "manageAdministrators": true,
-           "associateAdminToEventOrganizer": true,
-           "manageLabels": true
+           "manageCategories": false,
+           "manageEventOrganizers": false,
+           "manageAdministrators": false,
+           "associateAdminToEventOrganizer": false,
+           "manageLabels": false
          },
          "profile": {
            "manageEvents": false,
-           "modifyPersonalData": false
+           "modifyPersonalData": true
          },
          "event": {
-           "getEventSubscription": false,
-           "listEventsByCategory": false,
-           "searchEventByLabel": false,
-           "searchEventByName": false,
-           "consultEventData": false,
-           "subscriptionsHistory": false,
-           "accessToEvent": false
+           "getEventSubscription": true,
+           "listEventsByCategory": true,
+           "searchEventByLabel": true,
+           "searchEventByName": true,
+           "consultEventData": true,
+           "subscriptionsHistory": true,
+           "accessToEvent": true
          },
          "media": {
-           "sendACommentAboutEvent": false,
-           "makeRatingAboutEvent": false,
-           "recommendEventToAFriend": false,
-           "addEventToHisFavourites": false,
-           "consultHisFavouritesEvents": false,
-           "answerForumQuestion": true,
+           "sendACommentAboutEvent": true,
+           "makeRatingAboutEvent": true,
+           "recommendEventToAFriend": true,
+           "addEventToHisFavourites": true,
+           "consultHisFavouritesEvents": true,
+           "answerForumQuestion": false,
            "viewForumQuestions": true,
-           "makeForumQuestion": false
+           "makeForumQuestion": true
          }
        }'),
        ('SUPERADMIN', 'SUPERADMIN', JSON '{
@@ -71,7 +71,7 @@ VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
            "manageEventOrganizers": true,
            "manageAdministrators": true,
            "associateAdminToEventOrganizer": true,
-           "manageLabels": true
+           "manageLables": true
          },
          "profile": {
            "manageEvents": false,
