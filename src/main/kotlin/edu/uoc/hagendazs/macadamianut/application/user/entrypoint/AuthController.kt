@@ -50,7 +50,7 @@ class AuthController {
         "You are not authorized to delete the token, or the token does not exist"
     )
 
-    @PostMapping(path = ["/users/login"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(path = ["/api/v1/users/login"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun login(
         @RequestBody loginReq: CreateUserRequest,
     ): ResponseEntity<AuthenticationResponse> {
@@ -66,7 +66,7 @@ class AuthController {
     }
 
     @PostAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN', 'USER')")
-    @PostMapping(path = ["users/invalidate-token"])
+    @PostMapping(path = ["/api/v1/users/invalidate-token"])
     fun invalidateRefreshToken(
         @RequestBody refreshTokenInvalidateReq: RefreshTokenInvalidateRequest,
         jwtToken: Authentication,
@@ -87,7 +87,7 @@ class AuthController {
 
     }
 
-    @PostMapping(path = ["users/refresh-token"], consumes = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(path = ["/api/v1/users/refresh-token"], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun renewJwtFromRefreshToken(
         @RequestBody refreshTokenReq: RefreshTokenReq
     ): ResponseEntity<AuthenticationResponse> {
