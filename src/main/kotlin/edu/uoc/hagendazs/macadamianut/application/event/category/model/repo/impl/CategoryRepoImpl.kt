@@ -5,47 +5,59 @@ import org.springframework.stereotype.Repository
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
-import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORIES
+import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-class CategoryRepoImpl: CategoryRepo {
+class CategoryRepoImpl : CategoryRepo {
 
     @Autowired
     protected lateinit var dsl: DSLContext
 
     @Transactional
     override fun addCategory(category: Category): Category? {
-        val categoryRecord = dsl.newRecord(CATEGORIES, category)
+        val categoryRecord = dsl.newRecord(CATEGORY, category)
         categoryRecord.store()
+
+        return this.findByName(category.name)
+    }
+
+    override fun updateCategory(category: Category): Category? {
+        dsl.update(CATEGORY)
+            .set(CATEGORY.NAME, category.name)
+            .set(CATEGORY.DESCRIPTION, category.description)
+            .where(CATEGORY.ID.eq(category.id))
+            .execute()
 
         return this.findById(category.id)
     }
 
-    override fun updateCategory(name: String, description: String): Category? {
-        TODO("Not yet implemented")
-    }
-
-    override fun showCategory(id: String): Category? {
-        TODO("Not yet implemented")
+    override fun showCategory(categoryId: String): Category? {
+        return this.findById(categoryId)
     }
 
     override fun listAllCategories(): Collection<Category> {
-        TODO("Not yet implemented")
+        return dsl.selectFrom(CATEGORY).fetchInto(Category::class.java)
     }
 
-    override fun existsByName(name: String): Boolean? {
+    override fun existsByName(categoryName: String): Boolean {
         return dsl.fetchExists(
-            dsl.selectFrom(CATEGORIES)
-                .where(CATEGORIES.NAME.eq(name))
+            dsl.selectFrom(CATEGORY)
+                .where(CATEGORY.NAME.eq(categoryName))
         )
     }
 
-    override fun findById(id: String): Category? {
-        return dsl.selectFrom(CATEGORIES)
-            .where(CATEGORIES.ID.eq(id))
-            .fetchSingle()
-            .into(Category::class.java)
+    override fun findByName(categoryName: String): Category? {
+        return dsl.selectFrom(CATEGORY)
+            .where(CATEGORY.NAME.eq(categoryName))
+            .fetchOne()
+            ?.into(Category::class.java)
     }
 
+    override fun findById(categoryId: String): Category? {
+        return dsl.selectFrom(CATEGORY)
+            .where(CATEGORY.ID.eq(categoryId))
+            .fetchOne()
+            ?.into(Category::class.java)
+    }
 }

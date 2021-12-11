@@ -32,17 +32,22 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .and()
             .authorizeRequests()
             // Ping health-check
-            .antMatchers(HttpMethod.GET, "/ping").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/ping").permitAll()
             // USER EndPoints
-            .antMatchers(HttpMethod.GET, "/users/*").authenticated()
-            .antMatchers(HttpMethod.POST, "/users").permitAll()
-            .antMatchers(HttpMethod.POST,"/users/login").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/users/*").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
+            .antMatchers(HttpMethod.POST,"/api/v1/users/login").permitAll()
 
-            .antMatchers(HttpMethod.POST, "/users/refresh-token").permitAll()
-            .antMatchers(HttpMethod.POST, "/users/*/verify/*").permitAll()
-            .antMatchers(HttpMethod.POST, "/users/credentials/start-password-reset").permitAll()
-            .antMatchers(HttpMethod.POST, "/users/*/lifecycle/send-verification-email").permitAll()
-            .antMatchers(HttpMethod.POST, "/users/*/credentials/change-password").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/users/refresh-token").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/users/*/verify/*").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/users/credentials/start-password-reset").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/users/*/lifecycle/send-verification-email").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/users/*/credentials/change-password").permitAll()
+            // CATEGORIES EndPoints
+            .antMatchers(HttpMethod.POST, "/api/v1/categories").authenticated()
+            .antMatchers(HttpMethod.PUT, "api/v1/categories").authenticated()
+            .antMatchers(HttpMethod.GET, "/api/v1/categories/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/categories").permitAll()
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer(fun(obj: OAuth2ResourceServerConfigurer<HttpSecurity?>) {

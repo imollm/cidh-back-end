@@ -28,7 +28,7 @@ class UserController {
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
-    @PostMapping(value = ["users"])
+    @PostMapping(value = ["/api/v1/users"])
     fun createUser(
         @RequestBody newUserReq: CreateUserRequest,
         request: HttpServletRequest
@@ -49,7 +49,7 @@ class UserController {
 
     // ############# LIST ALL USERS #############
     @PreAuthorize("hasAnyRole('SUPERADMIN')")
-    @RequestMapping(value = ["users"], method = [(RequestMethod.GET)])
+    @RequestMapping(value = ["/api/v1/users"], method = [(RequestMethod.GET)])
     fun getAllUsers(
         @RequestParam role: Array<RoleEnum>?,
     ): ResponseEntity<Collection<MNUser>> {
@@ -59,7 +59,7 @@ class UserController {
 
     // ############# GET SINGLE USER #############
     @PreAuthorize("#personId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN') or #personId == null")
-    @GetMapping(value = ["users/{userId}", "users/me"])
+    @GetMapping(value = ["/api/v1/users/{userId}", "/api/v1/users/me"])
     fun getUser(
         @PathVariable("userId") personId: String?,
         jwtToken: Authentication
@@ -71,7 +71,7 @@ class UserController {
 
     // ############# UPDATE USER #############
     @PreAuthorize("#userId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN') or #userId == null")
-    @PostMapping(value = ["users/{userId}", "users/me"])
+    @PostMapping(value = ["/api/v1/users/{userId}", "/api/v1/users/me"])
     fun updateUser(
         @PathVariable("userId") userId: String?,
         @RequestBody @Valid personData: UpdateUserRequest,
