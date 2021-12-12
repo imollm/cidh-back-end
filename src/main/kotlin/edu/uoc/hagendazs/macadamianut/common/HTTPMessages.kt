@@ -7,5 +7,6 @@ class HTTPMessages() {
         const val ALREADY_EXISTS = "This resource already exists"
         const val NOT_FOUND = "This resource not exists"
         const val ERROR_SAVING_A_RESOURCE = "Error saving resource"
+        const val UNABLE_TO_CREATE = "Unable to create resource"
     }
 }

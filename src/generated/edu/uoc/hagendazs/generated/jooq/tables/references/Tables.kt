@@ -5,6 +5,7 @@ package edu.uoc.hagendazs.generated.jooq.tables.references
 
 
 import edu.uoc.hagendazs.generated.jooq.tables.Category
+import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
@@ -18,6 +19,11 @@ import edu.uoc.hagendazs.generated.jooq.tables.UserRole
  * The table <code>public.category</code>.
  */
 val CATEGORY = Category.CATEGORY
+
+/**
+ * The table <code>public.event_organizer</code>.
+ */
+val EVENT_ORGANIZER = EventOrganizer.EVENT_ORGANIZER
 
 /**
  * The table <code>public.flyway_schema_history</code>.
