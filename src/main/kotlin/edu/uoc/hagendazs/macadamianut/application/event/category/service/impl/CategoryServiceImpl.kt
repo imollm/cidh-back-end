@@ -22,7 +22,7 @@ class CategoryServiceImpl: CategoryService {
             throw CategoryAlreadyExistsException(HTTPMessages.ALREADY_EXISTS)
         }
         return categoryRepo.addCategory(category) ?: run {
-            throw UnableToCreateCategory("Unable to create category $category")
+            throw UnableToCreateCategory(HTTPMessages.UNABLE_TO_CREATE)
         }
     }
 

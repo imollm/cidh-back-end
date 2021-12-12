@@ -45,9 +45,14 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.POST, "/api/v1/users/*/credentials/change-password").permitAll()
             // CATEGORIES EndPoints
             .antMatchers(HttpMethod.POST, "/api/v1/categories").authenticated()
-            .antMatchers(HttpMethod.PUT, "api/v1/categories").authenticated()
+            .antMatchers(HttpMethod.PUT, "api/v1/categories/*").authenticated()
             .antMatchers(HttpMethod.GET, "/api/v1/categories/*").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/categories").permitAll()
+            // EVENT ORGANIZERS EndPoints
+            .antMatchers(HttpMethod.POST, "/api/v1/event-organizer").authenticated()
+            .antMatchers(HttpMethod.PUT, "/api/v1/event-organizer/*").authenticated()
+            .antMatchers(HttpMethod.GET, "/api/v1/event-organizer/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/event-organizer").permitAll()
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer(fun(obj: OAuth2ResourceServerConfigurer<HttpSecurity?>) {
