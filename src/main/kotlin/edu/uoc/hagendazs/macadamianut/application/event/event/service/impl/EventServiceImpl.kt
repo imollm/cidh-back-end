@@ -1,5 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.service.impl
 
+import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
+import edu.uoc.hagendazs.macadamianut.application.event.category.service.exceptions.CategoryNotFoundException
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
@@ -15,12 +17,20 @@ class EventServiceImpl: EventService {
     @Autowired
     private lateinit var eventRepo: EventRepo
 
+    @Autowired
+    private lateinit var categoryRepo: CategoryRepo
+
     private val logger = KotlinLogging.logger {}
 
     override fun createEvent(newEvent: CIDHEvent): CIDHEvent? {
-
+        // check duplicate event names
         eventRepo.findByName(newEvent.name)?.let {
-            EventAlreadyExistsException("${it.name} already exists in ")
+            throw EventAlreadyExistsException("${it.name} already exists in ")
+        }
+        // check that category exists
+        categoryRepo.findByName(newEvent.category) ?: run {
+            throw CategoryNotFoundException("Unable to update Event. Category with name ${newEvent.category} " +
+                    "does not exist")
         }
 
         val createdEvent =  eventRepo.create(newEvent)

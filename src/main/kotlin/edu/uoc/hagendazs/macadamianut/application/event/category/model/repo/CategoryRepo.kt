@@ -8,6 +8,6 @@ interface CategoryRepo {
     fun showCategory(categoryId: String): Category?
     fun listAllCategories(): Collection<Category>
     fun existsByName(categoryName: String): Boolean
-    fun findByName(categoryName: String): Category?
+    fun findByName(categoryName: String?): Category?
     fun findById(categoryId: String): Category?
 }

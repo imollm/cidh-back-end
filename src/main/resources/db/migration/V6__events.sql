@@ -7,17 +7,23 @@ create table event
     start_date   timestamp,
     end_date     timestamp,
 
-    organizer    varchar,
-    constraint fk_event_organizer_event foreign key (organizer) references event_organizer (id),
+    organizer_id    varchar,
+    constraint fk_event_event_organizer foreign key (organizer_id) references event_organizer (id),
 
     category     varchar,
     constraint fk_event_category foreign key (category) references category (id)
 );
 
+create table label
+(
+    name        varchar not null primary key,
+    description varchar
+);
+
 create table label_event
 (
-    event_id    varchar not null,
-    category_id varchar not null,
-    constraint label_event_event_id foreign key (event_id) references event (id),
-    constraint label_event_category_id foreign key (category_id) references category (id)
+    event_id   varchar not null,
+    label_name varchar not null,
+    constraint fk_label_event_event_id foreign key (event_id) references event (id),
+    constraint fk_label_event_label_name foreign key (label_name) references label (name)
 );

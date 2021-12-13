@@ -12,4 +12,7 @@ interface EventRepo {
         categories: Collection<String>,
         names: Collection<String>
     ): Collection<CIDHEvent>
+
+    fun findEventsWithLabels(labels: Collection<String>): Collection<CIDHEvent>
+    fun findAllEvents(): Collection<CIDHEvent>
 }

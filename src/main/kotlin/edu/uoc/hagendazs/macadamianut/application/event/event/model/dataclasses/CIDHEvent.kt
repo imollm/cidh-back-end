@@ -11,4 +11,6 @@ data class CIDHEvent (
     val headerImage: URI?,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
+    val category: String?,
+    val organizerId: String,
 )

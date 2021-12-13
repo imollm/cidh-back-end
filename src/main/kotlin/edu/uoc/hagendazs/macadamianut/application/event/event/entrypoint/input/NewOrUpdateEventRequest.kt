@@ -10,7 +10,17 @@ data class NewOrUpdateEventRequest(
     val headerImage: URI?,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
+    val category: String?,
+    val organizerId: String,
 ) {
+
+    init {
+        require(endDate.isAfter(startDate)) { "Event starting date should be before end date: \n " +
+                "\t start date: $startDate" +
+                "\n\t end date: $endDate" }
+        require(name.isNotBlank()) { "Event name cannot be empty" }
+    }
+
     fun toInternalEventModel(): CIDHEvent {
         return CIDHEvent(
             name = name,
@@ -18,6 +28,8 @@ data class NewOrUpdateEventRequest(
             headerImage = headerImage,
             startDate = startDate,
             endDate = endDate,
+            category = category,
+            organizerId = organizerId
         )
     }
 }
