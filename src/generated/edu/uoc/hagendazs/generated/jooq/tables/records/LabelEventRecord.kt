@@ -22,7 +22,7 @@ open class LabelEventRecord() : TableRecordImpl<LabelEventRecord>(LabelEvent.LAB
         set(value) = set(0, value)
         get() = get(0) as String?
 
-    var categoryId: String?
+    var labelName: String?
         set(value) = set(1, value)
         get() = get(1) as String?
 
@@ -33,11 +33,11 @@ open class LabelEventRecord() : TableRecordImpl<LabelEventRecord>(LabelEvent.LAB
     override fun fieldsRow(): Row2<String?, String?> = super.fieldsRow() as Row2<String?, String?>
     override fun valuesRow(): Row2<String?, String?> = super.valuesRow() as Row2<String?, String?>
     override fun field1(): Field<String?> = LabelEvent.LABEL_EVENT.EVENT_ID
-    override fun field2(): Field<String?> = LabelEvent.LABEL_EVENT.CATEGORY_ID
+    override fun field2(): Field<String?> = LabelEvent.LABEL_EVENT.LABEL_NAME
     override fun component1(): String? = eventId
-    override fun component2(): String? = categoryId
+    override fun component2(): String? = labelName
     override fun value1(): String? = eventId
-    override fun value2(): String? = categoryId
+    override fun value2(): String? = labelName
 
     override fun value1(value: String?): LabelEventRecord {
         this.eventId = value
@@ -45,7 +45,7 @@ open class LabelEventRecord() : TableRecordImpl<LabelEventRecord>(LabelEvent.LAB
     }
 
     override fun value2(value: String?): LabelEventRecord {
-        this.categoryId = value
+        this.labelName = value
         return this
     }
 
@@ -58,8 +58,8 @@ open class LabelEventRecord() : TableRecordImpl<LabelEventRecord>(LabelEvent.LAB
     /**
      * Create a detached, initialised LabelEventRecord
      */
-    constructor(eventId: String? = null, categoryId: String? = null): this() {
+    constructor(eventId: String? = null, labelName: String? = null): this() {
         this.eventId = eventId
-        this.categoryId = categoryId
+        this.labelName = labelName
     }
 }

@@ -5,8 +5,8 @@ package edu.uoc.hagendazs.generated.jooq.tables
 
 
 import edu.uoc.hagendazs.generated.jooq.Public
-import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__LABEL_EVENT_CATEGORY_ID
-import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__LABEL_EVENT_EVENT_ID
+import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID
+import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__FK_LABEL_EVENT_LABEL_NAME
 import edu.uoc.hagendazs.generated.jooq.tables.records.LabelEventRecord
 
 import kotlin.collections.List
@@ -65,9 +65,9 @@ open class LabelEvent(
     val EVENT_ID: TableField<LabelEventRecord, String?> = createField(DSL.name("event_id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
-     * The column <code>public.label_event.category_id</code>.
+     * The column <code>public.label_event.label_name</code>.
      */
-    val CATEGORY_ID: TableField<LabelEventRecord, String?> = createField(DSL.name("category_id"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val LABEL_NAME: TableField<LabelEventRecord, String?> = createField(DSL.name("label_name"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     private constructor(alias: Name, aliased: Table<LabelEventRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<LabelEventRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
@@ -89,21 +89,21 @@ open class LabelEvent(
 
     constructor(child: Table<out Record>, key: ForeignKey<out Record, LabelEventRecord>): this(Internal.createPathAlias(child, key), child, key, LABEL_EVENT, null)
     override fun getSchema(): Schema = Public.PUBLIC
-    override fun getReferences(): List<ForeignKey<LabelEventRecord, *>> = listOf(LABEL_EVENT__LABEL_EVENT_EVENT_ID, LABEL_EVENT__LABEL_EVENT_CATEGORY_ID)
+    override fun getReferences(): List<ForeignKey<LabelEventRecord, *>> = listOf(LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID, LABEL_EVENT__FK_LABEL_EVENT_LABEL_NAME)
 
     private lateinit var _event: Event
-    private lateinit var _category: Category
+    private lateinit var _label: Label
     fun event(): Event {
         if (!this::_event.isInitialized)
-            _event = Event(this, LABEL_EVENT__LABEL_EVENT_EVENT_ID)
+            _event = Event(this, LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID)
 
         return _event;
     }
-    fun category(): Category {
-        if (!this::_category.isInitialized)
-            _category = Category(this, LABEL_EVENT__LABEL_EVENT_CATEGORY_ID)
+    fun label(): Label {
+        if (!this::_label.isInitialized)
+            _label = Label(this, LABEL_EVENT__FK_LABEL_EVENT_LABEL_NAME)
 
-        return _category;
+        return _label;
     }
     override fun `as`(alias: String): LabelEvent = LabelEvent(DSL.name(alias), this)
     override fun `as`(alias: Name): LabelEvent = LabelEvent(alias, this)

@@ -8,6 +8,7 @@ import edu.uoc.hagendazs.generated.jooq.tables.Category
 import edu.uoc.hagendazs.generated.jooq.tables.Event
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
+import edu.uoc.hagendazs.generated.jooq.tables.Label
 import edu.uoc.hagendazs.generated.jooq.tables.LabelEvent
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
@@ -36,6 +37,11 @@ val EVENT_ORGANIZER = EventOrganizer.EVENT_ORGANIZER
  * The table <code>public.flyway_schema_history</code>.
  */
 val FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
+
+/**
+ * The table <code>public.label</code>.
+ */
+val LABEL = Label.LABEL
 
 /**
  * The table <code>public.label_event</code>.

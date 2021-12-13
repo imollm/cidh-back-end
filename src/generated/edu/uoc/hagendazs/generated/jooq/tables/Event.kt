@@ -8,7 +8,7 @@ import edu.uoc.hagendazs.generated.jooq.Public
 import edu.uoc.hagendazs.generated.jooq.keys.EVENT_NAME_KEY
 import edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY
 import edu.uoc.hagendazs.generated.jooq.keys.EVENT__FK_EVENT_CATEGORY
-import edu.uoc.hagendazs.generated.jooq.keys.EVENT__FK_EVENT_ORGANIZER_EVENT
+import edu.uoc.hagendazs.generated.jooq.keys.EVENT__FK_EVENT_EVENT_ORGANIZER
 import edu.uoc.hagendazs.generated.jooq.tables.records.EventRecord
 
 import java.time.LocalDateTime
@@ -95,9 +95,9 @@ open class Event(
     val END_DATE: TableField<EventRecord, LocalDateTime?> = createField(DSL.name("end_date"), SQLDataType.LOCALDATETIME(6), this, "")
 
     /**
-     * The column <code>public.event.organizer</code>.
+     * The column <code>public.event.organizer_id</code>.
      */
-    val ORGANIZER: TableField<EventRecord, String?> = createField(DSL.name("organizer"), SQLDataType.VARCHAR, this, "")
+    val ORGANIZER_ID: TableField<EventRecord, String?> = createField(DSL.name("organizer_id"), SQLDataType.VARCHAR, this, "")
 
     /**
      * The column <code>public.event.category</code>.
@@ -126,13 +126,13 @@ open class Event(
     override fun getSchema(): Schema = Public.PUBLIC
     override fun getPrimaryKey(): UniqueKey<EventRecord> = EVENT_PKEY
     override fun getKeys(): List<UniqueKey<EventRecord>> = listOf(EVENT_PKEY, EVENT_NAME_KEY)
-    override fun getReferences(): List<ForeignKey<EventRecord, *>> = listOf(EVENT__FK_EVENT_ORGANIZER_EVENT, EVENT__FK_EVENT_CATEGORY)
+    override fun getReferences(): List<ForeignKey<EventRecord, *>> = listOf(EVENT__FK_EVENT_EVENT_ORGANIZER, EVENT__FK_EVENT_CATEGORY)
 
     private lateinit var _eventOrganizer: EventOrganizer
     private lateinit var _category: Category
     fun eventOrganizer(): EventOrganizer {
         if (!this::_eventOrganizer.isInitialized)
-            _eventOrganizer = EventOrganizer(this, EVENT__FK_EVENT_ORGANIZER_EVENT)
+            _eventOrganizer = EventOrganizer(this, EVENT__FK_EVENT_EVENT_ORGANIZER)
 
         return _eventOrganizer;
     }
