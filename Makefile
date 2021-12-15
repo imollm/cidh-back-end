@@ -16,7 +16,7 @@ OUTGOING_PORT=6432
 INCOMING_PORT=5432
 
 ### CONTAINER ID & DOCKER IMAGE ###
-CONTAINER_NAME=cidh-postgres
+CONTAINER_NAME=macadamia-nut-db
 DOCKER_IMAGE=postgres:13-alpine
 
 help:

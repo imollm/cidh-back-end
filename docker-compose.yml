@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+    api:
+        container_name: macadamia-nut-api
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        ports:
+            - 8080:8080
+        networks:
+            - macadamia-nut-network
+
+    db:
+        container_name: macadamia-nut-db
+        image: postgres:13-alpine
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=Pass2021!
+            - POSTGRES_DB=postgres
+        volumes:
+            - /root/dev/pdp/cidh-back-end/src/main/resources/db/migration:/var/lib/postgresql/dump
+            - /root/dev/pdp/cidh-back-end/docker/psql/data:/var/lib/postgresql/data
+        ports:
+            - 6432:5432
+        networks:
+            - macadamia-nut-network
+networks:
+    macadamia-nut-network:
+        driver: bridge
+
