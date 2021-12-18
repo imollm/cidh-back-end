@@ -43,7 +43,7 @@ class EventOrganizerController {
     }
 
     @PreAuthorize("hasRole('SUPERADMIN')")
-    @PutMapping(value = ["/{eventOrganizerId}"])
+    @PostMapping(value = ["/{eventOrganizerId}"])
     fun updateEventOrganizer(
         @PathVariable eventOrganizerId: String,
         @RequestBody updateEventOrganizerRequest: UpdateEventOrganizerRequest
