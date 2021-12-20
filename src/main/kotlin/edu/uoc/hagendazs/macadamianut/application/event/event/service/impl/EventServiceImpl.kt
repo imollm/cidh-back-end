@@ -7,6 +7,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRe
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.exceptions.EventAlreadyExistsException
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.exceptions.EventDoesNotExistException
+import edu.uoc.hagendazs.macadamianut.application.event.event.service.exceptions.UnableToCreateEventFromGivenData
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -29,7 +30,7 @@ class EventServiceImpl: EventService {
         }
         // check that category exists
         categoryRepo.findByName(newEvent.category) ?: run {
-            throw CategoryNotFoundException("Unable to update Event. Category with name ${newEvent.category} " +
+            throw UnableToCreateEventFromGivenData("Unable to create Event. Category with name ${newEvent.category} " +
                     "does not exist")
         }
 

@@ -4,7 +4,7 @@ import edu.uoc.hagendazs.macadamianut.common.kotlin.valueOfIgnoreCase
 
 enum class RoleEnum {
     User,
-    Administrator,
+    Admin,
     SuperAdmin;
 
     companion object {
@@ -20,8 +20,8 @@ enum class RoleEnum {
                 return SuperAdmin
             }
 
-            if (authoritiesAsRoles.contains(Administrator)) {
-                return Administrator
+            if (authoritiesAsRoles.contains(Admin)) {
+                return Admin
             }
             return User
         }

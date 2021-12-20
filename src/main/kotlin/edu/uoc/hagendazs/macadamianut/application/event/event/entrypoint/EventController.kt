@@ -6,6 +6,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventServi
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -13,11 +14,13 @@ import java.net.URI
 import javax.servlet.http.HttpServletRequest
 
 @Controller
+@RequestMapping("/api/v1")
 class EventController {
 
     @Autowired
     private lateinit var eventService: EventService
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = ["/events"])
     fun createEvent(
         @RequestBody newUserReq: NewOrUpdateEventRequest,
