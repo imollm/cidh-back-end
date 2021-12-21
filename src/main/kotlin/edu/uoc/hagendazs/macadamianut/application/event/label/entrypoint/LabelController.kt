@@ -6,6 +6,7 @@ import edu.uoc.hagendazs.macadamianut.common.HTTPMessages
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.dataClass.Label
 import edu.uoc.hagendazs.macadamianut.application.event.label.service.LabelService
 import edu.uoc.hagendazs.macadamianut.application.event.label.service.exceptions.LabelNotFoundException
+import edu.uoc.hagendazs.macadamianut.application.event.label.service.exceptions.UnableToDeleteLabel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -68,4 +69,14 @@ class LabelController {
         return ResponseEntity.ok(categories)
     }
 
+    @DeleteMapping(value = ["/{labelId}"])
+    fun deleteLabelById(
+        @PathVariable labelId: String
+    ): ResponseEntity<Void> {
+        labelService.removeLabelById(labelId) ?: run {
+            throw UnableToDeleteLabel(HTTPMessages.UNABLE_TO_DELETE)
+        }
+
+        return ResponseEntity.ok().build()
+    }
 }

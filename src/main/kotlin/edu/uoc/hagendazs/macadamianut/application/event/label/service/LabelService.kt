@@ -8,5 +8,5 @@ interface LabelService {
     fun updateLabel(labelId: String, updateLabelRequest: UpdateLabelRequest): Label?
     fun showLabel(labelId: String): Label?
     fun listAllLabels(): Collection<Label>
-    fun removeLabelById(labelId: String): Boolean
+    fun removeLabelById(labelId: String): Boolean?
 }

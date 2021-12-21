@@ -8,5 +8,6 @@ class HTTPMessages() {
         const val NOT_FOUND = "This resource not exists"
         const val ERROR_SAVING_A_RESOURCE = "Error saving resource"
         const val UNABLE_TO_CREATE = "Unable to create resource"
+        const val UNABLE_TO_DELETE = "Unable to delete resource"
     }
 }

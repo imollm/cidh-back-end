@@ -42,7 +42,7 @@ class LabelServiceImpl: LabelService {
         return labelRepo.listAllCategories()
     }
 
-    override fun removeLabelById(labelId: String): Boolean {
+    override fun removeLabelById(labelId: String): Boolean? {
         return labelRepo.removeLabelById(labelId)
     }
 
