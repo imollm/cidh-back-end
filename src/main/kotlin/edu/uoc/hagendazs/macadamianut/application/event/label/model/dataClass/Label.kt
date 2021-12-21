@@ -1,4 +1,4 @@
-package edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass
+package edu.uoc.hagendazs.macadamianut.application.event.label.model.dataClass
 
 import java.time.LocalDateTime
 import java.util.UUID
