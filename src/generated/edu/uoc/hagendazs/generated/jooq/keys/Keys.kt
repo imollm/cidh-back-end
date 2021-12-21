@@ -7,6 +7,7 @@ package edu.uoc.hagendazs.generated.jooq.keys
 import edu.uoc.hagendazs.generated.jooq.tables.Category
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
+import edu.uoc.hagendazs.generated.jooq.tables.Label
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
@@ -15,6 +16,7 @@ import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 import edu.uoc.hagendazs.generated.jooq.tables.records.CategoryRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.EventOrganizerRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.FlywaySchemaHistoryRecord
+import edu.uoc.hagendazs.generated.jooq.tables.records.LabelRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.PasswordResetRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.RefreshTokenRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.RoleRecord
@@ -37,6 +39,8 @@ val CATEGORY_PKEY: UniqueKey<CategoryRecord> = Internal.createUniqueKey(Category
 val EVENT_ORGANIZER_NAME_KEY: UniqueKey<EventOrganizerRecord> = Internal.createUniqueKey(EventOrganizer.EVENT_ORGANIZER, DSL.name("event_organizer_name_key"), arrayOf(EventOrganizer.EVENT_ORGANIZER.NAME), true)
 val EVENT_ORGANIZER_PKEY: UniqueKey<EventOrganizerRecord> = Internal.createUniqueKey(EventOrganizer.EVENT_ORGANIZER, DSL.name("event_organizer_pkey"), arrayOf(EventOrganizer.EVENT_ORGANIZER.ID), true)
 val FLYWAY_SCHEMA_HISTORY_PK: UniqueKey<FlywaySchemaHistoryRecord> = Internal.createUniqueKey(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY, DSL.name("flyway_schema_history_pk"), arrayOf(FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY.INSTALLED_RANK), true)
+val LABEL_NAME_KEY: UniqueKey<LabelRecord> = Internal.createUniqueKey(Label.LABEL, DSL.name("label_name_key"), arrayOf(Label.LABEL.NAME), true)
+val LABEL_PKEY: UniqueKey<LabelRecord> = Internal.createUniqueKey(Label.LABEL, DSL.name("label_pkey"), arrayOf(Label.LABEL.ID), true)
 val PASSWORD_RESET_PKEY: UniqueKey<PasswordResetRecord> = Internal.createUniqueKey(PasswordReset.PASSWORD_RESET, DSL.name("password_reset_pkey"), arrayOf(PasswordReset.PASSWORD_RESET.ID), true)
 val REFRESH_TOKEN_PKEY: UniqueKey<RefreshTokenRecord> = Internal.createUniqueKey(RefreshToken.REFRESH_TOKEN, DSL.name("refresh_token_pkey"), arrayOf(RefreshToken.REFRESH_TOKEN.ID), true)
 val ROLE_PKEY: UniqueKey<RoleRecord> = Internal.createUniqueKey(Role.ROLE, DSL.name("role_pkey"), arrayOf(Role.ROLE.ID), true)

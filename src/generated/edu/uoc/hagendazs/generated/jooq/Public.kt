@@ -7,6 +7,7 @@ package edu.uoc.hagendazs.generated.jooq
 import edu.uoc.hagendazs.generated.jooq.tables.Category
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
+import edu.uoc.hagendazs.generated.jooq.tables.Label
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
@@ -49,6 +50,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val FLYWAY_SCHEMA_HISTORY get() = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
 
     /**
+     * The table <code>public.label</code>.
+     */
+    val LABEL get() = Label.LABEL
+
+    /**
      * The table <code>public.password_reset</code>.
      */
     val PASSWORD_RESET get() = PasswordReset.PASSWORD_RESET
@@ -79,6 +85,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
         Category.CATEGORY,
         EventOrganizer.EVENT_ORGANIZER,
         FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+        Label.LABEL,
         PasswordReset.PASSWORD_RESET,
         RefreshToken.REFRESH_TOKEN,
         Role.ROLE,
