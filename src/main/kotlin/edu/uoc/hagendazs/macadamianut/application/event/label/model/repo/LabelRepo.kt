@@ -11,4 +11,5 @@ interface LabelRepo {
     fun existsByName(labelName: String): Boolean
     fun findByName(labelName: String): Label?
     fun findById(labelId: String): Label?
+    fun removeLabelById(labelId: String): Boolean
 }

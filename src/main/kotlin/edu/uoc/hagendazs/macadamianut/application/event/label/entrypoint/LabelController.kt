@@ -16,7 +16,7 @@ import java.net.URI
 import javax.servlet.http.HttpServletRequest
 
 @RestController
-@RequestMapping("/api/v1/categories")
+@RequestMapping("/api/v1/labels")
 class LabelController {
 
     @Autowired
@@ -64,7 +64,7 @@ class LabelController {
 
     @GetMapping(value = [""])
     fun getAllCategories(): ResponseEntity<Collection<Label>> {
-        val categories = labelService.listAllCategories()
+        val categories = labelService.listAllLabels()
         return ResponseEntity.ok(categories)
     }
 

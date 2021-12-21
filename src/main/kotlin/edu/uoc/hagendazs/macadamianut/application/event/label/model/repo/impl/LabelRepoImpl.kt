@@ -60,4 +60,12 @@ class LabelRepoImpl : LabelRepo {
             .fetchOne()
             ?.into(Label::class.java)
     }
+
+    override fun removeLabelById(labelId: String): Boolean {
+        val deleted = dsl.deleteFrom(LABEL)
+            .where(LABEL.ID.eq(labelId))
+            .execute()
+
+        return deleted > 0
+    }
 }

@@ -38,8 +38,12 @@ class LabelServiceImpl: LabelService {
         return labelRepo.showLabel(labelId)
     }
 
-    override fun listAllCategories(): Collection<Label> {
+    override fun listAllLabels(): Collection<Label> {
         return labelRepo.listAllCategories()
+    }
+
+    override fun removeLabelById(labelId: String): Boolean {
+        return labelRepo.removeLabelById(labelId)
     }
 
     private fun copyLabelEntity(labelToUpdate: Label, incomingLabel: Label): Label {
