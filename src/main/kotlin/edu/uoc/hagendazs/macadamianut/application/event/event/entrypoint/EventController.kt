@@ -74,4 +74,13 @@ class EventController {
 
         return ResponseEntity.ok(eventCollection)
     }
+
+    @GetMapping(value = ["/events/last/{limit}"])
+    fun getLastEvents(
+        @RequestParam limit: String?
+    ): ResponseEntity<Collection<CIDHEvent>> {
+        val eventCollection = eventService.getLastEvents(limit)
+
+        return ResponseEntity.ok(eventCollection)
+    }
 }

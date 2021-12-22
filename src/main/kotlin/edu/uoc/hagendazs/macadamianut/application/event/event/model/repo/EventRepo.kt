@@ -15,4 +15,5 @@ interface EventRepo {
 
     fun findEventsWithLabels(labels: Collection<String>): Collection<CIDHEvent>
     fun findAllEvents(): Collection<CIDHEvent>
+    fun lastEvents(limit: String?): Collection<CIDHEvent>
 }

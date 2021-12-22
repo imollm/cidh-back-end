@@ -57,4 +57,8 @@ class EventServiceImpl: EventService {
     ): Collection<CIDHEvent> {
         return eventRepo.eventsWithFilters(labels, categories, names)
     }
+
+    override fun getLastEvents(limit: String?): Collection<CIDHEvent> {
+        return eventRepo.lastEvents(limit)
+    }
 }

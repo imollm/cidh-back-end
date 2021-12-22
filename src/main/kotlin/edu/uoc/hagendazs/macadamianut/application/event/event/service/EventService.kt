@@ -11,5 +11,5 @@ interface EventService {
         categories: Collection<String>,
         names: Collection<String>
     ): Collection<CIDHEvent>
-
+    fun getLastEvents(limit: String?): Collection<CIDHEvent>
 }
