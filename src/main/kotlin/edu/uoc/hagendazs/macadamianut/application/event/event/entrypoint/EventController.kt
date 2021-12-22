@@ -27,7 +27,10 @@ class EventController {
         request: HttpServletRequest,
     ): ResponseEntity<CIDHEvent> {
         val newEvent = newUserReq.toInternalEventModel()
-        val createdEvent = eventService.createEvent(newEvent) ?: run {
+        val createdEvent = eventService.createEvent(
+            newEvent = newEvent,
+            categoryName = newUserReq.category
+        ) ?: run {
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to create event!")
         }
         val eventUriString = request.requestURL.toString().plus("/${createdEvent.id}")
@@ -50,23 +53,23 @@ class EventController {
     @GetMapping(value = ["/events/{eventId}"])
     fun getEventById(
         @PathVariable("eventId") eventId: String,
-        ): ResponseEntity<CIDHEvent> {
+    ): ResponseEntity<CIDHEvent> {
         val event = eventService.findById(eventId) ?: run {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id $eventId not found in this server")
         }
         return ResponseEntity.ok(event)
     }
 
-    @GetMapping(value= ["/events"])
+    @GetMapping(value = ["/events"])
     fun getEventsByFilter(
-        @RequestParam label: Collection<String> = emptyList(),
-        @RequestParam category: Collection<String> = emptyList(),
-        @RequestParam name: Collection<String> = emptyList(),
+        @RequestParam(required = false) label: Collection<String>?,
+        @RequestParam(required = false) category: Collection<String>?,
+        @RequestParam(required = false) name: Collection<String>?,
     ): ResponseEntity<Collection<CIDHEvent>> {
         val eventCollection = eventService.findEventsWithFilters(
-            labels = label,
-            categories = category,
-            names = name
+            labels = label ?: emptyList(),
+            categories = category  ?: emptyList(),
+            names = name  ?: emptyList(),
         )
 
         return ResponseEntity.ok(eventCollection)

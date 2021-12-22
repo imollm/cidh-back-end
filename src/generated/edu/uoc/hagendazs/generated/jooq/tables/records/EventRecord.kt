@@ -49,7 +49,7 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
         set(value) = set(6, value)
         get() = get(6) as String?
 
-    var category: String?
+    var categoryId: String?
         set(value) = set(7, value)
         get() = get(7) as String?
 
@@ -72,7 +72,7 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
     override fun field5(): Field<LocalDateTime?> = Event.EVENT.START_DATE
     override fun field6(): Field<LocalDateTime?> = Event.EVENT.END_DATE
     override fun field7(): Field<String?> = Event.EVENT.ORGANIZER_ID
-    override fun field8(): Field<String?> = Event.EVENT.CATEGORY
+    override fun field8(): Field<String?> = Event.EVENT.CATEGORY_ID
     override fun component1(): String? = id
     override fun component2(): String? = name
     override fun component3(): String? = description
@@ -80,7 +80,7 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
     override fun component5(): LocalDateTime? = startDate
     override fun component6(): LocalDateTime? = endDate
     override fun component7(): String? = organizerId
-    override fun component8(): String? = category
+    override fun component8(): String? = categoryId
     override fun value1(): String? = id
     override fun value2(): String? = name
     override fun value3(): String? = description
@@ -88,7 +88,7 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
     override fun value5(): LocalDateTime? = startDate
     override fun value6(): LocalDateTime? = endDate
     override fun value7(): String? = organizerId
-    override fun value8(): String? = category
+    override fun value8(): String? = categoryId
 
     override fun value1(value: String?): EventRecord {
         this.id = value
@@ -126,7 +126,7 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
     }
 
     override fun value8(value: String?): EventRecord {
-        this.category = value
+        this.categoryId = value
         return this
     }
 
@@ -145,7 +145,7 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
     /**
      * Create a detached, initialised EventRecord
      */
-    constructor(id: String? = null, name: String? = null, description: String? = null, headerImage: String? = null, startDate: LocalDateTime? = null, endDate: LocalDateTime? = null, organizerId: String? = null, category: String? = null): this() {
+    constructor(id: String? = null, name: String? = null, description: String? = null, headerImage: String? = null, startDate: LocalDateTime? = null, endDate: LocalDateTime? = null, organizerId: String? = null, categoryId: String? = null): this() {
         this.id = id
         this.name = name
         this.description = description
@@ -153,6 +153,6 @@ open class EventRecord() : UpdatableRecordImpl<EventRecord>(Event.EVENT), Record
         this.startDate = startDate
         this.endDate = endDate
         this.organizerId = organizerId
-        this.category = category
+        this.categoryId = categoryId
     }
 }

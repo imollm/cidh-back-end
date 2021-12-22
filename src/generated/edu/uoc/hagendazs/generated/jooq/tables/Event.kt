@@ -100,9 +100,9 @@ open class Event(
     val ORGANIZER_ID: TableField<EventRecord, String?> = createField(DSL.name("organizer_id"), SQLDataType.VARCHAR, this, "")
 
     /**
-     * The column <code>public.event.category</code>.
+     * The column <code>public.event.category_id</code>.
      */
-    val CATEGORY: TableField<EventRecord, String?> = createField(DSL.name("category"), SQLDataType.VARCHAR, this, "")
+    val CATEGORY_ID: TableField<EventRecord, String?> = createField(DSL.name("category_id"), SQLDataType.VARCHAR, this, "")
 
     private constructor(alias: Name, aliased: Table<EventRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<EventRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)

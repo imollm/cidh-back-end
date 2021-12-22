@@ -10,8 +10,8 @@ create table event
     organizer_id    varchar,
     constraint fk_event_event_organizer foreign key (organizer_id) references event_organizer (id),
 
-    category     varchar,
-    constraint fk_event_category foreign key (category) references category (id)
+    category_id     varchar,
+    constraint fk_event_category foreign key (category_id) references category (id)
 );
 
 create table label

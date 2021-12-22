@@ -8,7 +8,9 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRepo
 import mu.KotlinLogging
+import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.impl.DSL.trueCondition
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 
@@ -54,7 +56,7 @@ class EventRepoImpl : EventRepo {
             .set(EVENT.HEADER_IMAGE, eventToUpdate.headerImage.toString())
             .set(EVENT.START_DATE, eventToUpdate.startDate)
             .set(EVENT.END_DATE, eventToUpdate.endDate)
-            .set(EVENT.CATEGORY, eventToUpdate.category)
+            .set(EVENT.CATEGORY_ID, eventToUpdate.categoryId)
             .execute()
         return findById(eventToUpdate.id)
     }
@@ -64,20 +66,25 @@ class EventRepoImpl : EventRepo {
         categories: Collection<String>,
         names: Collection<String>
     ): Collection<CIDHEvent> {
-        // Filter events that match the given label names
-        val events = this.findEventsWithLabels(labels)
 
-        return events.filter { event ->
-            when { //filter events by category
-                categories.isNotEmpty() -> categories.contains(event.category)
-                else -> true
-            }
-        }.filter { event ->
-            when { //filter events by name
-                names.isNotEmpty() -> names.contains(event.name)
-                else -> true
-            }
+        var selectJoin = dsl.select(EVENT.asterisk()).from(EVENT)
+        var condition: Condition = trueCondition()
+
+        if (labels.isNotEmpty()) {
+            selectJoin = selectJoin.join(LABEL_EVENT).on(LABEL_EVENT.EVENT_ID.eq(EVENT.ID))
+            condition = condition.and(LABEL_EVENT.LABEL_NAME.`in`(labels))
         }
+
+        if (categories.isNotEmpty()) {
+            selectJoin = selectJoin.join(CATEGORY).on(CATEGORY.ID.eq(EVENT.CATEGORY_ID))
+            condition = condition.and(CATEGORY.NAME.`in`(categories))
+        }
+
+        if (names.isNotEmpty()) {
+            condition = condition.and(EVENT.NAME.`in`(names))
+        }
+
+        return selectJoin.where(condition).fetchInto(CIDHEvent::class.java)
 
     }
 

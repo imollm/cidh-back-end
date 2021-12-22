@@ -28,7 +28,6 @@ data class NewOrUpdateEventRequest(
             headerImage = headerImage,
             startDate = startDate,
             endDate = endDate,
-            category = category,
             organizerId = organizerId
         )
     }

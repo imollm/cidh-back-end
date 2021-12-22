@@ -58,7 +58,7 @@ val USER_ROLE_PKEY: UniqueKey<UserRoleRecord> = Internal.createUniqueKey(UserRol
 // FOREIGN KEY definitions
 // -------------------------------------------------------------------------
 
-val EVENT__FK_EVENT_CATEGORY: ForeignKey<EventRecord, CategoryRecord> = Internal.createForeignKey(Event.EVENT, DSL.name("fk_event_category"), arrayOf(Event.EVENT.CATEGORY), edu.uoc.hagendazs.generated.jooq.keys.CATEGORY_PKEY, arrayOf(Category.CATEGORY.ID), true)
+val EVENT__FK_EVENT_CATEGORY: ForeignKey<EventRecord, CategoryRecord> = Internal.createForeignKey(Event.EVENT, DSL.name("fk_event_category"), arrayOf(Event.EVENT.CATEGORY_ID), edu.uoc.hagendazs.generated.jooq.keys.CATEGORY_PKEY, arrayOf(Category.CATEGORY.ID), true)
 val EVENT__FK_EVENT_EVENT_ORGANIZER: ForeignKey<EventRecord, EventOrganizerRecord> = Internal.createForeignKey(Event.EVENT, DSL.name("fk_event_event_organizer"), arrayOf(Event.EVENT.ORGANIZER_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_ORGANIZER_PKEY, arrayOf(EventOrganizer.EVENT_ORGANIZER.ID), true)
 val EVENT_ORGANIZER__FK_ADMIN: ForeignKey<EventOrganizerRecord, UserRecord> = Internal.createForeignKey(EventOrganizer.EVENT_ORGANIZER, DSL.name("fk_admin"), arrayOf(EventOrganizer.EVENT_ORGANIZER.ADMIN), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID: ForeignKey<LabelEventRecord, EventRecord> = Internal.createForeignKey(LabelEvent.LABEL_EVENT, DSL.name("fk_label_event_event_id"), arrayOf(LabelEvent.LABEL_EVENT.EVENT_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)
