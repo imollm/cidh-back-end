@@ -56,7 +56,6 @@ class UserRepoImpl : UserRepo {
             .set(USER.LAST_NAME, user.lastName)
             .set(USER.FISCAL_ID, user.fiscalId)
             .set(USER.ADDRESS, user.address)
-            .set(USER.EMAIL, user.email)
             .set(USER.IS_VALID_EMAIL, user.isValidEmail)
             .set(USER.PREFERRED_LANGUAGE, user.preferredLanguage)
             .execute()

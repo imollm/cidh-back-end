@@ -53,6 +53,12 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.PUT, "/api/v1/event-organizer/*").authenticated()
             .antMatchers(HttpMethod.GET, "/api/v1/event-organizer/*").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/event-organizer").permitAll()
+            // LABELS EndPoints
+            .antMatchers(HttpMethod.POST, "/api/v1/labels").authenticated()
+            .antMatchers(HttpMethod.PUT, "/api/v1/labels/*").authenticated()
+            .antMatchers(HttpMethod.GET, "/api/v1/labels/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/labels").permitAll()
+            .antMatchers(HttpMethod.DELETE, "/api/v1/labels/*").authenticated()
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer(fun(obj: OAuth2ResourceServerConfigurer<HttpSecurity?>) {

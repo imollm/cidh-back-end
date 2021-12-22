@@ -5,8 +5,11 @@ package edu.uoc.hagendazs.generated.jooq.tables
 
 
 import edu.uoc.hagendazs.generated.jooq.Public
+import edu.uoc.hagendazs.generated.jooq.keys.LABEL_NAME_KEY
 import edu.uoc.hagendazs.generated.jooq.keys.LABEL_PKEY
 import edu.uoc.hagendazs.generated.jooq.tables.records.LabelRecord
+
+import java.time.LocalDateTime
 
 import kotlin.collections.List
 
@@ -14,7 +17,7 @@ import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row2
+import org.jooq.Row4
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -60,14 +63,24 @@ open class Label(
     override fun getRecordType(): Class<LabelRecord> = LabelRecord::class.java
 
     /**
+     * The column <code>public.label.id</code>.
+     */
+    val ID: TableField<LabelRecord, String?> = createField(DSL.name("id"), SQLDataType.VARCHAR.nullable(false), this, "")
+
+    /**
      * The column <code>public.label.name</code>.
      */
-    val NAME: TableField<LabelRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val NAME: TableField<LabelRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR, this, "")
 
     /**
      * The column <code>public.label.description</code>.
      */
-    val DESCRIPTION: TableField<LabelRecord, String?> = createField(DSL.name("description"), SQLDataType.VARCHAR, this, "")
+    val DESCRIPTION: TableField<LabelRecord, String?> = createField(DSL.name("description"), SQLDataType.VARCHAR.nullable(false), this, "")
+
+    /**
+     * The column <code>public.label.created_at</code>.
+     */
+    val CREATED_AT: TableField<LabelRecord, LocalDateTime?> = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "")
 
     private constructor(alias: Name, aliased: Table<LabelRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<LabelRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
@@ -90,7 +103,7 @@ open class Label(
     constructor(child: Table<out Record>, key: ForeignKey<out Record, LabelRecord>): this(Internal.createPathAlias(child, key), child, key, LABEL, null)
     override fun getSchema(): Schema = Public.PUBLIC
     override fun getPrimaryKey(): UniqueKey<LabelRecord> = LABEL_PKEY
-    override fun getKeys(): List<UniqueKey<LabelRecord>> = listOf(LABEL_PKEY)
+    override fun getKeys(): List<UniqueKey<LabelRecord>> = listOf(LABEL_PKEY, LABEL_NAME_KEY)
     override fun `as`(alias: String): Label = Label(DSL.name(alias), this)
     override fun `as`(alias: Name): Label = Label(alias, this)
 
@@ -105,7 +118,7 @@ open class Label(
     override fun rename(name: Name): Label = Label(name, null)
 
     // -------------------------------------------------------------------------
-    // Row2 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row2<String?, String?> = super.fieldsRow() as Row2<String?, String?>
+    override fun fieldsRow(): Row4<String?, String?, String?, LocalDateTime?> = super.fieldsRow() as Row4<String?, String?, String?, LocalDateTime?>
 }

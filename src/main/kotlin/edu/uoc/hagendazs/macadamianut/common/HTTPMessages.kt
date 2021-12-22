@@ -9,6 +9,6 @@ class HTTPMessages() {
         const val ERROR_SAVING_A_RESOURCE = "Error saving resource"
         const val UNABLE_TO_CREATE = "Unable to create resource"
         const val FORBIDDEN_USER_ADMIN_ACCESS = "Provided user role does not allow this action"
-
+        const val UNABLE_TO_DELETE = "Unable to delete resource"
     }
 }
