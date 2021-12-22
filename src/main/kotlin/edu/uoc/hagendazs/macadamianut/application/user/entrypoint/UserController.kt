@@ -5,6 +5,8 @@ import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UpdateUs
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
+import edu.uoc.hagendazs.macadamianut.application.user.service.helper.JwtHelper
+import edu.uoc.hagendazs.macadamianut.common.HTTPMessages.Companion.FORBIDDEN_USER_ADMIN_ACCESS
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -31,11 +33,13 @@ class UserController {
     @PostMapping(value = ["/api/v1/users"])
     fun createUser(
         @RequestBody newUserReq: CreateUserRequest,
-        request: HttpServletRequest
+        request: HttpServletRequest,
+        jwtToken: Authentication?
     ): ResponseEntity<MNUser> {
 
         val internalUser = newUserReq.toInternalUserModel(passwordEncoder)
-        val user = userService.createUser(internalUser)
+        val resolvedRole = resolveAndValidatePermissionsForRole(newUserReq.role, jwtToken)
+        val user = userService.createUser(internalUser, resolvedRole)
         user ?: run {
             throw throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
@@ -53,7 +57,7 @@ class UserController {
     fun getAllUsers(
         @RequestParam role: Array<RoleEnum>?,
     ): ResponseEntity<Collection<MNUser>> {
-        val persons = userService.findAll(roleFilter = role?.asList() ?:RoleEnum.values().asList())
+        val persons = userService.findAll(roleFilter = role?.asList() ?: RoleEnum.values().asList())
         return ResponseEntity.ok(persons)
     }
 
@@ -84,6 +88,7 @@ class UserController {
     }
 
     companion object {
+
         fun resolvePersonId(personId: String?, token: Authentication?): String {
             return personId ?: token?.name ?: run {
                 throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
@@ -116,6 +121,25 @@ class UserController {
                 "Url userId '$requestedTargetPersonId' $userMeMessage does not match " +
                         "with the payload user id: '${updateRequest.id}'"
             )
+        }
+
+        private fun resolveAndValidatePermissionsForRole(role: RoleEnum?,
+                                                         jwtToken: Authentication?): RoleEnum {
+            role ?: return RoleEnum.User
+            when (role) {
+                RoleEnum.User -> return RoleEnum.User
+                RoleEnum.Admin -> {
+                    jwtToken ?: run {
+                        throw ResponseStatusException(HttpStatus.FORBIDDEN, "Creating Users with Admin role requires a JWT Token")
+                    }
+                    val requesterRoles = JwtHelper.rolesFromJwtToken(jwtToken)
+                    if (requesterRoles.contains(RoleEnum.SuperAdmin)) {
+                        return RoleEnum.Admin
+                    }
+                }
+                RoleEnum.SuperAdmin -> throw ResponseStatusException(HttpStatus.FORBIDDEN, FORBIDDEN_USER_ADMIN_ACCESS)
+            }
+            throw ResponseStatusException(HttpStatus.FORBIDDEN, FORBIDDEN_USER_ADMIN_ACCESS)
         }
     }
 

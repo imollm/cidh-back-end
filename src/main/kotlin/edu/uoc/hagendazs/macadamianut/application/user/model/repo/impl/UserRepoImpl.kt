@@ -9,7 +9,6 @@ import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.UserRole
 import edu.uoc.hagendazs.macadamianut.application.user.model.repo.UserRepo
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.asterisk
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -85,13 +84,9 @@ class UserRepoImpl : UserRepo {
     }
 
     @Transactional
-    override fun createUser(
-        newUser: MNUser,
-        role: RoleEnum,
-    ): MNUser? {
+    override fun createUser(newUser: MNUser, role: RoleEnum): MNUser? {
         val userRecord = dsl.newRecord(USER, newUser)
         userRecord.store()
-
         dsl.insertInto(USER_ROLE)
             .set(USER_ROLE.ID, UUID.randomUUID().toString())
             .set(USER_ROLE.USER, newUser.id)

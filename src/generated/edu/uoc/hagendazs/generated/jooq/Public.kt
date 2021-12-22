@@ -5,8 +5,11 @@ package edu.uoc.hagendazs.generated.jooq
 
 
 import edu.uoc.hagendazs.generated.jooq.tables.Category
+import edu.uoc.hagendazs.generated.jooq.tables.Event
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
+import edu.uoc.hagendazs.generated.jooq.tables.Label
+import edu.uoc.hagendazs.generated.jooq.tables.LabelEvent
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
@@ -39,6 +42,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val CATEGORY get() = Category.CATEGORY
 
     /**
+     * The table <code>public.event</code>.
+     */
+    val EVENT get() = Event.EVENT
+
+    /**
      * The table <code>public.event_organizer</code>.
      */
     val EVENT_ORGANIZER get() = EventOrganizer.EVENT_ORGANIZER
@@ -47,6 +55,16 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      * The table <code>public.flyway_schema_history</code>.
      */
     val FLYWAY_SCHEMA_HISTORY get() = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
+
+    /**
+     * The table <code>public.label</code>.
+     */
+    val LABEL get() = Label.LABEL
+
+    /**
+     * The table <code>public.label_event</code>.
+     */
+    val LABEL_EVENT get() = LabelEvent.LABEL_EVENT
 
     /**
      * The table <code>public.password_reset</code>.
@@ -77,8 +95,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
 
     override fun getTables(): List<Table<*>> = listOf(
         Category.CATEGORY,
+        Event.EVENT,
         EventOrganizer.EVENT_ORGANIZER,
         FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
+        Label.LABEL,
+        LabelEvent.LABEL_EVENT,
         PasswordReset.PASSWORD_RESET,
         RefreshToken.REFRESH_TOKEN,
         Role.ROLE,

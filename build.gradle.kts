@@ -5,7 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 
 	id("nu.studer.jooq") version "5.2.1"
-	id("org.flywaydb.flyway") version "5.2.4"
+	id("org.flywaydb.flyway") version "8.2.3"
 
 	val kotlinVer = "1.6.0"
 	kotlin("jvm") version kotlinVer
@@ -92,7 +92,7 @@ flyway {
 	user = dbUser
 	password = dbPassword
 	baselineOnMigrate = true
-	locations = arrayOf("filesystem:~/git/cidh-back-end/src/main/resources/db/migration")
+	locations = arrayOf("filesystem:src/main/resources/db/migration")
 }
 
 jooq {
@@ -121,7 +121,7 @@ jooq {
 									org.jooq.meta.jaxb.ForcedType()
 										.withEnumConverter(true)
 										.withUserType("edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.SystemLanguage")
-										.withIncludeTypes("SystemLanguageType"),
+										.withIncludeTypes("SystemLanguageType")
 								)
 							)
 						}
