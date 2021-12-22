@@ -1,6 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input
 
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.SystemLanguage
 import edu.uoc.hagendazs.macadamianut.application.user.service.exceptions.WeakPasswordException
 import edu.uoc.hagendazs.macadamianut.common.PasswordUtils
@@ -18,6 +19,7 @@ data class CreateUserRequest(
     var fiscalId: String?,
     var address: String?,
     var preferredLanguage: SystemLanguage?,
+    var role: RoleEnum?,
 ) {
 
     fun toInternalUserModel(

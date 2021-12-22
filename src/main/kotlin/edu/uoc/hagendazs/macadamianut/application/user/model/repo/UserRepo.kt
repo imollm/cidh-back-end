@@ -13,11 +13,6 @@ interface UserRepo {
     fun changePassword(user: MNUser, newPassword: String)
     fun deleteUser(userId: String)
     fun existsByEmail(email: String): Boolean
-
-    fun createUser(
-        newUser: MNUser,
-        role: RoleEnum,
-    ): MNUser?
-
+    fun createUser(newUser: MNUser, role: RoleEnum): MNUser?
     fun permissionsForRole(role: RoleEnum): String?
 }
