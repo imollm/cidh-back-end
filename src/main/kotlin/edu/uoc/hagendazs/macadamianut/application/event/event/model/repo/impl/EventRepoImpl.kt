@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
 import edu.uoc.hagendazs.generated.jooq.tables.references.EVENT
 import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL_EVENT
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRepo
 import mu.KotlinLogging

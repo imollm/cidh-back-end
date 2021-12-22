@@ -1,6 +1,6 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input
 
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 import java.net.URI
 import java.time.LocalDateTime
 

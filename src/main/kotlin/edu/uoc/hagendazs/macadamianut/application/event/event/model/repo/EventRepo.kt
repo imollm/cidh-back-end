@@ -1,6 +1,6 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo
 
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 
 interface EventRepo {
     fun findByName(name: String): CIDHEvent?

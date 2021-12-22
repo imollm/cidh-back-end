@@ -1,7 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.service.impl
 
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.exceptions.EventAlreadyExistsException

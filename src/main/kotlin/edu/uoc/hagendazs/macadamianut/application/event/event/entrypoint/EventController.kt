@@ -1,7 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint
 
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -74,19 +74,4 @@ class EventController {
 
         return ResponseEntity.ok(eventCollection)
     }
-
-    /*
-    // get single event OK
-
-    // get events by:
-        //  label
-        //  category
-        //  name
-
-    // create event OK
-    // update event ok
-
-
-
-     */
 }

@@ -1,4 +1,4 @@
-package edu.uoc.hagendazs.macadamianut.application.event.event.model.dataclasses
+package edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass
 
 import java.net.URI
 import java.time.LocalDateTime
