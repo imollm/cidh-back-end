@@ -97,7 +97,7 @@ migrate:
 	flyway migrate -user=${POSTGRES_USER} -password=${POSTGRES_PASSWORD} -url=jdbc:postgresql://localhost:${OUTGOING_PORT}/${POSTGRES_DB} -locations=filesystem:$(shell pwd)/${SQL_MIGRATION}
 
 seed:
-	docker exec -it $$(docker ps -aqf name=$(CONTAINER_NAME)) \
+	docker exec $$(docker ps -aqf name=$(CONTAINER_NAME)) \
 	psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(CONTAINER_SQL_SCRIPT_FOLDER)/$(SQL_SCRIPT_MOCKDATA)
 
 clean:

@@ -71,7 +71,7 @@ VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
            "manageEventOrganizers": true,
            "manageAdministrators": true,
            "associateAdminToEventOrganizer": true,
-           "manageLables": true
+           "manageLabels": true
          },
          "profile": {
            "manageEvents": false,
