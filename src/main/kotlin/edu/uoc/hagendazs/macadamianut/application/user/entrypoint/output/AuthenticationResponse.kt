@@ -7,5 +7,4 @@ data class AuthenticationResponse(
     val refreshToken: String,
     val tokenType: String = "Bearer",
     val role: RoleEnum,
-    val permissions: String,
 )

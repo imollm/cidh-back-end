@@ -116,11 +116,9 @@ class AuthController {
         }
         val authoritiesAsStrings = userDetails.authorities.map { it.authority }
         val userHigherRole = RoleEnum.determineHigherAuthority(authoritiesAsStrings)
-        val permissions = userService.permissionsForRole(userHigherRole) ?: ""
         val authenticationResponse = AuthenticationResponse(
             jwt = jwt,
             refreshToken = refreshToken.id,
-            permissions = permissions,
             role = userHigherRole
         )
         return ResponseEntity.ok(authenticationResponse)

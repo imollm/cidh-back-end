@@ -16,4 +16,5 @@ data class MNUser(
     val isValidEmail: Boolean = false,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val preferredLanguage: SystemLanguage = SystemLanguage.English,
+    val permissions: String? = null,
 )

@@ -18,6 +18,9 @@ class UserServiceImpl : UserService {
     lateinit var userRepo: UserRepo
 
     @Autowired
+    lateinit var userService: UserService
+
+    @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
 
     override fun findAll(roleFilter: Collection<RoleEnum>): Collection<MNUser> {
