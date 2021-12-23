@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 import java.net.URI
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
@@ -62,15 +61,15 @@ class UserController {
     }
 
     // ############# GET SINGLE USER #############
-    @PreAuthorize("#personId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN') or #personId == null")
+    @PreAuthorize("#userId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN') or #userId == null")
     @GetMapping(value = ["/api/v1/users/{userId}", "/api/v1/users/me"])
     fun getUser(
-        @PathVariable("userId") personId: String?,
+        @PathVariable("userId") userId: String?,
         jwtToken: Authentication
     ): ResponseEntity<MNUser> {
-        val resolvedPersonId = resolvePersonId(personId, jwtToken)
-        val person = userService.findUserById(resolvedPersonId)
-        return ResponseEntity.ok(person)
+        val resolvedPersonId = resolveUserId(userId, jwtToken)
+        val user = userService.findUserById(resolvedPersonId)
+        return ResponseEntity.ok(user)
     }
 
     // ############# UPDATE USER #############
@@ -82,14 +81,14 @@ class UserController {
         jwtToken: Authentication
     ): ResponseEntity<MNUser> {
         validateUpdateUserAuthorization(userId, personData, jwtToken.name)
-        val resolvedPersonId = resolvePersonId(userId, jwtToken)
+        val resolvedPersonId = resolveUserId(userId, jwtToken)
         val updatedPerson = userService.updatePerson(resolvedPersonId, personData)
         return ResponseEntity.ok(updatedPerson)
     }
 
     companion object {
 
-        fun resolvePersonId(personId: String?, token: Authentication?): String {
+        fun resolveUserId(personId: String?, token: Authentication?): String {
             return personId ?: token?.name ?: run {
                 throw ResponseStatusException(HttpStatus.UNAUTHORIZED)
             }

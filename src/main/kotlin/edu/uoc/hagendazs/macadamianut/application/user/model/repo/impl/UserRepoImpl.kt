@@ -25,10 +25,17 @@ class UserRepoImpl : UserRepo {
     lateinit var objectMapper: ObjectMapper
 
     override fun findById(userId: String?): MNUser? {
-        return dsl.selectFrom(USER)
+        val mnUser = dsl.selectFrom(USER)
             .where(USER.ID.eq(userId))
             .fetchOne()
             ?.into(MNUser::class.java)
+
+        mnUser ?: return null
+
+        val roles = userRolesForUserId(mnUser.id)
+        val permissions = permissionsForRole(RoleEnum.determineHigherAuthority(roles.map { it.toString() }))
+
+        return mnUser.copy(permissions = permissions)
     }
 
     override fun findUserByEmail(email: String): MNUser? {
@@ -97,7 +104,7 @@ class UserRepoImpl : UserRepo {
     }
 
     override fun permissionsForRole(role: RoleEnum): String? {
-        val stringPermission =  dsl.select(ROLE.ROLE_DEFINITION_JSON)
+        val stringPermission = dsl.select(ROLE.ROLE_DEFINITION_JSON)
             .from(ROLE)
             .where(ROLE.ID.eq(role.toString().uppercase()))
             .fetchOne()?.into(String::class.java)
