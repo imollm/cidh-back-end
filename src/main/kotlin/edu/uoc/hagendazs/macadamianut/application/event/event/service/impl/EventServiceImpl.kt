@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class EventServiceImpl: EventService {
+class EventServiceImpl : EventService {
 
     @Autowired
     private lateinit var eventRepo: EventRepo
@@ -29,12 +29,14 @@ class EventServiceImpl: EventService {
         }
         // check that category exists
         val category = categoryRepo.findByName(categoryName) ?: run {
-            throw UnableToCreateEventFromGivenData("Unable to create Event. Category with name $categoryName " +
-                    "does not exist")
+            throw UnableToCreateEventFromGivenData(
+                "Unable to create Event. Category with name $categoryName " +
+                        "does not exist"
+            )
         }
 
 
-        val createdEvent =  eventRepo.create(newEvent.copy(categoryId = category.id))
+        val createdEvent = eventRepo.create(newEvent.copy(categoryId = category.id))
         logger.info { "Event created with name ${newEvent.name} and id $newEvent.id" }
         return createdEvent
     }
@@ -54,8 +56,15 @@ class EventServiceImpl: EventService {
         labels: Collection<String>,
         categories: Collection<String>,
         names: Collection<String>,
+        admins: Collection<String>,
         limit: Int?
     ): Collection<CIDHEvent> {
-        return eventRepo.eventsWithFilters(labels, categories, names, limit)
+        return eventRepo.eventsWithFilters(
+            labels,
+            categories,
+            names,
+            admins,
+            limit,
+        )
     }
 }

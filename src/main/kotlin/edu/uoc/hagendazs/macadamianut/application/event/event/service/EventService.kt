@@ -10,6 +10,7 @@ interface EventService {
         labels: Collection<String>,
         categories: Collection<String>,
         names: Collection<String>,
-        limit: Int?
+        admins: Collection<String>,
+        limit: Int?,
     ): Collection<CIDHEvent>
 }

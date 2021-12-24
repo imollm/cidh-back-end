@@ -11,6 +11,7 @@ interface EventRepo {
         labels: Collection<String>,
         categories: Collection<String>,
         names: Collection<String>,
+        admins: Collection<String>,
         limit: Int?
     ): Collection<CIDHEvent>
 
