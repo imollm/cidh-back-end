@@ -10,10 +10,10 @@ interface EventRepo {
     fun eventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,
-        names: Collection<String>
+        names: Collection<String>,
+        limit: Int?
     ): Collection<CIDHEvent>
 
     fun findEventsWithLabels(labels: Collection<String>): Collection<CIDHEvent>
     fun findAllEvents(): Collection<CIDHEvent>
-    fun lastEvents(limit: String?): Collection<CIDHEvent>
 }

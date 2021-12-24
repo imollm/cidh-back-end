@@ -9,7 +9,7 @@ interface EventService {
     fun findEventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,
-        names: Collection<String>
+        names: Collection<String>,
+        limit: Int?
     ): Collection<CIDHEvent>
-    fun getLastEvents(limit: String?): Collection<CIDHEvent>
 }
