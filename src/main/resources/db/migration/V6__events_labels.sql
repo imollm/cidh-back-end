@@ -25,7 +25,7 @@ create table label
 create table label_event
 (
     event_id   varchar not null,
-    label_name varchar not null,
+    label_id varchar not null,
     constraint fk_label_event_event_id foreign key (event_id) references event (id),
-    constraint fk_label_event_label_name foreign key (label_name) references label (name)
+    constraint fk_label_event_label_id foreign key (label_id) references label (id)
 );

@@ -3,6 +3,7 @@ package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.impl
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
 import edu.uoc.hagendazs.generated.jooq.tables.references.EVENT
+import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL
 import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL_EVENT
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
@@ -73,7 +74,8 @@ class EventRepoImpl : EventRepo {
 
         if (labels.isNotEmpty()) {
             selectJoin = selectJoin.join(LABEL_EVENT).on(LABEL_EVENT.EVENT_ID.eq(EVENT.ID))
-            condition = condition.and(LABEL_EVENT.LABEL_NAME.`in`(labels))
+                .join(LABEL).on(LABEL.ID.eq(LABEL_EVENT.LABEL_ID))
+            condition = condition.and(LABEL.NAME.`in`(labels))
         }
 
         if (categories.isNotEmpty()) {
@@ -99,7 +101,7 @@ class EventRepoImpl : EventRepo {
         return dsl.select(EVENT.asterisk())
             .from(EVENT)
             .leftJoin(LABEL_EVENT).on(LABEL_EVENT.EVENT_ID.eq(EVENT.ID))
-            .join(CATEGORY).on(CATEGORY.ID.eq(LABEL_EVENT.LABEL_NAME))
+            .join(CATEGORY).on(CATEGORY.ID.eq(LABEL_EVENT.LABEL_ID))
             .where(CATEGORY.NAME.`in`(labels))
             .fetchInto(CIDHEvent::class.java)
     }

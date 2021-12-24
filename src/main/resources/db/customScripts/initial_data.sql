@@ -34,15 +34,15 @@ INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'Event 4', 'Lo
 INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'Event 5', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', NOW(), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e');
 INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'Event 6', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', NOW(), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');
 
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'Label 1');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'Label 2');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'Label 3');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'Label 4');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb42', 'Label 5');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb42', 'Label 6');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'Label 1');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'Label 2');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'Label 3');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'Label 4');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'Label 5');
-INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'Label 6');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4a');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4b');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4c');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4d');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb42', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb42', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4a');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4b');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4c');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4d');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e');
+INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');

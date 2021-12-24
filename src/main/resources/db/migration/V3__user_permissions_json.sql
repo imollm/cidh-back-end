@@ -6,7 +6,6 @@ VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
     "manageCategories": false,
     "manageEventOrganizers": false,
     "manageAdministrators": false,
-    "associateAdminToEventOrganizer": false,
     "manageLabels": false
   },
   "profile": {
@@ -38,7 +37,6 @@ VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
            "manageCategories": false,
            "manageEventOrganizers": false,
            "manageAdministrators": false,
-           "associateAdminToEventOrganizer": false,
            "manageLabels": false
          },
          "profile": {
@@ -70,7 +68,6 @@ VALUES ('ADMIN', 'ADMINISTRATOR', JSON '{
            "manageCategories": true,
            "manageEventOrganizers": true,
            "manageAdministrators": true,
-           "associateAdminToEventOrganizer": true,
            "manageLabels": true
          },
          "profile": {
