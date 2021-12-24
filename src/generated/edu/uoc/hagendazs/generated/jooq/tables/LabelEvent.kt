@@ -6,7 +6,7 @@ package edu.uoc.hagendazs.generated.jooq.tables
 
 import edu.uoc.hagendazs.generated.jooq.Public
 import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID
-import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__FK_LABEL_EVENT_LABEL_NAME
+import edu.uoc.hagendazs.generated.jooq.keys.LABEL_EVENT__FK_LABEL_EVENT_LABEL_ID
 import edu.uoc.hagendazs.generated.jooq.tables.records.LabelEventRecord
 
 import kotlin.collections.List
@@ -65,9 +65,9 @@ open class LabelEvent(
     val EVENT_ID: TableField<LabelEventRecord, String?> = createField(DSL.name("event_id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     /**
-     * The column <code>public.label_event.label_name</code>.
+     * The column <code>public.label_event.label_id</code>.
      */
-    val LABEL_NAME: TableField<LabelEventRecord, String?> = createField(DSL.name("label_name"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val LABEL_ID: TableField<LabelEventRecord, String?> = createField(DSL.name("label_id"), SQLDataType.VARCHAR.nullable(false), this, "")
 
     private constructor(alias: Name, aliased: Table<LabelEventRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<LabelEventRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
@@ -89,7 +89,7 @@ open class LabelEvent(
 
     constructor(child: Table<out Record>, key: ForeignKey<out Record, LabelEventRecord>): this(Internal.createPathAlias(child, key), child, key, LABEL_EVENT, null)
     override fun getSchema(): Schema = Public.PUBLIC
-    override fun getReferences(): List<ForeignKey<LabelEventRecord, *>> = listOf(LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID, LABEL_EVENT__FK_LABEL_EVENT_LABEL_NAME)
+    override fun getReferences(): List<ForeignKey<LabelEventRecord, *>> = listOf(LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID, LABEL_EVENT__FK_LABEL_EVENT_LABEL_ID)
 
     private lateinit var _event: Event
     private lateinit var _label: Label
@@ -101,7 +101,7 @@ open class LabelEvent(
     }
     fun label(): Label {
         if (!this::_label.isInitialized)
-            _label = Label(this, LABEL_EVENT__FK_LABEL_EVENT_LABEL_NAME)
+            _label = Label(this, LABEL_EVENT__FK_LABEL_EVENT_LABEL_ID)
 
         return _label;
     }
