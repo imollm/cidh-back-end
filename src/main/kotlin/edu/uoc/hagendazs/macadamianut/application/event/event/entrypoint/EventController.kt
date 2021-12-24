@@ -65,12 +65,14 @@ class EventController {
         @RequestParam(required = false) label: Collection<String>?,
         @RequestParam(required = false) category: Collection<String>?,
         @RequestParam(required = false) name: Collection<String>?,
+        @RequestParam(required = false) admin: Collection<String>?,
         @RequestParam(required = false) limit: Int?,
     ): ResponseEntity<Collection<CIDHEvent>> {
         val eventCollection = eventService.findEventsWithFilters(
             labels = label ?: emptyList(),
             categories = category  ?: emptyList(),
             names = name  ?: emptyList(),
+            admins = admin ?: emptyList(),
             limit = limit,
         )
 

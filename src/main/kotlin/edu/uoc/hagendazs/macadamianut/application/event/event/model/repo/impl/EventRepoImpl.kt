@@ -1,16 +1,14 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import edu.uoc.hagendazs.generated.jooq.tables.references.CATEGORY
-import edu.uoc.hagendazs.generated.jooq.tables.references.EVENT
-import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL
-import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL_EVENT
+import edu.uoc.hagendazs.generated.jooq.tables.references.*
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRepo
 import mu.KotlinLogging
 import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.impl.DSL.select
 import org.jooq.impl.DSL.trueCondition
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
@@ -66,6 +64,7 @@ class EventRepoImpl : EventRepo {
         labels: Collection<String>,
         categories: Collection<String>,
         names: Collection<String>,
+        admins: Collection<String>,
         limit: Int?
     ): Collection<CIDHEvent> {
 
@@ -85,6 +84,11 @@ class EventRepoImpl : EventRepo {
 
         if (names.isNotEmpty()) {
             condition = condition.and(EVENT.NAME.`in`(names))
+        }
+
+        if (admins.isNotEmpty()) {
+            selectJoin = selectJoin.join(EVENT_ORGANIZER).on(EVENT.ORGANIZER_ID.eq(EVENT_ORGANIZER.ID))
+            condition = condition.and(EVENT_ORGANIZER.ADMIN.`in`(admins))
         }
 
         return selectJoin.where(condition)
