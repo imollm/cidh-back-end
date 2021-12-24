@@ -64,7 +64,8 @@ class EventRepoImpl : EventRepo {
     override fun eventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,
-        names: Collection<String>
+        names: Collection<String>,
+        limit: Int?
     ): Collection<CIDHEvent> {
 
         var selectJoin = dsl.select(EVENT.asterisk()).from(EVENT)
@@ -84,7 +85,10 @@ class EventRepoImpl : EventRepo {
             condition = condition.and(EVENT.NAME.`in`(names))
         }
 
-        return selectJoin.where(condition).fetchInto(CIDHEvent::class.java)
+        return selectJoin.where(condition)
+            .orderBy(EVENT.START_DATE.asc())
+            .limit(limit ?: Int.MAX_VALUE)
+            .fetchInto(CIDHEvent::class.java)
 
     }
 
@@ -102,13 +106,5 @@ class EventRepoImpl : EventRepo {
 
     override fun findAllEvents(): Collection<CIDHEvent> {
         return dsl.selectFrom(EVENT).fetchInto(CIDHEvent::class.java)
-    }
-
-    override fun lastEvents(limit: String?): Collection<CIDHEvent> {
-        return dsl.select(EVENT.asterisk())
-                .from(EVENT)
-                .orderBy(EVENT.START_DATE.asc())
-                .limit(limit?.toInt())
-                .fetchInto(CIDHEvent::class.java)
     }
 }
