@@ -33,7 +33,7 @@ class UserRepoImpl : UserRepo {
         mnUser ?: return null
 
         val roles = userRolesForUserId(mnUser.id)
-        val permissions = permissionsForRole(RoleEnum.determineHigherAuthority(roles.map { it.toString() }))
+        val permissions = permissionsForRole(RoleEnum.determineHigherAuthority(roles.map { it.role.toString() }))
 
         return mnUser.copy(permissions = permissions)
     }
