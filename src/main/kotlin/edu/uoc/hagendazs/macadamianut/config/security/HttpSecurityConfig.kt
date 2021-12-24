@@ -60,7 +60,8 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.GET, "/api/v1/labels").permitAll()
             .antMatchers(HttpMethod.DELETE, "/api/v1/labels/*").authenticated()
              // EVENTS EndPoints
-            .antMatchers(HttpMethod.GET, "/api/v1/events/last/*").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/events").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/events/*").permitAll()
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer(fun(obj: OAuth2ResourceServerConfigurer<HttpSecurity?>) {
