@@ -6,7 +6,7 @@ import java.util.*
 data class EventOrganizer(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
-    val description: String,
+    val description: String? = null,
     val admin: String,
     val createdAt: LocalDateTime = LocalDateTime.now()
 )

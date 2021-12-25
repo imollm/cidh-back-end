@@ -6,11 +6,11 @@ import edu.uoc.hagendazs.macadamianut.common.HTTPMessages
 
 data class CreateEventOrganizerRequest(
     val name: String,
-    val description: String,
+    val description: String?,
     val admin: String
 ) {
     fun receive(): EventOrganizer {
-        if (name.isBlank() || description.isBlank() || admin.isBlank()) {
+        if (name.isBlank() || admin.isBlank()) {
             throw EventOrganizerMissingValues(HTTPMessages.MISSING_VALUES)
         }
         return EventOrganizer(
