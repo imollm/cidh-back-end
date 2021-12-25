@@ -14,10 +14,10 @@ INSERT INTO label VALUES ('d5a8fae9-d376-4e37-a5b0-46f9128beb4e', 'Label 5', 'De
 INSERT INTO label VALUES ('d5a8fae9-d376-4e37-a5b0-46f9128beb4f', 'Label 6', 'Description 6', '2021-03-31 09:30:20-07');
 
 -- Create a user with role SUPERADMIN
-INSERT INTO "user" VALUES ('d578fae9-d222-4o37-a5b0-46f9128beb4f', 'SuperAdmin', 'SuperAdmin', 'NOTVALIDATED', 'Some address', 'superadmin@indahou.se', null, true, 'English', '$2a$12$cYd7Izho3U1SdKloTKY83e0QUYZS9dAcVlW45CdjkYr1EHFPH.ymK', NOW(), NOW());
+INSERT INTO "user" VALUES ('d578fae9-d222-4o37-a5b0-46f9128beb4f', 'SuperAdmin', 'SuperAdmin', null, null, 'superadmin@indahou.se', null, true, 'English', '$2a$12$cYd7Izho3U1SdKloTKY83e0QUYZS9dAcVlW45CdjkYr1EHFPH.ymK', NOW(), NOW());
 INSERT INTO user_role VALUES ('d5864ae9-d386-4o37-a5b0-46f9120beb4f', 'd578fae9-d222-4o37-a5b0-46f9128beb4f', 'SUPERADMIN');
 -- Create a user with role ADMIN
-INSERT INTO "user" VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4f', 'Admin', 'Admin', 'NOTVALIDATED', 'Some address', 'admin@indahou.se', null, true, 'English', '$2a$12$HbyTXCCqe6g40P58rnmwAerxkxHS2yyIAhFF2FNMgCD1WYY9trGH2', NOW(), NOW());
+INSERT INTO "user" VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4f', 'Admin', 'Admin', null, null, 'admin@indahou.se', null, true, 'English', '$2a$12$HbyTXCCqe6g40P58rnmwAerxkxHS2yyIAhFF2FNMgCD1WYY9trGH2', NOW(), NOW());
 INSERT INTO user_role VALUES ('d578fae9-d386-4o37-a5b0-46f9120beb4f', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', 'ADMIN');
 
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb4f', 'Event organizer 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
