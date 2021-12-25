@@ -12,6 +12,7 @@ data class NewOrUpdateEventRequest(
     val endDate: LocalDateTime,
     val category: String?,
     val organizerId: String,
+    val eventUrl: String,
 ) {
 
     init {
@@ -28,7 +29,8 @@ data class NewOrUpdateEventRequest(
             headerImage = headerImage,
             startDate = startDate,
             endDate = endDate,
-            organizerId = organizerId
+            organizerId = organizerId,
+            eventUrl = eventUrl
         )
     }
 }

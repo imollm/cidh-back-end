@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "edu.uoc.hagendazs"
-version = "0.0.1"
+version = "0.0.6"
 
 java.sourceCompatibility = JavaVersion.VERSION_11
 

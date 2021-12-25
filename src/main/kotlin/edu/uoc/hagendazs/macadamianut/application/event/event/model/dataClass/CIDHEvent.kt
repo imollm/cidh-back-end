@@ -13,4 +13,5 @@ data class CIDHEvent (
     val endDate: LocalDateTime,
     val categoryId: String? = null,
     val organizerId: String,
+    val eventUrl: String,
 )
