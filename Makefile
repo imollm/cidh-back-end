@@ -4,7 +4,10 @@ POSTGRES_PASSWORD=Pass2021!
 POSTGRES_DB=postgres
 
 ### SQL SCRIPTS ###
-SQL_SCRIPT_FOLDER=src/main/resources/db/migration
+SQL_MIGRATION=src/main/resources/db/migration
+SQL_INSERTS=src/main/resources/db/customScripts
+SQL_SCRIPT_FOLDER=src/main/resources/db/customScripts
+SQL_SCRIPT_MOCKDATA=initial_data.sql
 CONTAINER_SQL_SCRIPT_FOLDER=/var/lib/postgresql/dump
 
 ### PSQL PERSIST VOLUME ###
@@ -91,6 +94,25 @@ db-init:
 	@for f in $(shell ls $(SQL_SCRIPT_FOLDER)); do \
 		docker exec -it $$(docker ps -aqf name=$(DB_CONTAINER_NAME)) \
 		psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(shell pwd)/$(SQL_SCRIPT_FOLDER)/$${f}; done
+
+db-create:
+	docker exec -it $$(docker ps -aqf name=$(DB_CONTAINER_NAME)) \
+	psql -U $(POSTGRES_USER) -h localhost -c 'CREATE DATABASE $(POSTGRES_DB);'
+
+db-drop:
+	docker exec -it $$(docker ps -aqf name=$(DB_CONTAINER_NAME)) \
+	psql -U $(POSTGRES_USER) -h localhost -c 'DROP DATABASE IF EXISTS $(POSTGRES_DB);'
+
+db-migrate:
+	flyway migrate -user=${POSTGRES_USER} -password=$(POSTGRES_PASSWORD) -url=jdbc:postgresql://localhost:$(DB_OUTGOING_PORT)/$(POSTGRES_DB) -locations=filesystem:$(shell pwd)/$(SQL_MIGRATION)
+
+db-seed:
+	docker exec $$(docker ps -aqf name=$(DB_CONTAINER_NAME)) \
+	psql -U $(POSTGRES_USER) -h localhost -d $(POSTGRES_DB) -f $(CONTAINER_SQL_SCRIPT_FOLDER)/$(SQL_SCRIPT_MOCKDATA)
+
+db-clean:
+	flyway clean -user=$(POSTGRES_USER) -password=$(POSTGRES_PASSWORD) -url=jdbc:postgresql://localhost:$(DB_OUTGOING_PORT)/$(POSTGRES_DB)
+
 
 api-build:
 	docker build -t $(API_CONTAINER_NAME):v1.0 .
