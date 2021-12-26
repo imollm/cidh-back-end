@@ -1,16 +1,17 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.service
 
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 
 interface EventService {
-    fun createEvent(newEvent: CIDHEvent, categoryName: String?): CIDHEvent?
-    fun updateEvent(eventToUpdate: CIDHEvent): CIDHEvent?
-    fun findById(eventId: String): CIDHEvent?
+    fun createEvent(newEvent: DBEvent, categoryName: String?): EventResponse?
+    fun updateEvent(eventToUpdate: DBEvent): EventResponse?
+    fun findById(eventId: String): EventResponse?
     fun findEventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,
         names: Collection<String>,
         admins: Collection<String>,
         limit: Int?,
-    ): Collection<CIDHEvent>
+    ): Collection<EventResponse>
 }

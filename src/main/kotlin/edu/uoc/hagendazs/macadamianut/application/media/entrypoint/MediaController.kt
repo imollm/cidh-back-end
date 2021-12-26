@@ -1,6 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.media.entrypoint
 
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.input.EventCommentRequest
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.output.EventCommentResponse
@@ -57,7 +58,7 @@ class MediaController {
     fun getUserFavorites(
         @PathVariable userId: String,
         jwtToken: Authentication
-    ): ResponseEntity<Collection<CIDHEvent>> {
+    ): ResponseEntity<Collection<DBEvent>> {
         val resolvedUserId = UserUtils.resolveUserId(userId, jwtToken)
         val user = userService.findUserById(resolvedUserId) ?: run {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, HTTPMessages.USER_NOT_FOUND)
@@ -116,7 +117,7 @@ class MediaController {
         jwtToken: Authentication,
     ) {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
-        ///CONTINUE HERE !!
+        ///CONTINUE HERE !!]
 
     }
 

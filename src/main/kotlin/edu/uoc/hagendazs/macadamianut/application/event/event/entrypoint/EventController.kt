@@ -1,7 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint
 
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -25,7 +25,7 @@ class EventController {
     fun createEvent(
         @RequestBody newUserReq: NewOrUpdateEventRequest,
         request: HttpServletRequest,
-    ): ResponseEntity<CIDHEvent> {
+    ): ResponseEntity<EventResponse> {
         val newEvent = newUserReq.toInternalEventModel()
         val createdEvent = eventService.createEvent(
             newEvent = newEvent,
@@ -42,7 +42,7 @@ class EventController {
     fun updateEvent(
         @RequestBody newUserReq: NewOrUpdateEventRequest,
         @PathVariable("eventId") eventId: String,
-    ): ResponseEntity<CIDHEvent> {
+    ): ResponseEntity<EventResponse> {
         val eventToUpdate = newUserReq.toInternalEventModel().copy(id = eventId)
         val updatedEvent = eventService.updateEvent(eventToUpdate) ?: run {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to update event!")
@@ -53,7 +53,7 @@ class EventController {
     @GetMapping(value = ["/events/{eventId}"])
     fun getEventById(
         @PathVariable("eventId") eventId: String,
-    ): ResponseEntity<CIDHEvent> {
+    ): ResponseEntity<EventResponse> {
         val event = eventService.findById(eventId) ?: run {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id $eventId not found in this server")
         }
@@ -67,7 +67,7 @@ class EventController {
         @RequestParam(required = false) name: Collection<String>?,
         @RequestParam(required = false) admin: Collection<String>?,
         @RequestParam(required = false) limit: Int?,
-    ): ResponseEntity<Collection<CIDHEvent>> {
+    ): ResponseEntity<Collection<EventResponse>> {
         val eventCollection = eventService.findEventsWithFilters(
             labels = label ?: emptyList(),
             categories = category  ?: emptyList(),

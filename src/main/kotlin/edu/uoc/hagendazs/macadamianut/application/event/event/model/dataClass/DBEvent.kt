@@ -1,11 +1,12 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass
 
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.CIDHEvent
 import java.net.URI
 import java.time.LocalDateTime
 import java.util.*
 
-data class CIDHEvent (
-    val id: String = UUID.randomUUID().toString(),
+data class DBEvent (
+    override val id: String = UUID.randomUUID().toString(),
     val name: String,
     val description: String,
     val headerImage: URI?,
@@ -14,4 +15,4 @@ data class CIDHEvent (
     val categoryId: String? = null,
     val organizerId: String,
     val eventUrl: String,
-)
+): CIDHEvent

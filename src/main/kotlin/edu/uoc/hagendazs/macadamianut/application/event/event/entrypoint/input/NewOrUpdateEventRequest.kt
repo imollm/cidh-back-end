@@ -1,6 +1,6 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input
 
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 import java.net.URI
 import java.time.LocalDateTime
 
@@ -22,8 +22,8 @@ data class NewOrUpdateEventRequest(
         require(name.isNotBlank()) { "Event name cannot be empty" }
     }
 
-    fun toInternalEventModel(): CIDHEvent {
-        return CIDHEvent(
+    fun toInternalEventModel(): DBEvent {
+        return DBEvent(
             name = name,
             description = description,
             headerImage = headerImage,

@@ -2,13 +2,18 @@ package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.uoc.hagendazs.generated.jooq.tables.references.*
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.toEventResponse
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
+import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.repo.EventOrganizerRepo
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRepo
+import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
+import jdk.jfr.Event
 import mu.KotlinLogging
 import org.jooq.Condition
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.select
 import org.jooq.impl.DSL.trueCondition
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
@@ -20,6 +25,15 @@ class EventRepoImpl : EventRepo {
     protected lateinit var labelRepo: LabelRepo
 
     @Autowired
+    protected lateinit var categoryRepo: CategoryRepo
+
+    @Autowired
+    protected lateinit var eventOrganizerRepo: EventOrganizerRepo
+
+    @Autowired
+    protected lateinit var mediaRepo: MediaRepo
+
+    @Autowired
     protected lateinit var dsl: DSLContext
 
     @Autowired
@@ -27,28 +41,46 @@ class EventRepoImpl : EventRepo {
 
     private val logger = KotlinLogging.logger {}
 
-    override fun findByName(name: String): CIDHEvent? {
-        return dsl.selectFrom(EVENT)
-            .where(EVENT.NAME.eq(name))
+    override fun findById(id: String): EventResponse? {
+        val dbEvent = dsl.selectFrom(EVENT)
+            .where(EVENT.ID.eq(id))
             .fetchOne()
-            ?.into(CIDHEvent::class.java)
+            ?.into(DBEvent::class.java)
+
+        return toEventObject(dbEvent)
     }
 
-    override fun create(newEvent: CIDHEvent): CIDHEvent? {
+    override fun findByName(name: String): EventResponse? {
+        val dbEvent = dsl.selectFrom(EVENT)
+            .where(EVENT.NAME.eq(name))
+            .fetchOne()
+            ?.into(DBEvent::class.java)
+
+        return toEventObject(dbEvent)
+    }
+
+    private fun toEventObject(dbEvent: DBEvent?): EventResponse {
+        val category = categoryRepo.findById(dbEvent?.categoryId!!)
+        val labels = labelRepo.labelsForEvent(dbEvent.id)
+        val eventOrganizer = eventOrganizerRepo.getEventOrganizer(dbEvent.organizerId)
+        val rating = mediaRepo.ratingForEvent(dbEvent.id)
+
+        return dbEvent.toEventResponse(
+            rating = rating,
+            category = category!!,
+            labels = labels,
+            eventOrganizer = eventOrganizer!!
+        )
+    }
+
+    override fun create(newEvent: DBEvent): EventResponse? {
         val eventRecord = dsl.newRecord(EVENT, newEvent)
         eventRecord.store()
 
         return this.findById(newEvent.id)
     }
 
-    override fun findById(id: String): CIDHEvent? {
-        return dsl.selectFrom(EVENT)
-            .where(EVENT.ID.eq(id))
-            .fetchOne()
-            ?.into(CIDHEvent::class.java)
-    }
-
-    override fun update(eventToUpdate: CIDHEvent): CIDHEvent? {
+    override fun update(eventToUpdate: DBEvent): EventResponse? {
         dsl.update(EVENT)
             .set(EVENT.NAME, eventToUpdate.name)
             .set(EVENT.DESCRIPTION, eventToUpdate.description)
@@ -66,7 +98,7 @@ class EventRepoImpl : EventRepo {
         names: Collection<String>,
         admins: Collection<String>,
         limit: Int?
-    ): Collection<CIDHEvent> {
+    ): Collection<EventResponse> {
 
         var selectJoin = dsl.select(EVENT.asterisk()).from(EVENT)
         var condition: Condition = trueCondition()
@@ -94,11 +126,12 @@ class EventRepoImpl : EventRepo {
         return selectJoin.where(condition)
             .orderBy(EVENT.START_DATE.asc())
             .limit(limit ?: Int.MAX_VALUE)
-            .fetchInto(CIDHEvent::class.java)
+            .fetchInto(DBEvent::class.java)
+            .map { toEventObject(it) }
 
     }
 
-    override fun findEventsWithLabels(labels: Collection<String>): Collection<CIDHEvent> {
+    override fun findEventsWithLabels(labels: Collection<String>): Collection<EventResponse> {
         if (labels.isEmpty()) {
             return this.findAllEvents()
         }
@@ -107,10 +140,13 @@ class EventRepoImpl : EventRepo {
             .leftJoin(LABEL_EVENT).on(LABEL_EVENT.EVENT_ID.eq(EVENT.ID))
             .join(CATEGORY).on(CATEGORY.ID.eq(LABEL_EVENT.LABEL_ID))
             .where(CATEGORY.NAME.`in`(labels))
-            .fetchInto(CIDHEvent::class.java)
+            .fetchInto(DBEvent::class.java)
+            .map { toEventObject(it) }
     }
 
-    override fun findAllEvents(): Collection<CIDHEvent> {
-        return dsl.selectFrom(EVENT).fetchInto(CIDHEvent::class.java)
+    override fun findAllEvents(): Collection<EventResponse> {
+        return dsl.selectFrom(EVENT)
+            .fetchInto(DBEvent::class.java)
+            .map { toEventObject(it) }
     }
 }
