@@ -43,11 +43,10 @@ class CategoryController {
     }
 
     @PreAuthorize("hasRole('SUPERADMIN')")
-    @PutMapping(value = ["/{categoryId}"])
+    @PostMapping(value = ["/{categoryId}"])
     fun updateCategory(
         @PathVariable categoryId: String,
         @RequestBody updateCategoryReq: UpdateCategoryRequest,
-        request: HttpServletRequest,
     ): ResponseEntity<Category> {
         val category = categoryService.updateCategory(categoryId, updateCategoryReq)
         return ResponseEntity.ok(category)

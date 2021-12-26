@@ -47,7 +47,8 @@ class CategoryRepoImpl : CategoryRepo {
         )
     }
 
-    override fun findByName(categoryName: String): Category? {
+    override fun findByName(categoryName: String?): Category? {
+        categoryName ?: return null
         return dsl.selectFrom(CATEGORY)
             .where(CATEGORY.NAME.eq(categoryName))
             .fetchOne()

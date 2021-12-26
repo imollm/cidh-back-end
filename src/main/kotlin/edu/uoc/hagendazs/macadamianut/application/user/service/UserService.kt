@@ -10,6 +10,6 @@ interface UserService {
     ): Collection<MNUser>
     fun updatePerson(resolvedUserId: String, userData: UpdateUserRequest): MNUser?
     fun findUserById(resolvedPersonId: String): MNUser?
-    fun createUser(user: MNUser): MNUser?
+    fun createUser(user: MNUser, role: RoleEnum): MNUser?
     fun permissionsForRole(role: RoleEnum): String?
 }

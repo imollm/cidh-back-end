@@ -5,8 +5,11 @@ package edu.uoc.hagendazs.generated.jooq.tables.references
 
 
 import edu.uoc.hagendazs.generated.jooq.tables.Category
+import edu.uoc.hagendazs.generated.jooq.tables.Event
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
+import edu.uoc.hagendazs.generated.jooq.tables.Label
+import edu.uoc.hagendazs.generated.jooq.tables.LabelEvent
 import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
@@ -21,6 +24,11 @@ import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 val CATEGORY = Category.CATEGORY
 
 /**
+ * The table <code>public.event</code>.
+ */
+val EVENT = Event.EVENT
+
+/**
  * The table <code>public.event_organizer</code>.
  */
 val EVENT_ORGANIZER = EventOrganizer.EVENT_ORGANIZER
@@ -29,6 +37,16 @@ val EVENT_ORGANIZER = EventOrganizer.EVENT_ORGANIZER
  * The table <code>public.flyway_schema_history</code>.
  */
 val FLYWAY_SCHEMA_HISTORY = FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY
+
+/**
+ * The table <code>public.label</code>.
+ */
+val LABEL = Label.LABEL
+
+/**
+ * The table <code>public.label_event</code>.
+ */
+val LABEL_EVENT = LabelEvent.LABEL_EVENT
 
 /**
  * The table <code>public.password_reset</code>.

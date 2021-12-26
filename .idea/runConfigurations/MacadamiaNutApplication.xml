@@ -14,9 +14,7 @@
     <option name="SPRING_BOOT_MAIN_CLASS" value="edu.uoc.hagendazs.macadamianut.MacadamiaNutApplication" />
     <option name="PROGRAM_PARAMETERS" value="--spring.config.location=file:config/application.yml" />
     <option name="WORKING_DIRECTORY" value="file://%MODULE_WORKING_DIR%" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="ALTERNATIVE_JRE_PATH" value="/Library/Java/JavaVirtualMachines/jdk-16.0.2.jdk/Contents/Home" />
-    <option name="SHORTEN_COMMAND_LINE" value="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

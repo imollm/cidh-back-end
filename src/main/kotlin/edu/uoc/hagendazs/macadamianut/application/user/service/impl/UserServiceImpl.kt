@@ -12,10 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
-class UserServiceImpl: UserService {
+class UserServiceImpl : UserService {
 
     @Autowired
     lateinit var userRepo: UserRepo
+
+    @Autowired
+    lateinit var userService: UserService
 
     @Autowired
     private lateinit var passwordEncoder: PasswordEncoder
@@ -36,11 +39,11 @@ class UserServiceImpl: UserService {
         return userRepo.findById(resolvedPersonId)
     }
 
-    override fun createUser(user: MNUser): MNUser? {
+    override fun createUser(user: MNUser, role: RoleEnum): MNUser? {
         if (userRepo.existsByEmail(user.email)) {
-            throw UserAlreadyExistsException("Unable to create user with given email: $user")
+            throw UserAlreadyExistsException("Unable to create user with given email: ${user.email}")
         }
-        return userRepo.createUser(user, RoleEnum.User) //todo allow admin and super admin
+        return userRepo.createUser(user, role)
     }
 
     override fun permissionsForRole(role: RoleEnum): String? {

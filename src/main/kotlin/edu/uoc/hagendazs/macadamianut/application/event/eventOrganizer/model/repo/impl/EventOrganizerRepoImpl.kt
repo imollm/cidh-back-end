@@ -25,6 +25,7 @@ class EventOrganizerRepoImpl: EventOrganizerRepo {
         dsl.update(EVENT_ORGANIZER)
             .set(EVENT_ORGANIZER.NAME, eventOrganizer.name)
             .set(EVENT_ORGANIZER.DESCRIPTION, eventOrganizer.description)
+            .set(EVENT_ORGANIZER.ADMIN, eventOrganizer.admin)
             .where(EVENT_ORGANIZER.ID.eq(eventOrganizer.id))
             .execute()
 

@@ -50,7 +50,6 @@ help:
 	@echo "api-stop       	- Stop spring boot api container."
 	@echo "api-rm     		- Remove the database container."
 
-
 db-run:
 	docker run --name="$(DB_CONTAINER_NAME)" \
 	-e POSTGRES_USER=$(POSTGRES_USER) \

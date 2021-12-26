@@ -3,7 +3,11 @@ package edu.uoc.hagendazs.macadamianut.application.user.service.helper
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTCreator
 import com.auth0.jwt.algorithms.Algorithm
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
+import edu.uoc.hagendazs.macadamianut.common.kotlin.valueOfIgnoreCase
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.Authentication
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.stereotype.Component
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
@@ -35,5 +39,14 @@ class JwtHelper(private val privateKey: RSAPrivateKey, private val publicKey: RS
             .withNotBefore(Date())
             .withExpiresAt(calendar.time)
             .sign(Algorithm.RSA256(publicKey, privateKey))
+    }
+
+    companion object {
+        fun rolesFromJwtToken(jwtToken: Authentication): Collection<RoleEnum> {
+            return (jwtToken.credentials as Jwt).claims["authorities"]
+                .toString()
+                .split(",")
+                .mapNotNull { valueOfIgnoreCase(it) }
+        }
     }
 }

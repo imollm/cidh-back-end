@@ -9,7 +9,6 @@ import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.UserRole
 import edu.uoc.hagendazs.macadamianut.application.user.model.repo.UserRepo
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.asterisk
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
@@ -26,10 +25,17 @@ class UserRepoImpl : UserRepo {
     lateinit var objectMapper: ObjectMapper
 
     override fun findById(userId: String?): MNUser? {
-        return dsl.selectFrom(USER)
+        val mnUser = dsl.selectFrom(USER)
             .where(USER.ID.eq(userId))
             .fetchOne()
             ?.into(MNUser::class.java)
+
+        mnUser ?: return null
+
+        val roles = userRolesForUserId(mnUser.id)
+        val permissions = permissionsForRole(RoleEnum.determineHigherAuthority(roles.map { it.role.toString() }))
+
+        return mnUser.copy(permissions = permissions)
     }
 
     override fun findUserByEmail(email: String): MNUser? {
@@ -57,7 +63,6 @@ class UserRepoImpl : UserRepo {
             .set(USER.LAST_NAME, user.lastName)
             .set(USER.FISCAL_ID, user.fiscalId)
             .set(USER.ADDRESS, user.address)
-            .set(USER.EMAIL, user.email)
             .set(USER.IS_VALID_EMAIL, user.isValidEmail)
             .set(USER.PREFERRED_LANGUAGE, user.preferredLanguage)
             .execute()
@@ -86,13 +91,9 @@ class UserRepoImpl : UserRepo {
     }
 
     @Transactional
-    override fun createUser(
-        newUser: MNUser,
-        role: RoleEnum,
-    ): MNUser? {
+    override fun createUser(newUser: MNUser, role: RoleEnum): MNUser? {
         val userRecord = dsl.newRecord(USER, newUser)
         userRecord.store()
-
         dsl.insertInto(USER_ROLE)
             .set(USER_ROLE.ID, UUID.randomUUID().toString())
             .set(USER_ROLE.USER, newUser.id)
@@ -103,7 +104,7 @@ class UserRepoImpl : UserRepo {
     }
 
     override fun permissionsForRole(role: RoleEnum): String? {
-        val stringPermission =  dsl.select(ROLE.ROLE_DEFINITION_JSON)
+        val stringPermission = dsl.select(ROLE.ROLE_DEFINITION_JSON)
             .from(ROLE)
             .where(ROLE.ID.eq(role.toString().uppercase()))
             .fetchOne()?.into(String::class.java)
