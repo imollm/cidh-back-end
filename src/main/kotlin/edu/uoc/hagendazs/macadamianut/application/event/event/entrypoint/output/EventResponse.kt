@@ -5,6 +5,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.dataClass.EventOrganizer
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.dataClass.Label
+import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.EventRating
 import java.net.URI
 import java.time.LocalDateTime
 import java.util.*
@@ -13,7 +14,7 @@ data class EventResponse(
     override val id: String = UUID.randomUUID().toString(),
     val name: String,
     val headerImage: URI?,
-    val rating: Number,
+    val rating: EventRating,
     val description: String,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
@@ -24,7 +25,7 @@ data class EventResponse(
 ) : CIDHEvent
 
 fun DBEvent.toEventResponse(
-    rating: Number,
+    rating: EventRating,
     category: Category,
     labels: Collection<Label>,
     eventOrganizer: EventOrganizer,

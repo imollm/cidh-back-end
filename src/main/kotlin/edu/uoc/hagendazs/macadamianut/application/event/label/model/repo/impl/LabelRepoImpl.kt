@@ -6,6 +6,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRe
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL
+import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL_EVENT
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
@@ -67,5 +68,15 @@ class LabelRepoImpl : LabelRepo {
             .execute()
 
         return if (deleted > 0) true else null
+    }
+
+    override fun labelsForEvent(eventId: String?): Collection<Label> {
+        eventId ?: return emptyList()
+        return dsl.select(LABEL.asterisk())
+            .from(LABEL)
+            .join(LABEL_EVENT)
+            .on(LABEL_EVENT.LABEL_ID.eq(LABEL.ID))
+            .where(LABEL_EVENT.EVENT_ID.eq(eventId))
+            .fetchInto(Label::class.java)
     }
 }

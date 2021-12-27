@@ -10,7 +10,6 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRe
 import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.repo.EventOrganizerRepo
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRepo
 import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
-import jdk.jfr.Event
 import mu.KotlinLogging
 import org.jooq.Condition
 import org.jooq.DSLContext
@@ -59,17 +58,24 @@ class EventRepoImpl : EventRepo {
         return toEventObject(dbEvent)
     }
 
-    private fun toEventObject(dbEvent: DBEvent?): EventResponse {
-        val category = categoryRepo.findById(dbEvent?.categoryId!!)
+    private fun toEventObject(dbEvent: DBEvent?): EventResponse? {
+        dbEvent ?: return null
+        val category = categoryRepo.findById(dbEvent.categoryId) ?: kotlin.run {
+            throw IllegalStateException("Category cannot be null")
+        }
         val labels = labelRepo.labelsForEvent(dbEvent.id)
-        val eventOrganizer = eventOrganizerRepo.getEventOrganizer(dbEvent.organizerId)
-        val rating = mediaRepo.ratingForEvent(dbEvent.id)
+        val eventOrganizer = eventOrganizerRepo.getEventOrganizer(dbEvent.organizerId) ?: kotlin.run {
+            throw IllegalStateException("Event Organizer cannot be null")
+        }
+        val rating = mediaRepo.ratingForEvent(dbEvent.id) ?: kotlin.run {
+            throw IllegalStateException("Rating cannot be null")
+        }
 
         return dbEvent.toEventResponse(
             rating = rating,
-            category = category!!,
+            category = category,
             labels = labels,
-            eventOrganizer = eventOrganizer!!
+            eventOrganizer = eventOrganizer
         )
     }
 
@@ -127,7 +133,7 @@ class EventRepoImpl : EventRepo {
             .orderBy(EVENT.START_DATE.asc())
             .limit(limit ?: Int.MAX_VALUE)
             .fetchInto(DBEvent::class.java)
-            .map { toEventObject(it) }
+            .mapNotNull { toEventObject(it) }
 
     }
 
@@ -141,12 +147,12 @@ class EventRepoImpl : EventRepo {
             .join(CATEGORY).on(CATEGORY.ID.eq(LABEL_EVENT.LABEL_ID))
             .where(CATEGORY.NAME.`in`(labels))
             .fetchInto(DBEvent::class.java)
-            .map { toEventObject(it) }
+            .mapNotNull { toEventObject(it) }
     }
 
     override fun findAllEvents(): Collection<EventResponse> {
         return dsl.selectFrom(EVENT)
             .fetchInto(DBEvent::class.java)
-            .map { toEventObject(it) }
+            .mapNotNull { toEventObject(it) }
     }
 }

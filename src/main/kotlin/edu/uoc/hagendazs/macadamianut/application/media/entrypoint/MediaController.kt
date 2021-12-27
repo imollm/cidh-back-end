@@ -99,7 +99,7 @@ class MediaController {
     ) {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
-        mediaService.postComment(event, comment.comment, user)
+        mediaService.postComment(event, comment.comment, user, comment.createdAt)
     }
 
     @GetMapping(value = ["/events/{eventId}/comments"])
@@ -119,6 +119,7 @@ class MediaController {
         jwtToken: Authentication,
     ) {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
+        //TODO ensure only ADMIn or SUPER ADMIN are allowed to respond to forum messages
         mediaService.postForumMessage(event, user, forumMessageReq)
     }
 

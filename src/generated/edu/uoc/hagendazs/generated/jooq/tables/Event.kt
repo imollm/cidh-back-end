@@ -19,7 +19,7 @@ import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row8
+import org.jooq.Row9
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -104,6 +104,11 @@ open class Event(
      */
     val CATEGORY_ID: TableField<EventRecord, String?> = createField(DSL.name("category_id"), SQLDataType.VARCHAR, this, "")
 
+    /**
+     * The column <code>public.event.event_url</code>.
+     */
+    val EVENT_URL: TableField<EventRecord, String?> = createField(DSL.name("event_url"), SQLDataType.VARCHAR.nullable(false).defaultValue(DSL.field("'https://www.youtube.com/watch?v=NpEaa2P7qZI'::character varying", SQLDataType.VARCHAR)), this, "")
+
     private constructor(alias: Name, aliased: Table<EventRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<EventRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
 
@@ -156,7 +161,7 @@ open class Event(
     override fun rename(name: Name): Event = Event(name, null)
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row8<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?, String?, String?> = super.fieldsRow() as Row8<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?, String?, String?>
+    override fun fieldsRow(): Row9<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?, String?, String?, String?> = super.fieldsRow() as Row9<String?, String?, String?, String?, LocalDateTime?, LocalDateTime?, String?, String?, String?>
 }

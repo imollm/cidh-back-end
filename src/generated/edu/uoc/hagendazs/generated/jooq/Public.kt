@@ -6,6 +6,7 @@ package edu.uoc.hagendazs.generated.jooq
 
 import edu.uoc.hagendazs.generated.jooq.tables.Category
 import edu.uoc.hagendazs.generated.jooq.tables.Event
+import edu.uoc.hagendazs.generated.jooq.tables.EventForumMessage
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.Label
@@ -14,6 +15,10 @@ import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventAttendance
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventComment
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventFavorites
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventRating
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 
 import kotlin.collections.List
@@ -45,6 +50,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      * The table <code>public.event</code>.
      */
     val EVENT get() = Event.EVENT
+
+    /**
+     * The table <code>public.event_forum_message</code>.
+     */
+    val EVENT_FORUM_MESSAGE get() = EventForumMessage.EVENT_FORUM_MESSAGE
 
     /**
      * The table <code>public.event_organizer</code>.
@@ -87,6 +97,26 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val USER get() = User.USER
 
     /**
+     * The table <code>public.user_event_attendance</code>.
+     */
+    val USER_EVENT_ATTENDANCE get() = UserEventAttendance.USER_EVENT_ATTENDANCE
+
+    /**
+     * The table <code>public.user_event_comment</code>.
+     */
+    val USER_EVENT_COMMENT get() = UserEventComment.USER_EVENT_COMMENT
+
+    /**
+     * The table <code>public.user_event_favorites</code>.
+     */
+    val USER_EVENT_FAVORITES get() = UserEventFavorites.USER_EVENT_FAVORITES
+
+    /**
+     * The table <code>public.user_event_rating</code>.
+     */
+    val USER_EVENT_RATING get() = UserEventRating.USER_EVENT_RATING
+
+    /**
      * The table <code>public.user_role</code>.
      */
     val USER_ROLE get() = UserRole.USER_ROLE
@@ -96,6 +126,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     override fun getTables(): List<Table<*>> = listOf(
         Category.CATEGORY,
         Event.EVENT,
+        EventForumMessage.EVENT_FORUM_MESSAGE,
         EventOrganizer.EVENT_ORGANIZER,
         FlywaySchemaHistory.FLYWAY_SCHEMA_HISTORY,
         Label.LABEL,
@@ -104,6 +135,10 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
         RefreshToken.REFRESH_TOKEN,
         Role.ROLE,
         User.USER,
+        UserEventAttendance.USER_EVENT_ATTENDANCE,
+        UserEventComment.USER_EVENT_COMMENT,
+        UserEventFavorites.USER_EVENT_FAVORITES,
+        UserEventRating.USER_EVENT_RATING,
         UserRole.USER_ROLE
     )
 }

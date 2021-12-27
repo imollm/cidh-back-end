@@ -53,6 +53,7 @@ create table event_forum_message
     event_id       varchar   not null,
     parent_id      varchar,
     created_at     timestamp not null,
+    message        varchar   not null,
 
     constraint fk_forum_author foreign key (author_user_id) references "user" (id),
     constraint fk_parent_comment foreign key (parent_id) references event_forum_message (id),

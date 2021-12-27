@@ -5,11 +5,13 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.input.PostForumMessageRequest
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.output.ForumResponse
 import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
+import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.EventRating
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEventComment
 import edu.uoc.hagendazs.macadamianut.application.media.service.MediaService
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class MediaServiceImpl: MediaService {
@@ -31,22 +33,23 @@ class MediaServiceImpl: MediaService {
     }
 
     override fun rateEvent(event: CIDHEvent, user: MNUser, rating: Int) {
-        return mediaRepo.saveRatingForEvent(event, user, rating)
+        return mediaRepo.saveOrUpdateRatingForEvent(event, user, rating)
     }
 
     override fun attendEvent(attendedEvent: CIDHEvent, attendee: MNUser) {
+        //TODO validate dates before attending
         return mediaRepo.saveUserAttendsToEvent(attendee, attendedEvent)
     }
 
-    override fun postComment(event: CIDHEvent, comment: String, user: MNUser) {
-        mediaRepo.saveCommentForEvent(comment, event, user)
+    override fun postComment(event: CIDHEvent, comment: String, user: MNUser, createdAt: LocalDateTime) {
+        mediaRepo.saveCommentForEvent(comment, event, user, createdAt)
     }
 
     override fun commentsForEvent(event: CIDHEvent): Collection<UserEventComment> {
         return mediaRepo.commentsForEvent(event)
     }
 
-    override fun ratingForEvent(eventId: String): Number {
+    override fun ratingForEvent(eventId: String?): EventRating? {
         return mediaRepo.ratingForEvent(eventId)
     }
 
