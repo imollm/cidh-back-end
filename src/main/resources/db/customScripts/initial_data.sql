@@ -19,6 +19,9 @@ INSERT INTO user_role VALUES ('d5864ae9-d386-4o37-a5b0-46f9120beb4f', 'd578fae9-
 -- Create a user with role ADMIN
 INSERT INTO "user" VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4f', 'Admin', 'Admin', null, null, 'admin@indahou.se', null, true, 'English', '$2a$12$HbyTXCCqe6g40P58rnmwAerxkxHS2yyIAhFF2FNMgCD1WYY9trGH2', NOW(), NOW());
 INSERT INTO user_role VALUES ('d578fae9-d386-4o37-a5b0-46f9120beb4f', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', 'ADMIN');
+-- Create a user with role USER
+INSERT INTO "user" VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'User', 'User', null, null, 'user@indahou.se', null, true, 'English', '$2a$12$MEca2otGtxx.BRZZ04D5vuOEyCG5xUJ/TQuIvleGqOrjGop/YvgzW', NOW(), NOW());
+INSERT INTO user_role VALUES ('d578fae9-d386-4o37-a5b0-46f9120beb45', 'd578fae9-d376-4o37-a5b0-46f9128beb4g', 'USER');
 
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb4f', 'Event organizer 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'Event organizer 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
