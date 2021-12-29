@@ -22,6 +22,7 @@ data class EventResponse(
     val labels: Collection<Label>,
     val eventOrganizer: EventOrganizer,
     val eventUrl: String,
+    val isFavorite: Boolean,
 ) : CIDHEvent
 
 fun DBEvent.toEventResponse(
@@ -29,6 +30,7 @@ fun DBEvent.toEventResponse(
     category: Category,
     labels: Collection<Label>,
     eventOrganizer: EventOrganizer,
+    isFavorite: Boolean,
 ): EventResponse {
     return EventResponse(
         id = id,
@@ -42,5 +44,6 @@ fun DBEvent.toEventResponse(
         labels = labels,
         eventOrganizer = eventOrganizer,
         eventUrl = eventUrl,
+        isFavorite = isFavorite,
     )
 }

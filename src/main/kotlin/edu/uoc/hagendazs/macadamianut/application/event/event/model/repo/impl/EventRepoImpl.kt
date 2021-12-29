@@ -41,25 +41,25 @@ class EventRepoImpl : EventRepo {
 
     private val logger = KotlinLogging.logger {}
 
-    override fun findById(id: String): EventResponse? {
+    override fun findById(id: String, requesterUserId: String?): EventResponse? {
         val dbEvent = dsl.selectFrom(EVENT)
             .where(EVENT.ID.eq(id))
             .fetchOne()
             ?.into(DBEvent::class.java)
 
-        return toEventObject(dbEvent)
+        return toEventObject(dbEvent, requesterUserId)
     }
 
-    override fun findByName(name: String): EventResponse? {
+    override fun findByName(name: String, requesterUserId: String?): EventResponse? {
         val dbEvent = dsl.selectFrom(EVENT)
             .where(EVENT.NAME.eq(name))
             .fetchOne()
             ?.into(DBEvent::class.java)
 
-        return toEventObject(dbEvent)
+        return toEventObject(dbEvent, requesterUserId)
     }
 
-    private fun toEventObject(dbEvent: DBEvent?): EventResponse? {
+    private fun toEventObject(dbEvent: DBEvent?, requesterUserId: String?): EventResponse? {
         dbEvent ?: return null
         val category = categoryRepo.findById(dbEvent.categoryId) ?: kotlin.run {
             throw IllegalStateException("Category cannot be null")
@@ -72,11 +72,14 @@ class EventRepoImpl : EventRepo {
             throw IllegalStateException("Rating cannot be null")
         }
 
+        val isFavorite = mediaRepo.isFavoriteEventForUserId(dbEvent.id, requesterUserId)
+
         return dbEvent.toEventResponse(
             rating = rating,
             category = category,
             labels = labels,
-            eventOrganizer = eventOrganizer
+            eventOrganizer = eventOrganizer,
+            isFavorite = isFavorite,
         )
     }
 
@@ -84,11 +87,11 @@ class EventRepoImpl : EventRepo {
         val eventRecord = dsl.newRecord(EVENT, newEvent)
         eventRecord.store()
         insertLabelsForEvent(labelIds, newEvent)
-        return this.findById(newEvent.id)
+        return this.findById(newEvent.id, null)
     }
 
     @Transactional
-    override fun update(eventToUpdate: DBEvent, labelIds: Collection<String>): EventResponse? {
+    override fun update(eventToUpdate: DBEvent, labelIds: Collection<String>, requesterUserId: String?): EventResponse? {
         dsl.update(EVENT)
             .set(EVENT.NAME, eventToUpdate.name)
             .set(EVENT.DESCRIPTION, eventToUpdate.description)
@@ -110,7 +113,7 @@ class EventRepoImpl : EventRepo {
         val labelsToDelete = existingLabelIds.minus(labelIds.toSet())
         deleteLabelsForEvent(labelsToDelete, eventToUpdate)
 
-        return findById(eventToUpdate.id)
+        return findById(eventToUpdate.id, requesterUserId)
     }
 
     private fun deleteLabelsForEvent(labelsToDelete: Set<String>, eventToUpdate: DBEvent) {
@@ -144,7 +147,8 @@ class EventRepoImpl : EventRepo {
         categories: Collection<String>,
         names: Collection<String>,
         admins: Collection<String>,
-        limit: Int?
+        limit: Int?,
+        requesterUserId: String?
     ): Collection<EventResponse> {
 
         var selectJoin = dsl.select(EVENT.asterisk()).from(EVENT)
@@ -174,13 +178,13 @@ class EventRepoImpl : EventRepo {
             .orderBy(EVENT.START_DATE.asc())
             .limit(limit ?: Int.MAX_VALUE)
             .fetchInto(DBEvent::class.java)
-            .mapNotNull { toEventObject(it) }
+            .mapNotNull { toEventObject(it, requesterUserId) }
 
     }
 
-    override fun findEventsWithLabels(labels: Collection<String>): Collection<EventResponse> {
+    override fun findEventsWithLabels(labels: Collection<String>, requesterUserId: String?): Collection<EventResponse> {
         if (labels.isEmpty()) {
-            return this.findAllEvents()
+            return this.findAllEvents(requesterUserId)
         }
         return dsl.select(EVENT.asterisk())
             .from(EVENT)
@@ -188,12 +192,12 @@ class EventRepoImpl : EventRepo {
             .join(CATEGORY).on(CATEGORY.ID.eq(LABEL_EVENT.LABEL_ID))
             .where(CATEGORY.NAME.`in`(labels))
             .fetchInto(DBEvent::class.java)
-            .mapNotNull { toEventObject(it) }
+            .mapNotNull { toEventObject(it, requesterUserId) }
     }
 
-    override fun findAllEvents(): Collection<EventResponse> {
+    override fun findAllEvents(requesterUserId: String?): Collection<EventResponse> {
         return dsl.selectFrom(EVENT)
             .fetchInto(DBEvent::class.java)
-            .mapNotNull { toEventObject(it) }
+            .mapNotNull { toEventObject(it, requesterUserId) }
     }
 }

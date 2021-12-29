@@ -34,6 +34,7 @@ class MediaController {
     @Autowired
     private lateinit var eventService: EventService
 
+    @PreAuthorize("hasAnyRole('SUPERADMIN', 'ADMIN', 'USER')")
     @PostMapping(value = ["/events/{eventId}/add-to-favorites"])
     fun addEventToFavorites(
         @PathVariable("eventId") eventId: String,
@@ -151,7 +152,7 @@ class MediaController {
         throw ResponseStatusException(HttpStatus.BAD_REQUEST, HTTPMessages.USER_NOT_FOUND)
     }
 
-    private fun getEventOrThrow(eventId: String) = eventService.findById(eventId) ?: run {
+    private fun getEventOrThrow(eventId: String) = eventService.findById(eventId, null) ?: run {
         throw ResponseStatusException(HttpStatus.BAD_REQUEST, HTTPMessages.NOT_FOUND)
     }
 }

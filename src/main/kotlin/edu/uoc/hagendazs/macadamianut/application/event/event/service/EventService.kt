@@ -10,14 +10,23 @@ interface EventService {
         labelIds: Collection<String>
     ): EventResponse?
 
-    fun updateEvent(eventToUpdate: DBEvent,
-                    labelIds: Collection<String>): EventResponse?
-    fun findById(eventId: String): EventResponse?
+    fun updateEvent(
+        eventToUpdate: DBEvent,
+        labelIds: Collection<String>,
+        requesterUserId: String?,
+    ): EventResponse?
+
+    fun findById(
+        eventId: String,
+        requesterUserId: String?,
+    ): EventResponse?
+
     fun findEventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,
         names: Collection<String>,
         admins: Collection<String>,
         limit: Int?,
+        requesterUserId: String?,
     ): Collection<EventResponse>
 }

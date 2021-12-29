@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -47,9 +48,10 @@ class EventController {
     fun updateEvent(
         @RequestBody newEventReq: NewOrUpdateEventRequest,
         @PathVariable("eventId") eventId: String,
+        jwtToken: Authentication?,
     ): ResponseEntity<EventResponse> {
         val eventToUpdate = newEventReq.toInternalEventModel().copy(id = eventId)
-        val updatedEvent = eventService.updateEvent(eventToUpdate, newEventReq.labelIds) ?: run {
+        val updatedEvent = eventService.updateEvent(eventToUpdate, newEventReq.labelIds, jwtToken?.name) ?: run {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to update event!")
         }
         return ResponseEntity.ok(updatedEvent)
@@ -58,8 +60,9 @@ class EventController {
     @GetMapping(value = ["/events/{eventId}"])
     fun getEventById(
         @PathVariable("eventId") eventId: String,
+        jwtToken: Authentication?,
     ): ResponseEntity<EventResponse> {
-        val event = eventService.findById(eventId) ?: run {
+        val event = eventService.findById(eventId, jwtToken?.name) ?: run {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id $eventId not found in this server")
         }
         return ResponseEntity.ok(event)
@@ -72,8 +75,10 @@ class EventController {
         @RequestParam(required = false) name: Collection<String>?,
         @RequestParam(required = false) admin: Collection<String>?,
         @RequestParam(required = false) limit: Int?,
+        jwtToken: Authentication?,
     ): ResponseEntity<Collection<EventResponse>> {
         val eventCollection = eventService.findEventsWithFilters(
+            requesterUserId = jwtToken?.name,
             labels = label ?: emptyList(),
             categories = category  ?: emptyList(),
             names = name  ?: emptyList(),

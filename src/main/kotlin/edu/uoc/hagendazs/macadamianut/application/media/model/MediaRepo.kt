@@ -20,4 +20,5 @@ interface MediaRepo {
     fun commentsForEvent(event: CIDHEvent): Collection<UserEventComment>
     fun saveForumMessageForEvent(event: CIDHEvent, user: MNUser, forumMessageReq: PostForumMessageRequest)
     fun getForumMessagesForEvent(eventId: String): Collection<ForumMessage>
+    fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean
 }

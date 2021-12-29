@@ -12,10 +12,6 @@ data class CreateCategoryRequest(
         require(name.isNotBlank()) {
             "Name could not be bull or empty"
         }
-        val doesNotHaveWhiteSpaces = name.replace(regex = Regex("\\s+"),  replacement = "").length == name.length
-        require(doesNotHaveWhiteSpaces) {
-            "Category names could not contain white spaces"
-        }
         require(description.isNotBlank()) {
             "Description could not be null or empty"
         }

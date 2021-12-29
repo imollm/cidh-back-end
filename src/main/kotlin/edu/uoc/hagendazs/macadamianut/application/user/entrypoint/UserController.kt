@@ -79,7 +79,7 @@ class UserController {
     fun updateUser(
         @PathVariable("userId") userId: String?,
         @RequestBody @Valid userData: UpdateUserRequest,
-        jwtToken: Authentication
+        jwtToken: Authentication,
     ): ResponseEntity<MNUser> {
         validateUpdateUserAuthorization(userId, userData, jwtToken.name)
         val resolvedPersonId = resolveUserId(userId, jwtToken)

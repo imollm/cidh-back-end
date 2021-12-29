@@ -29,7 +29,7 @@ class EventServiceImpl : EventService {
 
     override fun createEvent(newEvent: DBEvent, categoryName: String?, labelIds: Collection<String>): EventResponse? {
         // check duplicate event names
-        eventRepo.findByName(newEvent.name)?.let {
+        eventRepo.findByName(newEvent.name, null)?.let {
             throw EventAlreadyExistsException("${it.name} already exists in ")
         }
         val labelsFromDb = labelRepo.findLabelsWithId(labelIds).map { it.id }
@@ -52,15 +52,19 @@ class EventServiceImpl : EventService {
         return createdEvent
     }
 
-    override fun updateEvent(eventToUpdate: DBEvent, labelIds: Collection<String>): EventResponse? {
-        eventRepo.findById(eventToUpdate.id) ?: run {
+    override fun updateEvent(
+        eventToUpdate: DBEvent,
+        labelIds: Collection<String>,
+        requesterUserId: String?
+    ): EventResponse? {
+        eventRepo.findById(eventToUpdate.id, requesterUserId) ?: run {
             EventDoesNotExistException("Event with id ${eventToUpdate.id} does not exist in this server")
         }
-        return eventRepo.update(eventToUpdate, labelIds)
+        return eventRepo.update(eventToUpdate, labelIds, requesterUserId)
     }
 
-    override fun findById(eventId: String): EventResponse? {
-        return eventRepo.findById(eventId)
+    override fun findById(eventId: String, requesterUserId: String?): EventResponse? {
+        return eventRepo.findById(eventId, requesterUserId)
     }
 
     override fun findEventsWithFilters(
@@ -68,7 +72,8 @@ class EventServiceImpl : EventService {
         categories: Collection<String>,
         names: Collection<String>,
         admins: Collection<String>,
-        limit: Int?
+        limit: Int?,
+        requesterUserId: String?
     ): Collection<EventResponse> {
         return eventRepo.eventsWithFilters(
             labels,
@@ -76,6 +81,7 @@ class EventServiceImpl : EventService {
             names,
             admins,
             limit,
+            requesterUserId
         )
     }
 }

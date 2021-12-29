@@ -58,6 +58,7 @@ class MediaRepoImpl : MediaRepo {
         dsl.insertInto(USER_EVENT_FAVORITES)
             .set(USER_EVENT_FAVORITES.EVENT_ID, event.id)
             .set(USER_EVENT_FAVORITES.USER_ID, user.id)
+            .set(USER_EVENT_FAVORITES.CREATED_AT, LocalDateTime.now())
             .execute()
     }
 
@@ -76,7 +77,7 @@ class MediaRepoImpl : MediaRepo {
             .where(USER_EVENT_FAVORITES.USER_ID.eq(user.id))
             .fetchInto(String::class.java)
 
-        return eventIds.mapNotNull { eventRepo.findById(it) }
+        return eventIds.mapNotNull { eventRepo.findById(it, user.id) }
     }
 
     override fun saveOrUpdateRatingForEvent(event: CIDHEvent, user: MNUser, rating: Int) {
@@ -180,5 +181,14 @@ class MediaRepoImpl : MediaRepo {
             .from(EVENT_FORUM_MESSAGE)
             .where(EVENT_FORUM_MESSAGE.EVENT_ID.eq(eventId))
             .fetchInto(ForumMessage::class.java)
+    }
+
+    override fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean {
+        requesterUserId ?: return false
+        return dsl.fetchExists(
+            dsl.selectFrom(USER_EVENT_FAVORITES)
+                .where(USER_EVENT_FAVORITES.USER_ID.eq(requesterUserId))
+                .and(USER_EVENT_FAVORITES.EVENT_ID.eq(eventId))
+        )
     }
 }
