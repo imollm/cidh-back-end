@@ -1,5 +1,6 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo
 
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 
@@ -8,7 +9,12 @@ interface EventRepo {
     fun findByName(name: String, requesterUserId: String?): EventResponse?
     fun create(newEvent: DBEvent, labelIds: Collection<String>): EventResponse?
     fun findById(id: String, requesterUserId: String?): EventResponse?
-    fun update(eventToUpdate: DBEvent, labelIds: Collection<String>, requesterUserId: String?): EventResponse?
+    fun update(
+        eventId: String,
+        updateEventRequest: NewOrUpdateEventRequest,
+        requesterUserId: String?,
+        categoryId: String?
+    ): EventResponse?
     fun eventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,

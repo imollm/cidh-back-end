@@ -1,18 +1,16 @@
 package edu.uoc.hagendazs.macadamianut.application.event.event.service
 
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 
 interface EventService {
     fun createEvent(
-        newEvent: DBEvent,
-        categoryName: String?,
-        labelIds: Collection<String>
+        newEvent:NewOrUpdateEventRequest
     ): EventResponse?
 
     fun updateEvent(
-        eventToUpdate: DBEvent,
-        labelIds: Collection<String>,
+        eventId: String,
+        updateEventRequest: NewOrUpdateEventRequest,
         requesterUserId: String?,
     ): EventResponse?
 

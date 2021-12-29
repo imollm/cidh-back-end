@@ -3,6 +3,7 @@ package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.impl
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.uoc.hagendazs.generated.jooq.tables.references.*
 import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.toEventResponse
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
@@ -47,6 +48,10 @@ class EventRepoImpl : EventRepo {
             .fetchOne()
             ?.into(DBEvent::class.java)
 
+        val rawFetch = dsl.selectFrom(EVENT)
+            .where(EVENT.ID.eq(id))
+            .fetchOne()
+
         return toEventObject(dbEvent, requesterUserId)
     }
 
@@ -61,15 +66,15 @@ class EventRepoImpl : EventRepo {
 
     private fun toEventObject(dbEvent: DBEvent?, requesterUserId: String?): EventResponse? {
         dbEvent ?: return null
-        val category = categoryRepo.findById(dbEvent.categoryId) ?: kotlin.run {
+        val category = categoryRepo.findById(dbEvent.categoryId) ?: run {
             throw IllegalStateException("Category cannot be null")
         }
         val labels = labelRepo.labelsForEvent(dbEvent.id)
-        val eventOrganizer = eventOrganizerRepo.getEventOrganizer(dbEvent.organizerId) ?: kotlin.run {
-            throw IllegalStateException("Event Organizer cannot be null")
+        val eventOrganizer = eventOrganizerRepo.getEventOrganizer(dbEvent.organizerId) ?: run {
+            throw IllegalStateException("Event Organizer not found")
         }
-        val rating = mediaRepo.ratingForEvent(dbEvent.id) ?: kotlin.run {
-            throw IllegalStateException("Rating cannot be null")
+        val rating = mediaRepo.ratingForEvent(dbEvent.id) ?: run {
+            throw IllegalStateException("Rating not found")
         }
 
         val isFavorite = mediaRepo.isFavoriteEventForUserId(dbEvent.id, requesterUserId)
@@ -86,46 +91,52 @@ class EventRepoImpl : EventRepo {
     override fun create(newEvent: DBEvent, labelIds: Collection<String>): EventResponse? {
         val eventRecord = dsl.newRecord(EVENT, newEvent)
         eventRecord.store()
-        insertLabelsForEvent(labelIds, newEvent)
+        insertLabelsForEvent(labelIds, newEvent.id)
         return this.findById(newEvent.id, null)
     }
 
     @Transactional
-    override fun update(eventToUpdate: DBEvent, labelIds: Collection<String>, requesterUserId: String?): EventResponse? {
+    override fun update(
+        eventId: String,
+        updateEventRequest: NewOrUpdateEventRequest,
+        requesterUserId: String?,
+        categoryId: String?
+    ): EventResponse? {
         dsl.update(EVENT)
-            .set(EVENT.NAME, eventToUpdate.name)
-            .set(EVENT.DESCRIPTION, eventToUpdate.description)
-            .set(EVENT.HEADER_IMAGE, eventToUpdate.headerImage.toString())
-            .set(EVENT.START_DATE, eventToUpdate.startDate)
-            .set(EVENT.END_DATE, eventToUpdate.endDate)
-            .set(EVENT.CATEGORY_ID, eventToUpdate.categoryId)
+            .set(EVENT.NAME, updateEventRequest.name)
+            .set(EVENT.DESCRIPTION, updateEventRequest.description)
+            .set(EVENT.HEADER_IMAGE, updateEventRequest.headerImage.toString())
+            .set(EVENT.START_DATE, updateEventRequest.startDate)
+            .set(EVENT.END_DATE, updateEventRequest.endDate)
+            .set(EVENT.CATEGORY_ID, categoryId)
+            .where(EVENT.ID.eq(eventId))
             .execute()
 
         val existingLabelIds = dsl.select(LABEL_EVENT.LABEL_ID)
             .from(LABEL_EVENT)
-            .where(LABEL_EVENT.LABEL_ID.`in`(labelIds))
+            .where(LABEL_EVENT.LABEL_ID.`in`(updateEventRequest.labelIds))
             .fetchInto(String::class.java)
             .toSet()
 
-        val labelIdsToInsert = labelIds.minus(existingLabelIds)
-        insertLabelsForEvent(labelIdsToInsert, eventToUpdate)
+        val labelIdsToInsert = updateEventRequest.labelIds.minus(existingLabelIds)
+        insertLabelsForEvent(labelIdsToInsert, eventId)
 
-        val labelsToDelete = existingLabelIds.minus(labelIds.toSet())
-        deleteLabelsForEvent(labelsToDelete, eventToUpdate)
+        val labelsToDelete = existingLabelIds.minus(updateEventRequest.labelIds.toSet())
+        deleteLabelsForEvent(labelsToDelete, eventId)
 
-        return findById(eventToUpdate.id, requesterUserId)
+        return findById(eventId, requesterUserId)
     }
 
-    private fun deleteLabelsForEvent(labelsToDelete: Set<String>, eventToUpdate: DBEvent) {
+    private fun deleteLabelsForEvent(labelsToDelete: Set<String>, eventId: String) {
         dsl.deleteFrom(LABEL_EVENT)
-            .where(LABEL_EVENT.EVENT_ID.eq(eventToUpdate.id))
+            .where(LABEL_EVENT.EVENT_ID.eq(eventId))
             .and(LABEL_EVENT.LABEL_ID.`in`(labelsToDelete))
             .execute()
     }
 
     private fun insertLabelsForEvent(
         labelIdsToInsert: Collection<String>,
-        eventToUpdate: DBEvent
+        eventId: String
     ) {
         // jOOQ requires dummy bind values for the original query
         // https://www.jooq.org/doc/3.15/manual/sql-execution/batch-execution/
@@ -134,7 +145,7 @@ class EventRepoImpl : EventRepo {
         )
 
         labelIdsToInsert.forEach { labelIdToInsert ->
-            batchQuery.bind(eventToUpdate.id, labelIdToInsert)
+            batchQuery.bind(eventId, labelIdToInsert)
         }
 
         if (labelIdsToInsert.isNotEmpty()) {

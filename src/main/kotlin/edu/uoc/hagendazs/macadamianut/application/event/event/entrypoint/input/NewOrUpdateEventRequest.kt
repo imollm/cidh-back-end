@@ -10,7 +10,7 @@ data class NewOrUpdateEventRequest(
     val headerImage: URI?,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
-    val category: String?,
+    val category: String,
     val organizerId: String,
     val eventUrl: String,
     val labelIds: Collection<String>,
@@ -23,7 +23,7 @@ data class NewOrUpdateEventRequest(
         require(name.isNotBlank()) { "Event name cannot be empty" }
     }
 
-    fun toInternalEventModel(): DBEvent {
+    fun toInternalEventModel(categoryId: String): DBEvent {
         return DBEvent(
             name = name,
             description = description,
@@ -31,7 +31,8 @@ data class NewOrUpdateEventRequest(
             startDate = startDate,
             endDate = endDate,
             organizerId = organizerId,
-            eventUrl = eventUrl
+            eventUrl = eventUrl,
+            categoryId = categoryId
         )
     }
 }

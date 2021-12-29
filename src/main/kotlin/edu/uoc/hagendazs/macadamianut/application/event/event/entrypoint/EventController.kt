@@ -31,12 +31,7 @@ class EventController {
         @RequestBody newEventReq: NewOrUpdateEventRequest,
         request: HttpServletRequest,
     ): ResponseEntity<EventResponse> {
-        val newEvent = newEventReq.toInternalEventModel()
-        val createdEvent = eventService.createEvent(
-            newEvent = newEvent,
-            categoryName = newEventReq.category,
-            labelIds = newEventReq.labelIds,
-        ) ?: run {
+        val createdEvent = eventService.createEvent(newEventReq) ?: run {
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to create event!")
         }
         val eventUriString = request.requestURL.toString().plus("/${createdEvent.id}")
@@ -50,8 +45,11 @@ class EventController {
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication?,
     ): ResponseEntity<EventResponse> {
-        val eventToUpdate = newEventReq.toInternalEventModel().copy(id = eventId)
-        val updatedEvent = eventService.updateEvent(eventToUpdate, newEventReq.labelIds, jwtToken?.name) ?: run {
+        val updatedEvent = eventService.updateEvent(
+            eventId,
+            newEventReq,
+            jwtToken?.name
+        ) ?: run {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to update event!")
         }
         return ResponseEntity.ok(updatedEvent)

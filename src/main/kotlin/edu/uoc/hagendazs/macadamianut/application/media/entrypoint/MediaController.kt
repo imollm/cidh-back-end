@@ -91,7 +91,7 @@ class MediaController {
         return ResponseEntity.ok().build()
     }
 
-    @PostMapping(value = ["/events/{eventId}/attend"])
+    @PostMapping(value = ["/events/{eventId}/subscribe"])
     fun attendEvent(
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication,

@@ -12,7 +12,7 @@ data class DBEvent (
     val headerImage: URI?,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
-    val categoryId: String? = null,
+    val categoryId: String,
     val organizerId: String,
     val eventUrl: String,
 ): CIDHEvent
