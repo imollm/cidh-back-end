@@ -55,6 +55,17 @@ class MediaRepoImpl : MediaRepo {
     }
 
     override fun addToFavorites(event: CIDHEvent, user: MNUser) {
+
+        val favEventRelationAlreadyExists = dsl.fetchExists(
+            dsl.selectFrom(USER_EVENT_FAVORITES)
+                .where(USER_EVENT_FAVORITES.USER_ID.eq(user.id))
+                .and(USER_EVENT_FAVORITES.EVENT_ID.eq(event.id))
+        )
+
+        if (favEventRelationAlreadyExists) {
+            return
+        }
+
         dsl.insertInto(USER_EVENT_FAVORITES)
             .set(USER_EVENT_FAVORITES.EVENT_ID, event.id)
             .set(USER_EVENT_FAVORITES.USER_ID, user.id)

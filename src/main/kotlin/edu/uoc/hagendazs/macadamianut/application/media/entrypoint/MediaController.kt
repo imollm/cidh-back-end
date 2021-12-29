@@ -39,26 +39,30 @@ class MediaController {
     fun addEventToFavorites(
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication
-    ) {
+    ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
         mediaService.addToFavorites(event, user)
+        return ResponseEntity.ok().build()
     }
 
+    @PreAuthorize("hasAnyRole('SUPERADMIN', 'ADMIN', 'USER')")
     @PostMapping(value = ["/events/{eventId}/remove-from-favorites"])
     fun removeFromFavorites(
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication
-    ) {
+    ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
         mediaService.removeFromFavorites(event, user)
+        return ResponseEntity.ok().build()
     }
 
-    @PreAuthorize("#userId == authentication.principal.claims['username'] or hasAnyRole('ADMIN', 'SUPERADMIN')")
+    @PreAuthorize("#userId == authentication.principal.claims['username'] " +
+            "or hasAnyRole('ADMIN', 'SUPERADMIN') or #userId == null")
     @GetMapping(value = ["/users/{userId}/favorite-events", "/users/me/favorite-events"])
     fun getUserFavorites(
-        @PathVariable userId: String,
+        @PathVariable userId: String?,
         jwtToken: Authentication
     ): ResponseEntity<Collection<CIDHEvent>> {
         val resolvedUserId = UserUtils.resolveUserId(userId, jwtToken)
@@ -76,20 +80,22 @@ class MediaController {
         @PathVariable("eventId") eventId: String,
         @PathVariable("rating") rating: Int,
         jwtToken: Authentication
-    ) {
+    ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
         mediaService.rateEvent(event, user, rating)
+        return ResponseEntity.ok().build()
     }
 
     @PostMapping(value = ["/events/{eventId}/attend"])
     fun attendEvent(
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication,
-    ) {
+    ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
         mediaService.attendEvent(event, user)
+        return ResponseEntity.ok().build()
     }
 
     @PostMapping(value = ["/events/{eventId}/post-comment"])
@@ -97,10 +103,11 @@ class MediaController {
         @PathVariable eventId: String,
         @RequestBody comment: EventCommentRequest,
         jwtToken: Authentication,
-    ) {
+    ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
         mediaService.postComment(event, comment.comment, user, comment.createdAt)
+        return ResponseEntity.ok().build()
     }
 
     @GetMapping(value = ["/events/{eventId}/comments"])
@@ -118,10 +125,11 @@ class MediaController {
         @PathVariable eventId: String,
         @RequestBody forumMessageReq: PostForumMessageRequest,
         jwtToken: Authentication,
-    ) {
+    ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
         //TODO ensure only ADMIn or SUPER ADMIN are allowed to respond to forum messages
         mediaService.postForumMessage(event, user, forumMessageReq)
+        return ResponseEntity.ok().build()
     }
 
     @GetMapping(value = ["/events/{eventId}/forum"])
