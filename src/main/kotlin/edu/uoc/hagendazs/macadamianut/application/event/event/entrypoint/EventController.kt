@@ -3,6 +3,7 @@ package edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
 import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
 import edu.uoc.hagendazs.macadamianut.application.event.event.service.EventService
+import edu.uoc.hagendazs.macadamianut.application.event.label.service.LabelService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,16 +21,20 @@ class EventController {
     @Autowired
     private lateinit var eventService: EventService
 
+    @Autowired
+    private lateinit var labelService: LabelService
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = ["/events"])
     fun createEvent(
-        @RequestBody newUserReq: NewOrUpdateEventRequest,
+        @RequestBody newEventReq: NewOrUpdateEventRequest,
         request: HttpServletRequest,
     ): ResponseEntity<EventResponse> {
-        val newEvent = newUserReq.toInternalEventModel()
+        val newEvent = newEventReq.toInternalEventModel()
         val createdEvent = eventService.createEvent(
             newEvent = newEvent,
-            categoryName = newUserReq.category
+            categoryName = newEventReq.category,
+            labelIds = newEventReq.labelIds,
         ) ?: run {
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to create event!")
         }
@@ -40,11 +45,11 @@ class EventController {
 
     @PostMapping(value = ["/events/{eventId}"])
     fun updateEvent(
-        @RequestBody newUserReq: NewOrUpdateEventRequest,
+        @RequestBody newEventReq: NewOrUpdateEventRequest,
         @PathVariable("eventId") eventId: String,
     ): ResponseEntity<EventResponse> {
-        val eventToUpdate = newUserReq.toInternalEventModel().copy(id = eventId)
-        val updatedEvent = eventService.updateEvent(eventToUpdate) ?: run {
+        val eventToUpdate = newEventReq.toInternalEventModel().copy(id = eventId)
+        val updatedEvent = eventService.updateEvent(eventToUpdate, newEventReq.labelIds) ?: run {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to update event!")
         }
         return ResponseEntity.ok(updatedEvent)

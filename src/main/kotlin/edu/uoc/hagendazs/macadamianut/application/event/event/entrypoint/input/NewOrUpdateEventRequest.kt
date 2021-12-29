@@ -13,6 +13,7 @@ data class NewOrUpdateEventRequest(
     val category: String?,
     val organizerId: String,
     val eventUrl: String,
+    val labelIds: Collection<String>,
 ) {
 
     init {

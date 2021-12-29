@@ -12,4 +12,5 @@ interface LabelRepo {
     fun findById(labelId: String): Label?
     fun removeLabelById(labelId: String): Boolean?
     fun labelsForEvent(eventId: String?): Collection<Label>
+    fun findLabelsWithId(labelIds: Collection<String>): Collection<Label>
 }

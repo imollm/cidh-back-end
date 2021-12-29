@@ -13,9 +13,10 @@ import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
 import mu.KotlinLogging
 import org.jooq.Condition
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.trueCondition
+import org.jooq.impl.DSL.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class EventRepoImpl : EventRepo {
@@ -79,14 +80,15 @@ class EventRepoImpl : EventRepo {
         )
     }
 
-    override fun create(newEvent: DBEvent): EventResponse? {
+    override fun create(newEvent: DBEvent, labelIds: Collection<String>): EventResponse? {
         val eventRecord = dsl.newRecord(EVENT, newEvent)
         eventRecord.store()
-
+        insertLabelsForEvent(labelIds, newEvent)
         return this.findById(newEvent.id)
     }
 
-    override fun update(eventToUpdate: DBEvent): EventResponse? {
+    @Transactional
+    override fun update(eventToUpdate: DBEvent, labelIds: Collection<String>): EventResponse? {
         dsl.update(EVENT)
             .set(EVENT.NAME, eventToUpdate.name)
             .set(EVENT.DESCRIPTION, eventToUpdate.description)
@@ -95,7 +97,46 @@ class EventRepoImpl : EventRepo {
             .set(EVENT.END_DATE, eventToUpdate.endDate)
             .set(EVENT.CATEGORY_ID, eventToUpdate.categoryId)
             .execute()
+
+        val existingLabelIds = dsl.select(LABEL_EVENT.LABEL_ID)
+            .from(LABEL_EVENT)
+            .where(LABEL_EVENT.LABEL_ID.`in`(labelIds))
+            .fetchInto(String::class.java)
+            .toSet()
+
+        val labelIdsToInsert = labelIds.minus(existingLabelIds)
+        insertLabelsForEvent(labelIdsToInsert, eventToUpdate)
+
+        val labelsToDelete = existingLabelIds.minus(labelIds.toSet())
+        deleteLabelsForEvent(labelsToDelete, eventToUpdate)
+
         return findById(eventToUpdate.id)
+    }
+
+    private fun deleteLabelsForEvent(labelsToDelete: Set<String>, eventToUpdate: DBEvent) {
+        dsl.deleteFrom(LABEL_EVENT)
+            .where(LABEL_EVENT.EVENT_ID.eq(eventToUpdate.id))
+            .and(LABEL_EVENT.LABEL_ID.`in`(labelsToDelete))
+            .execute()
+    }
+
+    private fun insertLabelsForEvent(
+        labelIdsToInsert: Collection<String>,
+        eventToUpdate: DBEvent
+    ) {
+        // jOOQ requires dummy bind values for the original query
+        // https://www.jooq.org/doc/3.15/manual/sql-execution/batch-execution/
+        val batchQuery = dsl.batch(
+            dsl.insertInto(LABEL_EVENT, LABEL_EVENT.EVENT_ID, LABEL_EVENT.LABEL_ID).values("", "")
+        )
+
+        labelIdsToInsert.forEach { labelIdToInsert ->
+            batchQuery.bind(eventToUpdate.id, labelIdToInsert)
+        }
+
+        if (labelIdsToInsert.isNotEmpty()) {
+            batchQuery.execute()
+        }
     }
 
     override fun eventsWithFilters(

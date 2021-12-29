@@ -34,6 +34,7 @@ class MediaRepoImpl : MediaRepo {
     override fun ratingForEvent(eventId: String?): EventRating? {
         eventId ?: return null
         val ratingsForEvent = dsl.select(USER_EVENT_RATING.RATING)
+            .from(USER_EVENT_RATING)
             .where(USER_EVENT_RATING.EVENT_ID.eq(eventId))
             .fetchInto(Int::class.java)
 

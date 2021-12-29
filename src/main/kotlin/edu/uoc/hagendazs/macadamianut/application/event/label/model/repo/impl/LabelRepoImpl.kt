@@ -62,12 +62,17 @@ class LabelRepoImpl : LabelRepo {
             ?.into(Label::class.java)
     }
 
+    @Transactional
     override fun removeLabelById(labelId: String): Boolean? {
+        //delete event label association first
+        dsl.deleteFrom(LABEL_EVENT)
+            .where(LABEL_EVENT.LABEL_ID.eq(labelId))
+
         val deleted = dsl.deleteFrom(LABEL)
             .where(LABEL.ID.eq(labelId))
             .execute()
 
-        return if (deleted > 0) true else null
+        return deleted > 0
     }
 
     override fun labelsForEvent(eventId: String?): Collection<Label> {
@@ -77,6 +82,12 @@ class LabelRepoImpl : LabelRepo {
             .join(LABEL_EVENT)
             .on(LABEL_EVENT.LABEL_ID.eq(LABEL.ID))
             .where(LABEL_EVENT.EVENT_ID.eq(eventId))
+            .fetchInto(Label::class.java)
+    }
+
+    override fun findLabelsWithId(labelIds: Collection<String>): Collection<Label> {
+        return dsl.selectFrom(LABEL)
+            .where(LABEL.ID.`in`(labelIds))
             .fetchInto(Label::class.java)
     }
 }

@@ -6,9 +6,9 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DB
 
 interface EventRepo {
     fun findByName(name: String): EventResponse?
-    fun create(newEvent: DBEvent): EventResponse?
+    fun create(newEvent: DBEvent, labelIds: Collection<String>): EventResponse?
     fun findById(id: String): EventResponse?
-    fun update(eventToUpdate: DBEvent): EventResponse?
+    fun update(eventToUpdate: DBEvent, labelIds: Collection<String>): EventResponse?
     fun eventsWithFilters(
         labels: Collection<String>,
         categories: Collection<String>,
