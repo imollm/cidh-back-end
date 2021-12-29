@@ -74,13 +74,17 @@ class MediaController {
         return ResponseEntity.ok(favEvents)
     }
 
-
-    @PostMapping(value = ["/events/{eventId}/rate?rating={rating}"])
+    @PreAuthorize("hasAnyRole('SUPERADMIN', 'ADMIN', 'USER')")
+    @PostMapping(value = ["/events/{eventId}/rate"])
     fun rateEvent(
         @PathVariable("eventId") eventId: String,
-        @PathVariable("rating") rating: Int,
+        @RequestParam("rating") rating: Int,
         jwtToken: Authentication
     ): ResponseEntity<Void> {
+        require((1..5).contains(rating)) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Rating should be between 1 and 5. " +
+                    "Provided rating -> $rating")
+        }
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
         mediaService.rateEvent(event, user, rating)

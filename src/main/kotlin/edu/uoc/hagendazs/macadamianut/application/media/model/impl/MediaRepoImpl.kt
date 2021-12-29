@@ -45,7 +45,7 @@ class MediaRepoImpl : MediaRepo {
                 eventId = eventId
             )
         }
-        val rating = ratingsForEvent.reduce { acc, rating -> acc + rating } / ratingsForEvent.size
+        val rating = ratingsForEvent.reduce { acc, rating -> acc + rating } / ratingsForEvent.size.toDouble()
 
         return EventRating(
             rating = rating,
@@ -94,7 +94,7 @@ class MediaRepoImpl : MediaRepo {
     override fun saveOrUpdateRatingForEvent(event: CIDHEvent, user: MNUser, rating: Int) {
 
         val ratingExists = dsl.fetchExists(
-            dsl.select(USER_EVENT_RATING.asterisk())
+            dsl.selectFrom(USER_EVENT_RATING)
                 .where(USER_EVENT_RATING.EVENT_ID.eq(event.id))
                 .and(USER_EVENT_RATING.USER_ID.eq(user.id))
         )

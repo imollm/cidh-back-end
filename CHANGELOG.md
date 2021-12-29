@@ -1,5 +1,13 @@
 # MACADAMIA NUT CHANGELOG
 
+##v0.0.9
+Changes:
+- Rate event completed. All events served now contains the rating info 
+
+Fixes:
+- ...
+
+
 ##v0.0.8
 Changes:
 - Add event / remove event from favorites completed.
