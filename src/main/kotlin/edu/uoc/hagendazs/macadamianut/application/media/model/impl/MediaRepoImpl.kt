@@ -54,6 +54,15 @@ class MediaRepoImpl : MediaRepo {
         )
     }
 
+    override fun userRatingForEvent(eventId: String, requesterUserId: String?): Number? {
+        return dsl.select(USER_EVENT_RATING.RATING)
+            .from(USER_EVENT_RATING)
+            .where(USER_EVENT_RATING.EVENT_ID.eq(eventId))
+            .and(USER_EVENT_RATING.USER_ID.eq(requesterUserId))
+            .fetchOne()
+            ?.into(Number::class.java)
+    }
+
     override fun addToFavorites(event: CIDHEvent, user: MNUser) {
 
         val favEventRelationAlreadyExists = dsl.fetchExists(
@@ -179,9 +188,11 @@ class MediaRepoImpl : MediaRepo {
             .fetchInto(UserEventComment::class.java)
     }
 
-    override fun saveForumMessageForEvent(event: CIDHEvent,
-                                          user: MNUser,
-                                          forumMessageReq: PostForumMessageRequest) {
+    override fun saveForumMessageForEvent(
+        event: CIDHEvent,
+        user: MNUser,
+        forumMessageReq: PostForumMessageRequest
+    ) {
 
         val messageExists = dsl.fetchExists(
             dsl.selectFrom(EVENT_FORUM_MESSAGE)

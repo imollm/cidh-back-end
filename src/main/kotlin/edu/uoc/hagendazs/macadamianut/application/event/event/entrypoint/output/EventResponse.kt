@@ -15,6 +15,7 @@ data class EventResponse(
     val name: String,
     val headerImage: URI?,
     val rating: EventRating,
+    val userRating: Number?,
     val description: String,
     val startDate: LocalDateTime,
     val endDate: LocalDateTime,
@@ -33,6 +34,7 @@ fun DBEvent.toEventResponse(
     eventOrganizer: EventOrganizer,
     isFavorite: Boolean,
     isUserSubscribed: Boolean,
+    userRating: Number?,
 ): EventResponse {
     return EventResponse(
         id = id,
@@ -48,5 +50,6 @@ fun DBEvent.toEventResponse(
         eventUrl = eventUrl,
         isFavorite = isFavorite,
         isUserSubscribed = isUserSubscribed,
+        userRating = userRating,
     )
 }

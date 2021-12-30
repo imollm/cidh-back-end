@@ -74,6 +74,8 @@ class EventRepoImpl : EventRepo {
 
         val isUserSubscribed = mediaRepo.isUserSubscribedToEvent(dbEvent.id, requesterUserId)
 
+        val latestUserRatingForEvent = mediaRepo.userRatingForEvent(dbEvent.id, requesterUserId)
+
         return dbEvent.toEventResponse(
             rating = rating,
             category = category,
@@ -81,6 +83,7 @@ class EventRepoImpl : EventRepo {
             eventOrganizer = eventOrganizer,
             isFavorite = isFavorite,
             isUserSubscribed = isUserSubscribed,
+            userRating = latestUserRatingForEvent,
         )
     }
 

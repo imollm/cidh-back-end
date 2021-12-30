@@ -23,4 +23,5 @@ interface MediaRepo {
     fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean
     fun unsubscribeUserFromEvent(user: MNUser, event: CIDHEvent)
     fun isUserSubscribedToEvent(eventId: String, requesterUserId: String?): Boolean
+    fun userRatingForEvent(eventId: String, requesterUserId: String?): Number?
 }
