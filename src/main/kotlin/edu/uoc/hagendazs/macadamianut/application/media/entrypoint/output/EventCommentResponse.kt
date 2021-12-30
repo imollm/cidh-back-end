@@ -6,13 +6,17 @@ import java.time.LocalDateTime
 data class EventCommentResponse(
     val authorId: String,
     val comment: String,
+    val userFullName: String,
     val createdAt: LocalDateTime
 )
 
-fun UserEventComment.toEventCommentResponse(): EventCommentResponse {
+fun UserEventComment.toEventCommentResponse(
+    userFullName: String,
+): EventCommentResponse {
     return EventCommentResponse(
         authorId = userId,
         comment = comment,
         createdAt = createdAt,
+        userFullName = userFullName,
     )
 }

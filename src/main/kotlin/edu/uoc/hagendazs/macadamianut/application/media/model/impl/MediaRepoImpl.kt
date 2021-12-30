@@ -12,6 +12,7 @@ import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.ForumMes
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEventComment
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import edu.uoc.hagendazs.macadamianut.application.user.model.repo.UserRepo
+import edu.uoc.hagendazs.macadamianut.application.user.utils.UserUtils
 import mu.KotlinLogging
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
@@ -240,7 +241,7 @@ class MediaRepoImpl : MediaRepo {
         val usersMapByUserId = userRepo.findUsersWithIds(userIds).associateBy { it.id }
 
         return dbMessage.map {
-            val userFirstName = fullNameForUser(usersMapByUserId, it.authorUserId)
+            val userFirstName = UserUtils.fullNameForUser(usersMapByUserId, it.authorUserId)
             ForumMessage(
                 id = it.id,
                 authorUserId = it.id,
@@ -251,14 +252,6 @@ class MediaRepoImpl : MediaRepo {
             )
         }
 
-    }
-
-    private fun fullNameForUser(
-        usersMapByUserId: Map<String, MNUser>,
-        userId: String,
-    ): String {
-        val user = usersMapByUserId[userId] ?: return ""
-        return "${user.firstName} ${user.lastName}"
     }
 
     override fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean {

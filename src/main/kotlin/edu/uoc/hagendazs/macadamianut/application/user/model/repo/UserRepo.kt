@@ -15,5 +15,5 @@ interface UserRepo {
     fun existsByEmail(email: String): Boolean
     fun createUser(newUser: MNUser, role: RoleEnum): MNUser?
     fun permissionsForRole(role: RoleEnum): String?
-    fun findUsersWithIds(userIds: List<String>): Collection<MNUser>
+    fun findUsersWithIds(userIds: Collection<String>): Collection<MNUser>
 }
