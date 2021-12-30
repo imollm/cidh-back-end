@@ -1,5 +1,16 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.0.0
+Changes:
+- Subscribe / Unsubscribe endpoints completed
+- `isUserSubscribed` is now sent in the Event Response
+- User Rating is now published in the EventResponse.
+- Comments endpoints implemented (post comment and get all comments)
+- Forum messages implemented (Post message to Forum, retrieve Forum)
+
+Fixes:
+- ...
+
 ##v0.0.9
 Changes:
 - Rate event completed. All events served now contains the rating info 

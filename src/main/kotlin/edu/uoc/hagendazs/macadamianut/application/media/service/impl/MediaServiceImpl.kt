@@ -10,6 +10,7 @@ import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEven
 import edu.uoc.hagendazs.macadamianut.application.media.service.MediaService
 import edu.uoc.hagendazs.macadamianut.application.media.service.exceptions.UserAlreadyCommentedException
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
+import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -19,6 +20,9 @@ class MediaServiceImpl: MediaService {
 
     @Autowired
     private lateinit var mediaRepo: MediaRepo
+
+    @Autowired
+    private lateinit var userService: UserService
 
 
     override fun addToFavorites(event: CIDHEvent, user: MNUser) {

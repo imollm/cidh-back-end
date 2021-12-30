@@ -135,6 +135,7 @@ class MediaController {
         return ResponseEntity.ok(eventComments)
     }
 
+    @PreAuthorize ("#forumMessageReq.parentMessageId == null or hasAnyRole('ADMIN', 'SUPERADMIN')")
     @PostMapping(value = ["/events/{eventId}/forum/post-message"])
     fun postMessageInForum(
         @PathVariable eventId: String,
@@ -142,7 +143,6 @@ class MediaController {
         jwtToken: Authentication,
     ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
-        //TODO ensure only ADMIn or SUPER ADMIN are allowed to respond to forum messages
         mediaService.postForumMessage(event, user, forumMessageReq)
         return ResponseEntity.ok().build()
     }
