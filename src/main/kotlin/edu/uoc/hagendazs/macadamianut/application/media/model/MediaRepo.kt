@@ -24,4 +24,5 @@ interface MediaRepo {
     fun unsubscribeUserFromEvent(user: MNUser, event: CIDHEvent)
     fun isUserSubscribedToEvent(eventId: String, requesterUserId: String?): Boolean
     fun userRatingForEvent(eventId: String, requesterUserId: String?): Number?
+    fun hasUserAlreadyCommentedEvent(eventId: String, userId: String): Boolean
 }

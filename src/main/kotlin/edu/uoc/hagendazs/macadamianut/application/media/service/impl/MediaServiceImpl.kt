@@ -8,6 +8,7 @@ import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.EventRating
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEventComment
 import edu.uoc.hagendazs.macadamianut.application.media.service.MediaService
+import edu.uoc.hagendazs.macadamianut.application.media.service.exceptions.UserAlreadyCommentedException
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -45,6 +46,12 @@ class MediaServiceImpl: MediaService {
     }
 
     override fun postComment(event: CIDHEvent, comment: String, user: MNUser, createdAt: LocalDateTime) {
+
+        val userAlreadyCommented = mediaRepo.hasUserAlreadyCommentedEvent(event.id, user.id)
+        if (userAlreadyCommented) {
+            throw UserAlreadyCommentedException("User ${user.id} has already commented on event ${event.id}")
+        }
+
         mediaRepo.saveCommentForEvent(comment, event, user, createdAt)
     }
 

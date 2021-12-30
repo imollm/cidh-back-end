@@ -113,6 +113,12 @@ class UserRepoImpl : UserRepo {
 
     }
 
+    override fun findUsersWithIds(userIds: List<String>): Collection<MNUser> {
+        return dsl.selectFrom(USER)
+            .where(USER.ID.`in`(userIds))
+            .fetchInto(MNUser::class.java)
+    }
+
     override fun userRolesForUserId(userId: String): Iterable<UserRole> {
         return dsl.selectFrom(USER_ROLE)
             .where(USER_ROLE.USER.eq(userId))

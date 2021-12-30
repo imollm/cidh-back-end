@@ -9,8 +9,10 @@ data class ForumResponse(
 )
 
 data class ForumMessage(
-    val authorId: String,
+    val id: String,
+    val authorUserId: String,
     val authorFirstName: String,
     val createdAt: LocalDateTime,
+    val parentMessageId: String?,
     val message: String,
 )

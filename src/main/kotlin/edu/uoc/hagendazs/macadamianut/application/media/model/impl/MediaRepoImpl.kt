@@ -8,8 +8,10 @@ import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.input.PostFor
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.output.ForumMessage
 import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.EventRating
+import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.ForumMessageDb
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEventComment
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
+import edu.uoc.hagendazs.macadamianut.application.user.model.repo.UserRepo
 import mu.KotlinLogging
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,6 +30,10 @@ class MediaRepoImpl : MediaRepo {
     @Autowired
     @Lazy
     private lateinit var eventRepo: EventRepo
+
+    @Autowired
+    @Lazy
+    private lateinit var userRepo: UserRepo
 
     private val logger = KotlinLogging.logger {}
 
@@ -160,6 +166,14 @@ class MediaRepoImpl : MediaRepo {
         )
     }
 
+    override fun hasUserAlreadyCommentedEvent(eventId: String, userId: String): Boolean {
+        return dsl.fetchExists(
+            dsl.selectFrom(USER_EVENT_COMMENT)
+                .where(USER_EVENT_COMMENT.EVENT_ID.eq(eventId))
+                .and(USER_EVENT_COMMENT.USER_ID.eq(userId))
+        )
+    }
+
     override fun saveCommentForEvent(comment: String, event: CIDHEvent, author: MNUser, createdAt: LocalDateTime) {
         val commentExists = dsl.fetchExists(
             dsl.select(USER_EVENT_COMMENT.asterisk())
@@ -216,10 +230,35 @@ class MediaRepoImpl : MediaRepo {
     }
 
     override fun getForumMessagesForEvent(eventId: String): Collection<ForumMessage> {
-        return dsl.select(EVENT_FORUM_MESSAGE.asterisk())
+        val dbMessage = dsl.select(EVENT_FORUM_MESSAGE.asterisk())
             .from(EVENT_FORUM_MESSAGE)
             .where(EVENT_FORUM_MESSAGE.EVENT_ID.eq(eventId))
-            .fetchInto(ForumMessage::class.java)
+            .fetchInto(ForumMessageDb::class.java)
+
+        val userIds = dbMessage.mapNotNull { it.authorUserId }
+
+        val usersMapByUserId = userRepo.findUsersWithIds(userIds).associateBy { it.id }
+
+        return dbMessage.map {
+            val userFirstName = fullNameForUser(usersMapByUserId, it.authorUserId)
+            ForumMessage(
+                id = it.id,
+                authorUserId = it.id,
+                authorFirstName = userFirstName,
+                createdAt = it.createdAt,
+                message = it.message,
+                parentMessageId = it.parentId,
+            )
+        }
+
+    }
+
+    private fun fullNameForUser(
+        usersMapByUserId: Map<String, MNUser>,
+        userId: String,
+    ): String {
+        val user = usersMapByUserId[userId] ?: return ""
+        return "${user.firstName} ${user.lastName}"
     }
 
     override fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean {
