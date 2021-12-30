@@ -116,22 +116,39 @@ class MediaRepoImpl : MediaRepo {
 
     }
 
-    override fun saveUserAttendsToEvent(attendee: MNUser, attendedEvent: CIDHEvent) {
-        val alreadyAttended = dsl.fetchExists(
-            dsl.select(USER_EVENT_ATTENDANCE.asterisk())
-                .where(USER_EVENT_ATTENDANCE.USER_ID.eq(attendee.id))
-                .and(USER_EVENT_ATTENDANCE.EVENT_ID.eq(attendedEvent.id))
+    override fun saveUserSubscribesToAnEvent(attendee: MNUser, attendedEvent: CIDHEvent) {
+        val alreadySubscribed = dsl.fetchExists(
+            dsl.selectFrom(USER_EVENT_SUBSCRIPTION)
+                .where(USER_EVENT_SUBSCRIPTION.USER_ID.eq(attendee.id))
+                .and(USER_EVENT_SUBSCRIPTION.EVENT_ID.eq(attendedEvent.id))
         )
 
-        if (alreadyAttended) {
-            logger.info { "Attempted Attend to an event that the user already attended" }
+        if (alreadySubscribed) {
+            logger.info { "Attempted to subscribe to an event that the user is already subscribed" }
             return
         }
 
-        dsl.insertInto(USER_EVENT_ATTENDANCE)
-            .set(USER_EVENT_ATTENDANCE.USER_ID, attendee.id)
-            .set(USER_EVENT_ATTENDANCE.EVENT_ID, attendedEvent.id)
+        dsl.insertInto(USER_EVENT_SUBSCRIPTION)
+            .set(USER_EVENT_SUBSCRIPTION.USER_ID, attendee.id)
+            .set(USER_EVENT_SUBSCRIPTION.EVENT_ID, attendedEvent.id)
+            .set(USER_EVENT_RATING.CREATED_AT, LocalDateTime.now())
             .execute()
+    }
+
+    override fun unsubscribeUserFromEvent(user: MNUser, event: CIDHEvent) {
+        dsl.deleteFrom(USER_EVENT_SUBSCRIPTION)
+            .where(USER_EVENT_SUBSCRIPTION.USER_ID.eq(user.id))
+            .and(USER_EVENT_SUBSCRIPTION.EVENT_ID.eq(event.id))
+            .execute()
+    }
+
+    override fun isUserSubscribedToEvent(eventId: String, requesterUserId: String?): Boolean {
+        requesterUserId ?: return false
+        return dsl.fetchExists(
+            dsl.selectFrom(USER_EVENT_SUBSCRIPTION)
+                .where(USER_EVENT_SUBSCRIPTION.EVENT_ID.eq(eventId))
+                .and(USER_EVENT_SUBSCRIPTION.USER_ID.eq(requesterUserId))
+        )
     }
 
     override fun saveCommentForEvent(comment: String, event: CIDHEvent, author: MNUser, createdAt: LocalDateTime) {

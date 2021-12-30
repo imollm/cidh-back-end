@@ -36,9 +36,12 @@ class MediaServiceImpl: MediaService {
         return mediaRepo.saveOrUpdateRatingForEvent(event, user, rating)
     }
 
-    override fun attendEvent(attendedEvent: CIDHEvent, attendee: MNUser) {
-        //TODO validate dates before attending
-        return mediaRepo.saveUserAttendsToEvent(attendee, attendedEvent)
+    override fun subscribeToAnEvent(event: CIDHEvent, user: MNUser) {
+        return mediaRepo.saveUserSubscribesToAnEvent(user, event)
+    }
+
+    override fun unsubscribeToAnEvent(event: CIDHEvent, user: MNUser) {
+        mediaRepo.unsubscribeUserFromEvent(user, event)
     }
 
     override fun postComment(event: CIDHEvent, comment: String, user: MNUser, createdAt: LocalDateTime) {

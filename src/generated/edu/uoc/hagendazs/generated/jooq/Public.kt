@@ -15,10 +15,10 @@ import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
-import edu.uoc.hagendazs.generated.jooq.tables.UserEventAttendance
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventComment
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventFavorites
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventRating
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventSubscription
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 
 import kotlin.collections.List
@@ -97,11 +97,6 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val USER get() = User.USER
 
     /**
-     * The table <code>public.user_event_attendance</code>.
-     */
-    val USER_EVENT_ATTENDANCE get() = UserEventAttendance.USER_EVENT_ATTENDANCE
-
-    /**
      * The table <code>public.user_event_comment</code>.
      */
     val USER_EVENT_COMMENT get() = UserEventComment.USER_EVENT_COMMENT
@@ -115,6 +110,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      * The table <code>public.user_event_rating</code>.
      */
     val USER_EVENT_RATING get() = UserEventRating.USER_EVENT_RATING
+
+    /**
+     * The table <code>public.user_event_subscription</code>.
+     */
+    val USER_EVENT_SUBSCRIPTION get() = UserEventSubscription.USER_EVENT_SUBSCRIPTION
 
     /**
      * The table <code>public.user_role</code>.
@@ -135,10 +135,10 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
         RefreshToken.REFRESH_TOKEN,
         Role.ROLE,
         User.USER,
-        UserEventAttendance.USER_EVENT_ATTENDANCE,
         UserEventComment.USER_EVENT_COMMENT,
         UserEventFavorites.USER_EVENT_FAVORITES,
         UserEventRating.USER_EVENT_RATING,
+        UserEventSubscription.USER_EVENT_SUBSCRIPTION,
         UserRole.USER_ROLE
     )
 }

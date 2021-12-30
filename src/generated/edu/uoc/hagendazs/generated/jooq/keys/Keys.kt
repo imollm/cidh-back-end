@@ -15,10 +15,10 @@ import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
-import edu.uoc.hagendazs.generated.jooq.tables.UserEventAttendance
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventComment
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventFavorites
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventRating
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventSubscription
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 import edu.uoc.hagendazs.generated.jooq.tables.records.CategoryRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.EventForumMessageRecord
@@ -30,10 +30,10 @@ import edu.uoc.hagendazs.generated.jooq.tables.records.LabelRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.PasswordResetRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.RefreshTokenRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.RoleRecord
-import edu.uoc.hagendazs.generated.jooq.tables.records.UserEventAttendanceRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserEventCommentRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserEventFavoritesRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserEventRatingRecord
+import edu.uoc.hagendazs.generated.jooq.tables.records.UserEventSubscriptionRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserRecord
 import edu.uoc.hagendazs.generated.jooq.tables.records.UserRoleRecord
 
@@ -63,10 +63,10 @@ val REFRESH_TOKEN_PKEY: UniqueKey<RefreshTokenRecord> = Internal.createUniqueKey
 val ROLE_PKEY: UniqueKey<RoleRecord> = Internal.createUniqueKey(Role.ROLE, DSL.name("role_pkey"), arrayOf(Role.ROLE.ID), true)
 val USER_EMAIL_KEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_email_key"), arrayOf(User.USER.EMAIL), true)
 val USER_PKEY: UniqueKey<UserRecord> = Internal.createUniqueKey(User.USER, DSL.name("user_pkey"), arrayOf(User.USER.ID), true)
-val PK_USER_EVENT_ATTENDANCE: UniqueKey<UserEventAttendanceRecord> = Internal.createUniqueKey(UserEventAttendance.USER_EVENT_ATTENDANCE, DSL.name("pk_user_event_attendance"), arrayOf(UserEventAttendance.USER_EVENT_ATTENDANCE.USER_ID, UserEventAttendance.USER_EVENT_ATTENDANCE.EVENT_ID), true)
 val PK_USER_EVENT_COMMENT: UniqueKey<UserEventCommentRecord> = Internal.createUniqueKey(UserEventComment.USER_EVENT_COMMENT, DSL.name("pk_user_event_comment"), arrayOf(UserEventComment.USER_EVENT_COMMENT.USER_ID, UserEventComment.USER_EVENT_COMMENT.EVENT_ID), true)
 val PK_USER_EVENT_FAVORITES: UniqueKey<UserEventFavoritesRecord> = Internal.createUniqueKey(UserEventFavorites.USER_EVENT_FAVORITES, DSL.name("pk_user_event_favorites"), arrayOf(UserEventFavorites.USER_EVENT_FAVORITES.USER_ID, UserEventFavorites.USER_EVENT_FAVORITES.EVENT_ID), true)
 val PK_USER_EVENT_RATING: UniqueKey<UserEventRatingRecord> = Internal.createUniqueKey(UserEventRating.USER_EVENT_RATING, DSL.name("pk_user_event_rating"), arrayOf(UserEventRating.USER_EVENT_RATING.USER_ID, UserEventRating.USER_EVENT_RATING.EVENT_ID), true)
+val PK_USER_EVENT_SUBSCRIPTION: UniqueKey<UserEventSubscriptionRecord> = Internal.createUniqueKey(UserEventSubscription.USER_EVENT_SUBSCRIPTION, DSL.name("pk_user_event_subscription"), arrayOf(UserEventSubscription.USER_EVENT_SUBSCRIPTION.USER_ID, UserEventSubscription.USER_EVENT_SUBSCRIPTION.EVENT_ID), true)
 val UNIQUE_PAIRS: UniqueKey<UserRoleRecord> = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("unique_pairs"), arrayOf(UserRole.USER_ROLE.USER, UserRole.USER_ROLE.ROLE), true)
 val USER_ROLE_PKEY: UniqueKey<UserRoleRecord> = Internal.createUniqueKey(UserRole.USER_ROLE, DSL.name("user_role_pkey"), arrayOf(UserRole.USER_ROLE.ID), true)
 
@@ -84,13 +84,13 @@ val LABEL_EVENT__FK_LABEL_EVENT_EVENT_ID: ForeignKey<LabelEventRecord, EventReco
 val LABEL_EVENT__FK_LABEL_EVENT_LABEL_ID: ForeignKey<LabelEventRecord, LabelRecord> = Internal.createForeignKey(LabelEvent.LABEL_EVENT, DSL.name("fk_label_event_label_id"), arrayOf(LabelEvent.LABEL_EVENT.LABEL_ID), edu.uoc.hagendazs.generated.jooq.keys.LABEL_PKEY, arrayOf(Label.LABEL.ID), true)
 val PASSWORD_RESET__USER_RESET_PASSWORD: ForeignKey<PasswordResetRecord, UserRecord> = Internal.createForeignKey(PasswordReset.PASSWORD_RESET, DSL.name("user_reset_password"), arrayOf(PasswordReset.PASSWORD_RESET.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val REFRESH_TOKEN__REFRESH_TOKEN_USER_ID: ForeignKey<RefreshTokenRecord, UserRecord> = Internal.createForeignKey(RefreshToken.REFRESH_TOKEN, DSL.name("refresh_token_user_id"), arrayOf(RefreshToken.REFRESH_TOKEN.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
-val USER_EVENT_ATTENDANCE__FK_USER_EVENT_COMMENT_EVENT_ID: ForeignKey<UserEventAttendanceRecord, EventRecord> = Internal.createForeignKey(UserEventAttendance.USER_EVENT_ATTENDANCE, DSL.name("fk_user_event_comment_event_id"), arrayOf(UserEventAttendance.USER_EVENT_ATTENDANCE.EVENT_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)
-val USER_EVENT_ATTENDANCE__FK_USER_EVENT_COMMENT_USER_ID: ForeignKey<UserEventAttendanceRecord, UserRecord> = Internal.createForeignKey(UserEventAttendance.USER_EVENT_ATTENDANCE, DSL.name("fk_user_event_comment_user_id"), arrayOf(UserEventAttendance.USER_EVENT_ATTENDANCE.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val USER_EVENT_COMMENT__FK_USER_EVENT_COMMENT_EVENT_ID: ForeignKey<UserEventCommentRecord, EventRecord> = Internal.createForeignKey(UserEventComment.USER_EVENT_COMMENT, DSL.name("fk_user_event_comment_event_id"), arrayOf(UserEventComment.USER_EVENT_COMMENT.EVENT_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)
 val USER_EVENT_COMMENT__FK_USER_EVENT_COMMENT_USER_ID: ForeignKey<UserEventCommentRecord, UserRecord> = Internal.createForeignKey(UserEventComment.USER_EVENT_COMMENT, DSL.name("fk_user_event_comment_user_id"), arrayOf(UserEventComment.USER_EVENT_COMMENT.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val USER_EVENT_FAVORITES__FK_USER_EVENT_FAVORITES_EVENT_ID: ForeignKey<UserEventFavoritesRecord, EventRecord> = Internal.createForeignKey(UserEventFavorites.USER_EVENT_FAVORITES, DSL.name("fk_user_event_favorites_event_id"), arrayOf(UserEventFavorites.USER_EVENT_FAVORITES.EVENT_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)
 val USER_EVENT_FAVORITES__FK_USER_EVENT_FAVORITES_USER_ID: ForeignKey<UserEventFavoritesRecord, UserRecord> = Internal.createForeignKey(UserEventFavorites.USER_EVENT_FAVORITES, DSL.name("fk_user_event_favorites_user_id"), arrayOf(UserEventFavorites.USER_EVENT_FAVORITES.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val USER_EVENT_RATING__FK_USER_EVENT_RATING_EVENT_ID: ForeignKey<UserEventRatingRecord, EventRecord> = Internal.createForeignKey(UserEventRating.USER_EVENT_RATING, DSL.name("fk_user_event_rating_event_id"), arrayOf(UserEventRating.USER_EVENT_RATING.EVENT_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)
 val USER_EVENT_RATING__FK_USER_EVENT_RATING_USER_ID: ForeignKey<UserEventRatingRecord, UserRecord> = Internal.createForeignKey(UserEventRating.USER_EVENT_RATING, DSL.name("fk_user_event_rating_user_id"), arrayOf(UserEventRating.USER_EVENT_RATING.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
+val USER_EVENT_SUBSCRIPTION__FK_USER_EVENT_SUBSCRIPTION_EVENT_ID: ForeignKey<UserEventSubscriptionRecord, EventRecord> = Internal.createForeignKey(UserEventSubscription.USER_EVENT_SUBSCRIPTION, DSL.name("fk_user_event_subscription_event_id"), arrayOf(UserEventSubscription.USER_EVENT_SUBSCRIPTION.EVENT_ID), edu.uoc.hagendazs.generated.jooq.keys.EVENT_PKEY, arrayOf(Event.EVENT.ID), true)
+val USER_EVENT_SUBSCRIPTION__FK_USER_EVENT_SUBSCRIPTION_USER_ID: ForeignKey<UserEventSubscriptionRecord, UserRecord> = Internal.createForeignKey(UserEventSubscription.USER_EVENT_SUBSCRIPTION, DSL.name("fk_user_event_subscription_user_id"), arrayOf(UserEventSubscription.USER_EVENT_SUBSCRIPTION.USER_ID), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val USER_ROLE__ROLE_USER: ForeignKey<UserRoleRecord, UserRecord> = Internal.createForeignKey(UserRole.USER_ROLE, DSL.name("role_user"), arrayOf(UserRole.USER_ROLE.USER), edu.uoc.hagendazs.generated.jooq.keys.USER_PKEY, arrayOf(User.USER.ID), true)
 val USER_ROLE__ROLE_USER_ROLE: ForeignKey<UserRoleRecord, RoleRecord> = Internal.createForeignKey(UserRole.USER_ROLE, DSL.name("role_user_role"), arrayOf(UserRole.USER_ROLE.ROLE), edu.uoc.hagendazs.generated.jooq.keys.ROLE_PKEY, arrayOf(Role.ROLE.ID), true)

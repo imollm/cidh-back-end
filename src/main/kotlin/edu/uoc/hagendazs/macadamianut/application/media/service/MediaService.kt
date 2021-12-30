@@ -15,9 +15,10 @@ interface MediaService {
     fun favoriteEventsForUser(user: MNUser): Collection<EventResponse>
     fun rateEvent(event: CIDHEvent, user: MNUser, rating: Int)
     fun ratingForEvent(eventId: String?): EventRating?
-    fun attendEvent(attendedEvent: CIDHEvent, attendee: MNUser)
+    fun subscribeToAnEvent(event: CIDHEvent, user: MNUser)
     fun postComment(event: CIDHEvent, comment: String, user: MNUser, createdAt: LocalDateTime)
     fun commentsForEvent(event: CIDHEvent): Collection<UserEventComment>
     fun postForumMessage(event: CIDHEvent, user: MNUser, forumMessageReq: PostForumMessageRequest)
     fun getForumForEvent(event: EventResponse): ForumResponse
+    fun unsubscribeToAnEvent(event: CIDHEvent, user: MNUser)
 }

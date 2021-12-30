@@ -92,13 +92,24 @@ class MediaController {
     }
 
     @PostMapping(value = ["/events/{eventId}/subscribe"])
-    fun attendEvent(
+    fun subscribeToEvent(
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication,
     ): ResponseEntity<Void> {
         val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
 
-        mediaService.attendEvent(event, user)
+        mediaService.subscribeToAnEvent(event, user)
+        return ResponseEntity.ok().build()
+    }
+
+    @PostMapping(value = ["/events/{eventId}/unsubscribe"])
+    fun unsubscribeToEvent(
+        @PathVariable("eventId") eventId: String,
+        jwtToken: Authentication,
+    ): ResponseEntity<Void> {
+        val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
+
+        mediaService.unsubscribeToAnEvent(event, user)
         return ResponseEntity.ok().build()
     }
 

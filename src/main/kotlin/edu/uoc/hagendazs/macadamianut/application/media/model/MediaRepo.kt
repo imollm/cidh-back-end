@@ -15,10 +15,12 @@ interface MediaRepo {
     fun removeFromFavorites(event: CIDHEvent, user: MNUser)
     fun favoriteEventsForUser(user: MNUser): Collection<EventResponse>
     fun saveOrUpdateRatingForEvent(event: CIDHEvent, user: MNUser, rating: Int)
-    fun saveUserAttendsToEvent(attendee: MNUser, attendedEvent: CIDHEvent)
+    fun saveUserSubscribesToAnEvent(attendee: MNUser, attendedEvent: CIDHEvent)
     fun saveCommentForEvent(comment: String, event: CIDHEvent, author: MNUser, createdAt: LocalDateTime)
     fun commentsForEvent(event: CIDHEvent): Collection<UserEventComment>
     fun saveForumMessageForEvent(event: CIDHEvent, user: MNUser, forumMessageReq: PostForumMessageRequest)
     fun getForumMessagesForEvent(eventId: String): Collection<ForumMessage>
     fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean
+    fun unsubscribeUserFromEvent(user: MNUser, event: CIDHEvent)
+    fun isUserSubscribedToEvent(eventId: String, requesterUserId: String?): Boolean
 }

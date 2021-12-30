@@ -15,10 +15,10 @@ import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
-import edu.uoc.hagendazs.generated.jooq.tables.UserEventAttendance
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventComment
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventFavorites
 import edu.uoc.hagendazs.generated.jooq.tables.UserEventRating
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventSubscription
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 
 
@@ -79,11 +79,6 @@ val ROLE = Role.ROLE
 val USER = User.USER
 
 /**
- * The table <code>public.user_event_attendance</code>.
- */
-val USER_EVENT_ATTENDANCE = UserEventAttendance.USER_EVENT_ATTENDANCE
-
-/**
  * The table <code>public.user_event_comment</code>.
  */
 val USER_EVENT_COMMENT = UserEventComment.USER_EVENT_COMMENT
@@ -97,6 +92,11 @@ val USER_EVENT_FAVORITES = UserEventFavorites.USER_EVENT_FAVORITES
  * The table <code>public.user_event_rating</code>.
  */
 val USER_EVENT_RATING = UserEventRating.USER_EVENT_RATING
+
+/**
+ * The table <code>public.user_event_subscription</code>.
+ */
+val USER_EVENT_SUBSCRIPTION = UserEventSubscription.USER_EVENT_SUBSCRIPTION
 
 /**
  * The table <code>public.user_role</code>.

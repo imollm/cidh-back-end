@@ -37,9 +37,6 @@ class EventRepoImpl : EventRepo {
     @Autowired
     protected lateinit var dsl: DSLContext
 
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
-
     private val logger = KotlinLogging.logger {}
 
     override fun findById(id: String, requesterUserId: String?): EventResponse? {
@@ -47,10 +44,6 @@ class EventRepoImpl : EventRepo {
             .where(EVENT.ID.eq(id))
             .fetchOne()
             ?.into(DBEvent::class.java)
-
-        val rawFetch = dsl.selectFrom(EVENT)
-            .where(EVENT.ID.eq(id))
-            .fetchOne()
 
         return toEventObject(dbEvent, requesterUserId)
     }
@@ -79,12 +72,15 @@ class EventRepoImpl : EventRepo {
 
         val isFavorite = mediaRepo.isFavoriteEventForUserId(dbEvent.id, requesterUserId)
 
+        val isUserSubscribed = mediaRepo.isUserSubscribedToEvent(dbEvent.id, requesterUserId)
+
         return dbEvent.toEventResponse(
             rating = rating,
             category = category,
             labels = labels,
             eventOrganizer = eventOrganizer,
             isFavorite = isFavorite,
+            isUserSubscribed = isUserSubscribed,
         )
     }
 

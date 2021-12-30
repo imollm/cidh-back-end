@@ -34,6 +34,7 @@ class EventServiceImpl : EventService {
         }
         val labelsFromDb = labelRepo.findLabelsWithId(newEvent.labelIds).map { it.id }
 
+        // check that the label ids do exist.
         if (labelsFromDb.size != newEvent.labelIds.size) {
             throw UnableToCreateOrUpdateEventFromGivenData(
                 "The following label ids do not exist: ${newEvent.labelIds.minus(labelsFromDb.toSet())}"

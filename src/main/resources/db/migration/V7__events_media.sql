@@ -35,15 +35,15 @@ create table user_event_comment
 
 );
 
-create table user_event_attendance
+create table user_event_subscription
 (
     user_id    varchar   not null,
     event_id   varchar   not null,
     created_at timestamp not null,
 
-    constraint pk_user_event_attendance primary key (user_id, event_id),
-    constraint fk_user_event_comment_event_id foreign key (event_id) references event (id),
-    constraint fk_user_event_comment_user_id foreign key (user_id) references "user" (id)
+    constraint pk_user_event_subscription primary key (user_id, event_id),
+    constraint fk_user_event_subscription_event_id foreign key (event_id) references event (id),
+    constraint fk_user_event_subscription_user_id foreign key (user_id) references "user" (id)
 );
 
 create table event_forum_message
