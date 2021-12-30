@@ -1,5 +1,11 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.1.0
+Changes:
+- Include user full name in the comments response
+Fixes:
+- ...
+
 ##v1.0.0
 Changes:
 - Subscribe / Unsubscribe endpoints completed

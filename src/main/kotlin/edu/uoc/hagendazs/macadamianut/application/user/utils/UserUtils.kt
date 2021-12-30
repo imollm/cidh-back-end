@@ -1,6 +1,7 @@
 package edu.uoc.hagendazs.macadamianut.application.user.utils
 
 import edu.uoc.hagendazs.macadamianut.application.user.entrypoint.input.UpdateUserRequest
+import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.RoleEnum
 import edu.uoc.hagendazs.macadamianut.application.user.service.helper.JwtHelper
 import edu.uoc.hagendazs.macadamianut.common.HTTPMessages
@@ -10,6 +11,14 @@ import org.springframework.web.server.ResponseStatusException
 
 class UserUtils {
     companion object {
+
+        fun fullNameForUser(
+            usersMapByUserId: Map<String, MNUser>,
+            userId: String,
+        ): String {
+            val user = usersMapByUserId[userId] ?: return ""
+            return "${user.firstName} ${user.lastName}"
+        }
 
         fun resolveUserId(userId: String?, token: Authentication?): String {
             return userId ?: token?.name ?: run {

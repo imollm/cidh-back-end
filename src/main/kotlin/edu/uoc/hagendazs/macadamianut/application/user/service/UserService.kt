@@ -12,4 +12,5 @@ interface UserService {
     fun findUserById(resolvedPersonId: String): MNUser?
     fun createUser(user: MNUser, role: RoleEnum): MNUser?
     fun permissionsForRole(role: RoleEnum): String?
+    fun findUsersWithIds(userIds: Collection<String>): Collection<MNUser>
 }

@@ -130,9 +130,18 @@ class MediaController {
         @PathVariable eventId: String,
     ): ResponseEntity<Collection<EventCommentResponse>> {
         val event = getEventOrThrow(eventId)
-        val eventComments = mediaService.commentsForEvent(event).map { it.toEventCommentResponse() }
+        val eventComments = mediaService.commentsForEvent(event)
 
-        return ResponseEntity.ok(eventComments)
+        val userIds = eventComments.map { it.userId }
+
+        val usersMapByUserId = userService.findUsersWithIds(userIds).associateBy { it.id }
+
+        val commentResponses = eventComments.map {
+            val userFullName = UserUtils.fullNameForUser(usersMapByUserId, it.userId)
+            it.toEventCommentResponse(userFullName)
+        }
+
+        return ResponseEntity.ok(commentResponses)
     }
 
     @PreAuthorize ("#forumMessageReq.parentMessageId == null or hasAnyRole('ADMIN', 'SUPERADMIN')")

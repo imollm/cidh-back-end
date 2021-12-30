@@ -113,7 +113,7 @@ class UserRepoImpl : UserRepo {
 
     }
 
-    override fun findUsersWithIds(userIds: List<String>): Collection<MNUser> {
+    override fun findUsersWithIds(userIds: Collection<String>): Collection<MNUser> {
         return dsl.selectFrom(USER)
             .where(USER.ID.`in`(userIds))
             .fetchInto(MNUser::class.java)
