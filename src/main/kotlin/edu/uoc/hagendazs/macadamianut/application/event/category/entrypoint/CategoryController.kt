@@ -30,8 +30,7 @@ class CategoryController {
     ): ResponseEntity<Category> {
 
         val incomingCategory = newCategoryReq.receive()
-        val category = categoryService.addCategory(incomingCategory)
-        category ?: run {
+        val category = categoryService.addCategory(incomingCategory) ?: run {
             throw ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 HTTPMessages.ERROR_SAVING_A_RESOURCE

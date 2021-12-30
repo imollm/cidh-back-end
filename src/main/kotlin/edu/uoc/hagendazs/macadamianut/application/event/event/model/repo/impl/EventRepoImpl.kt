@@ -2,16 +2,22 @@ package edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import edu.uoc.hagendazs.generated.jooq.tables.references.*
-import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.CIDHEvent
+import edu.uoc.hagendazs.macadamianut.application.event.category.model.repo.CategoryRepo
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.input.NewOrUpdateEventRequest
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.EventResponse
+import edu.uoc.hagendazs.macadamianut.application.event.event.entrypoint.output.toEventResponse
+import edu.uoc.hagendazs.macadamianut.application.event.event.model.dataClass.DBEvent
 import edu.uoc.hagendazs.macadamianut.application.event.event.model.repo.EventRepo
+import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.repo.EventOrganizerRepo
 import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRepo
+import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
 import mu.KotlinLogging
 import org.jooq.Condition
 import org.jooq.DSLContext
-import org.jooq.impl.DSL.select
-import org.jooq.impl.DSL.trueCondition
+import org.jooq.impl.DSL.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
 class EventRepoImpl : EventRepo {
@@ -20,44 +26,130 @@ class EventRepoImpl : EventRepo {
     protected lateinit var labelRepo: LabelRepo
 
     @Autowired
-    protected lateinit var dsl: DSLContext
+    protected lateinit var categoryRepo: CategoryRepo
 
     @Autowired
-    lateinit var objectMapper: ObjectMapper
+    protected lateinit var eventOrganizerRepo: EventOrganizerRepo
+
+    @Autowired
+    protected lateinit var mediaRepo: MediaRepo
+
+    @Autowired
+    protected lateinit var dsl: DSLContext
 
     private val logger = KotlinLogging.logger {}
 
-    override fun findByName(name: String): CIDHEvent? {
-        return dsl.selectFrom(EVENT)
-            .where(EVENT.NAME.eq(name))
-            .fetchOne()
-            ?.into(CIDHEvent::class.java)
-    }
-
-    override fun create(newEvent: CIDHEvent): CIDHEvent? {
-        val eventRecord = dsl.newRecord(EVENT, newEvent)
-        eventRecord.store()
-
-        return this.findById(newEvent.id)
-    }
-
-    override fun findById(id: String): CIDHEvent? {
-        return dsl.selectFrom(EVENT)
+    override fun findById(id: String, requesterUserId: String?): EventResponse? {
+        val dbEvent = dsl.selectFrom(EVENT)
             .where(EVENT.ID.eq(id))
             .fetchOne()
-            ?.into(CIDHEvent::class.java)
+            ?.into(DBEvent::class.java)
+
+        return toEventObject(dbEvent, requesterUserId)
     }
 
-    override fun update(eventToUpdate: CIDHEvent): CIDHEvent? {
+    override fun findByName(name: String, requesterUserId: String?): EventResponse? {
+        val dbEvent = dsl.selectFrom(EVENT)
+            .where(EVENT.NAME.eq(name))
+            .fetchOne()
+            ?.into(DBEvent::class.java)
+
+        return toEventObject(dbEvent, requesterUserId)
+    }
+
+    private fun toEventObject(dbEvent: DBEvent?, requesterUserId: String?): EventResponse? {
+        dbEvent ?: return null
+        val category = categoryRepo.findById(dbEvent.categoryId) ?: run {
+            throw IllegalStateException("Category cannot be null")
+        }
+        val labels = labelRepo.labelsForEvent(dbEvent.id)
+        val eventOrganizer = eventOrganizerRepo.getEventOrganizer(dbEvent.organizerId) ?: run {
+            throw IllegalStateException("Event Organizer not found")
+        }
+        val rating = mediaRepo.ratingForEvent(dbEvent.id) ?: run {
+            throw IllegalStateException("Rating not found")
+        }
+
+        val isFavorite = mediaRepo.isFavoriteEventForUserId(dbEvent.id, requesterUserId)
+
+        val isUserSubscribed = mediaRepo.isUserSubscribedToEvent(dbEvent.id, requesterUserId)
+
+        val latestUserRatingForEvent = mediaRepo.userRatingForEvent(dbEvent.id, requesterUserId)
+
+        return dbEvent.toEventResponse(
+            rating = rating,
+            category = category,
+            labels = labels,
+            eventOrganizer = eventOrganizer,
+            isFavorite = isFavorite,
+            isUserSubscribed = isUserSubscribed,
+            userRating = latestUserRatingForEvent,
+        )
+    }
+
+    override fun create(newEvent: DBEvent, labelIds: Collection<String>): EventResponse? {
+        val eventRecord = dsl.newRecord(EVENT, newEvent)
+        eventRecord.store()
+        insertLabelsForEvent(labelIds, newEvent.id)
+        return this.findById(newEvent.id, null)
+    }
+
+    @Transactional
+    override fun update(
+        eventId: String,
+        updateEventRequest: NewOrUpdateEventRequest,
+        requesterUserId: String?,
+        categoryId: String?
+    ): EventResponse? {
         dsl.update(EVENT)
-            .set(EVENT.NAME, eventToUpdate.name)
-            .set(EVENT.DESCRIPTION, eventToUpdate.description)
-            .set(EVENT.HEADER_IMAGE, eventToUpdate.headerImage.toString())
-            .set(EVENT.START_DATE, eventToUpdate.startDate)
-            .set(EVENT.END_DATE, eventToUpdate.endDate)
-            .set(EVENT.CATEGORY_ID, eventToUpdate.categoryId)
+            .set(EVENT.NAME, updateEventRequest.name)
+            .set(EVENT.DESCRIPTION, updateEventRequest.description)
+            .set(EVENT.HEADER_IMAGE, updateEventRequest.headerImage.toString())
+            .set(EVENT.START_DATE, updateEventRequest.startDate)
+            .set(EVENT.END_DATE, updateEventRequest.endDate)
+            .set(EVENT.CATEGORY_ID, categoryId)
+            .where(EVENT.ID.eq(eventId))
             .execute()
-        return findById(eventToUpdate.id)
+
+        val existingLabelIds = dsl.select(LABEL_EVENT.LABEL_ID)
+            .from(LABEL_EVENT)
+            .where(LABEL_EVENT.LABEL_ID.`in`(updateEventRequest.labelIds))
+            .fetchInto(String::class.java)
+            .toSet()
+
+        val labelIdsToInsert = updateEventRequest.labelIds.minus(existingLabelIds)
+        insertLabelsForEvent(labelIdsToInsert, eventId)
+
+        val labelsToDelete = existingLabelIds.minus(updateEventRequest.labelIds.toSet())
+        deleteLabelsForEvent(labelsToDelete, eventId)
+
+        return findById(eventId, requesterUserId)
+    }
+
+    private fun deleteLabelsForEvent(labelsToDelete: Set<String>, eventId: String) {
+        dsl.deleteFrom(LABEL_EVENT)
+            .where(LABEL_EVENT.EVENT_ID.eq(eventId))
+            .and(LABEL_EVENT.LABEL_ID.`in`(labelsToDelete))
+            .execute()
+    }
+
+    private fun insertLabelsForEvent(
+        labelIdsToInsert: Collection<String>,
+        eventId: String
+    ) {
+        // jOOQ requires dummy bind values for the original query
+        // https://www.jooq.org/doc/3.15/manual/sql-execution/batch-execution/
+        val batchQuery = dsl.batch(
+            dsl.insertInto(LABEL_EVENT, LABEL_EVENT.EVENT_ID, LABEL_EVENT.LABEL_ID).values("", "")
+        )
+
+        labelIdsToInsert.forEach { labelIdToInsert ->
+            batchQuery.bind(eventId, labelIdToInsert)
+        }
+
+        if (labelIdsToInsert.isNotEmpty()) {
+            batchQuery.execute()
+        }
     }
 
     override fun eventsWithFilters(
@@ -65,8 +157,9 @@ class EventRepoImpl : EventRepo {
         categories: Collection<String>,
         names: Collection<String>,
         admins: Collection<String>,
-        limit: Int?
-    ): Collection<CIDHEvent> {
+        limit: Int?,
+        requesterUserId: String?
+    ): Collection<EventResponse> {
 
         var selectJoin = dsl.select(EVENT.asterisk()).from(EVENT)
         var condition: Condition = trueCondition()
@@ -94,23 +187,27 @@ class EventRepoImpl : EventRepo {
         return selectJoin.where(condition)
             .orderBy(EVENT.START_DATE.asc())
             .limit(limit ?: Int.MAX_VALUE)
-            .fetchInto(CIDHEvent::class.java)
+            .fetchInto(DBEvent::class.java)
+            .mapNotNull { toEventObject(it, requesterUserId) }
 
     }
 
-    override fun findEventsWithLabels(labels: Collection<String>): Collection<CIDHEvent> {
+    override fun findEventsWithLabels(labels: Collection<String>, requesterUserId: String?): Collection<EventResponse> {
         if (labels.isEmpty()) {
-            return this.findAllEvents()
+            return this.findAllEvents(requesterUserId)
         }
         return dsl.select(EVENT.asterisk())
             .from(EVENT)
             .leftJoin(LABEL_EVENT).on(LABEL_EVENT.EVENT_ID.eq(EVENT.ID))
             .join(CATEGORY).on(CATEGORY.ID.eq(LABEL_EVENT.LABEL_ID))
             .where(CATEGORY.NAME.`in`(labels))
-            .fetchInto(CIDHEvent::class.java)
+            .fetchInto(DBEvent::class.java)
+            .mapNotNull { toEventObject(it, requesterUserId) }
     }
 
-    override fun findAllEvents(): Collection<CIDHEvent> {
-        return dsl.selectFrom(EVENT).fetchInto(CIDHEvent::class.java)
+    override fun findAllEvents(requesterUserId: String?): Collection<EventResponse> {
+        return dsl.selectFrom(EVENT)
+            .fetchInto(DBEvent::class.java)
+            .mapNotNull { toEventObject(it, requesterUserId) }
     }
 }

@@ -2,6 +2,7 @@ package edu.uoc.hagendazs.macadamianut.common
 
 class HTTPMessages() {
     companion object {
+        const val USER_NOT_FOUND = "User not found"
         const val CREATED = "The resource was created successfully"
         const val MISSING_VALUES = "Some fields doesn't have value"
         const val ALREADY_EXISTS = "This resource already exists"
