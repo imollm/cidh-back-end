@@ -45,6 +45,9 @@ class EventController {
         @PathVariable("eventId") eventId: String,
         jwtToken: Authentication?,
     ): ResponseEntity<EventResponse> {
+        eventService.findById(eventId, null) ?: run {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "Event with id $eventId not found in this server")
+        }
         val updatedEvent = eventService.updateEvent(
             eventId,
             newEventReq,

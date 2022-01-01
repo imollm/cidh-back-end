@@ -108,12 +108,13 @@ class EventRepoImpl : EventRepo {
             .set(EVENT.START_DATE, updateEventRequest.startDate)
             .set(EVENT.END_DATE, updateEventRequest.endDate)
             .set(EVENT.CATEGORY_ID, categoryId)
+            .set(EVENT.ORGANIZER_ID, updateEventRequest.organizerId)
             .where(EVENT.ID.eq(eventId))
             .execute()
 
         val existingLabelIds = dsl.select(LABEL_EVENT.LABEL_ID)
             .from(LABEL_EVENT)
-            .where(LABEL_EVENT.LABEL_ID.`in`(updateEventRequest.labelIds))
+            .where(LABEL_EVENT.EVENT_ID.eq(eventId))
             .fetchInto(String::class.java)
             .toSet()
 
