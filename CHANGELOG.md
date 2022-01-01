@@ -1,5 +1,14 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.1.2
+Changes:
+- Forum messages can be published by anonymous users
+- Forum messages can only be answered once.
+
+Fixes:
+- ..
+
+
 ##v1.1.1
 Changes:
 - ...
