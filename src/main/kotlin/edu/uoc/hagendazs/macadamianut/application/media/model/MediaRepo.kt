@@ -5,6 +5,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.event.model.CIDHEvent
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.input.PostForumMessageRequest
 import edu.uoc.hagendazs.macadamianut.application.media.entrypoint.output.ForumMessage
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.EventRating
+import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.ForumMessageDb
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEventComment
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import java.time.LocalDateTime
@@ -18,11 +19,13 @@ interface MediaRepo {
     fun saveUserSubscribesToAnEvent(attendee: MNUser, attendedEvent: CIDHEvent)
     fun saveCommentForEvent(comment: String, event: CIDHEvent, author: MNUser, createdAt: LocalDateTime)
     fun commentsForEvent(event: CIDHEvent): Collection<UserEventComment>
-    fun saveForumMessageForEvent(event: CIDHEvent, user: MNUser, forumMessageReq: PostForumMessageRequest)
+    fun saveForumMessageForEvent(event: CIDHEvent, user: MNUser?, forumMessageReq: PostForumMessageRequest)
     fun getForumMessagesForEvent(eventId: String): Collection<ForumMessage>
     fun isFavoriteEventForUserId(eventId: String, requesterUserId: String?): Boolean
     fun unsubscribeUserFromEvent(user: MNUser, event: CIDHEvent)
     fun isUserSubscribedToEvent(eventId: String, requesterUserId: String?): Boolean
     fun userRatingForEvent(eventId: String, requesterUserId: String?): Number?
     fun hasUserAlreadyCommentedEvent(eventId: String, userId: String): Boolean
+    fun doesMessageAlreadyHasAnswer(parentMessageId: String): Boolean
+    fun findForumMessageById(forumMessageId: String?): ForumMessageDb?
 }

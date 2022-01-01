@@ -144,14 +144,17 @@ class MediaController {
         return ResponseEntity.ok(commentResponses)
     }
 
-    @PreAuthorize ("#forumMessageReq.parentMessageId == null or hasAnyRole('ADMIN', 'SUPERADMIN')")
+    @PreAuthorize ("#forumMessageReq.parentMessageId == null " +
+            "or hasAnyRole('ADMIN', 'SUPERADMIN')" +
+            "or (isAnonymous() and #forumMessageReq.parentMessageId == null)")
     @PostMapping(value = ["/events/{eventId}/forum/post-message"])
     fun postMessageInForum(
         @PathVariable eventId: String,
         @RequestBody forumMessageReq: PostForumMessageRequest,
-        jwtToken: Authentication,
+        jwtToken: Authentication?,
     ): ResponseEntity<Void> {
-        val (event, user) = this.findUserAndEventOrThrow(eventId, jwtToken.name)
+        val event = getEventOrThrow(eventId)
+        val user = userService.findUserById(jwtToken?.name)
         mediaService.postForumMessage(event, user, forumMessageReq)
         return ResponseEntity.ok().build()
     }
