@@ -1,5 +1,12 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.1.1
+Changes:
+- ...
+
+Fixes:
+- Fixed a bug that prevented Event Labels and Event Organizer from being properly updated
+
 ##v1.1.0
 Changes:
 - Include user full name in the comments response
