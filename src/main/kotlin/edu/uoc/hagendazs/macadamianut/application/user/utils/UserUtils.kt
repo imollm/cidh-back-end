@@ -14,8 +14,9 @@ class UserUtils {
 
         fun fullNameForUser(
             usersMapByUserId: Map<String, MNUser>,
-            userId: String,
+            userId: String?,
         ): String {
+            userId ?: return "Anonymous"
             val user = usersMapByUserId[userId] ?: return ""
             return "${user.firstName} ${user.lastName}"
         }

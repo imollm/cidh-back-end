@@ -8,6 +8,7 @@ import edu.uoc.hagendazs.macadamianut.application.media.model.MediaRepo
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.EventRating
 import edu.uoc.hagendazs.macadamianut.application.media.model.dataClass.UserEventComment
 import edu.uoc.hagendazs.macadamianut.application.media.service.MediaService
+import edu.uoc.hagendazs.macadamianut.application.media.service.exceptions.ForumMessageAdmitsSingleAnswerException
 import edu.uoc.hagendazs.macadamianut.application.media.service.exceptions.UserAlreadyCommentedException
 import edu.uoc.hagendazs.macadamianut.application.user.model.dataClass.MNUser
 import edu.uoc.hagendazs.macadamianut.application.user.service.UserService
@@ -67,8 +68,17 @@ class MediaServiceImpl: MediaService {
         return mediaRepo.ratingForEvent(eventId)
     }
 
-    override fun postForumMessage(event: CIDHEvent, user: MNUser, forumMessageReq: PostForumMessageRequest) {
+    override fun postForumMessage(event: CIDHEvent, user: MNUser?, forumMessageReq: PostForumMessageRequest) {
+        checkIfParentMessageHasNoAnswersOrThrow(forumMessageReq.parentMessageId)
         mediaRepo.saveForumMessageForEvent(event, user, forumMessageReq)
+    }
+
+    private fun checkIfParentMessageHasNoAnswersOrThrow(parentMessageId: String?) {
+        parentMessageId ?: return
+        val doesMessageAlreadyHasAnAnswer = mediaRepo.doesMessageAlreadyHasAnswer(parentMessageId)
+        if (doesMessageAlreadyHasAnAnswer) {
+            throw ForumMessageAdmitsSingleAnswerException("The forum message $parentMessageId already has an answer")
+        }
     }
 
     override fun getForumForEvent(event: EventResponse): ForumResponse {

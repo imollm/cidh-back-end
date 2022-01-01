@@ -72,7 +72,7 @@ open class EventForumMessage(
     /**
      * The column <code>public.event_forum_message.author_user_id</code>.
      */
-    val AUTHOR_USER_ID: TableField<EventForumMessageRecord, String?> = createField(DSL.name("author_user_id"), SQLDataType.VARCHAR.nullable(false), this, "")
+    val AUTHOR_USER_ID: TableField<EventForumMessageRecord, String?> = createField(DSL.name("author_user_id"), SQLDataType.VARCHAR, this, "")
 
     /**
      * The column <code>public.event_forum_message.event_id</code>.

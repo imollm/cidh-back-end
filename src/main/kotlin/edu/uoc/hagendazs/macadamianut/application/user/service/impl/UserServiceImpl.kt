@@ -39,7 +39,8 @@ class UserServiceImpl : UserService {
         return userRepo.updateUser(updatedUser)
     }
 
-    override fun findUserById(resolvedPersonId: String): MNUser? {
+    override fun findUserById(resolvedPersonId: String?): MNUser? {
+        resolvedPersonId ?: return null
         return userRepo.findById(resolvedPersonId)
     }
 

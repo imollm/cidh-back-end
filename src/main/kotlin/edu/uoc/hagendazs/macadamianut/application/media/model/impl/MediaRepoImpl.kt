@@ -175,6 +175,21 @@ class MediaRepoImpl : MediaRepo {
         )
     }
 
+    override fun findForumMessageById(forumMessageId: String?): ForumMessageDb? {
+        forumMessageId ?: return null
+        return dsl.selectFrom(EVENT_FORUM_MESSAGE)
+            .where(EVENT_FORUM_MESSAGE.ID.eq(forumMessageId))
+            .fetchOne()
+            ?.into(ForumMessageDb::class.java)
+    }
+
+    override fun doesMessageAlreadyHasAnswer(parentMessageId: String): Boolean {
+        return dsl.fetchExists(
+            dsl.selectFrom(EVENT_FORUM_MESSAGE)
+                .where(EVENT_FORUM_MESSAGE.PARENT_ID.eq(parentMessageId))
+        )
+    }
+
     override fun saveCommentForEvent(comment: String, event: CIDHEvent, author: MNUser, createdAt: LocalDateTime) {
         val commentExists = dsl.fetchExists(
             dsl.select(USER_EVENT_COMMENT.asterisk())
@@ -205,14 +220,14 @@ class MediaRepoImpl : MediaRepo {
 
     override fun saveForumMessageForEvent(
         event: CIDHEvent,
-        user: MNUser,
+        user: MNUser?,
         forumMessageReq: PostForumMessageRequest
     ) {
 
         val messageExists = dsl.fetchExists(
             dsl.selectFrom(EVENT_FORUM_MESSAGE)
                 .where(EVENT_FORUM_MESSAGE.EVENT_ID.eq(event.id))
-                .and(EVENT_FORUM_MESSAGE.AUTHOR_USER_ID.eq(user.id))
+                .and(EVENT_FORUM_MESSAGE.AUTHOR_USER_ID.eq(user?.id))
                 .and(EVENT_FORUM_MESSAGE.CREATED_AT.eq(forumMessageReq.createdAt))
                 .and(EVENT_FORUM_MESSAGE.MESSAGE.eq(forumMessageReq.message))
         )
@@ -225,7 +240,7 @@ class MediaRepoImpl : MediaRepo {
             .set(EVENT_FORUM_MESSAGE.EVENT_ID, event.id)
             .set(EVENT_FORUM_MESSAGE.MESSAGE, forumMessageReq.message)
             .set(EVENT_FORUM_MESSAGE.CREATED_AT, forumMessageReq.createdAt)
-            .set(EVENT_FORUM_MESSAGE.AUTHOR_USER_ID, user.id)
+            .set(EVENT_FORUM_MESSAGE.AUTHOR_USER_ID, user?.id)
             .set(EVENT_FORUM_MESSAGE.PARENT_ID, forumMessageReq.parentMessageId)
             .execute()
     }
