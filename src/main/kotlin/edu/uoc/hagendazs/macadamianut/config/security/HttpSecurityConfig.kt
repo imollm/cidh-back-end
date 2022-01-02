@@ -65,6 +65,7 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.POST, "/api/v1/events/*/add-to-favorites").authenticated()
             .antMatchers(HttpMethod.POST, "/api/v1/events/*/subscribe").authenticated()
             .antMatchers(HttpMethod.POST, "/api/v1/events/*/forum/post-message").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/events/*/forum").permitAll()
 
             .anyRequest().authenticated()
             .and()
