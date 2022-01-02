@@ -1,5 +1,11 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.1.3
+Changes:
+- ...
+Fixes:
+- Fixed a bug that prevented forums from being read without token
+
 ##v1.1.2
 Changes:
 - Forum messages can be published by anonymous users
