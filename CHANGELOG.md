@@ -1,5 +1,13 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.2.2
+Changes:
+- ...
+
+Fixes:
+- Fixed a bug that updated all users instead of a single user.
+
+
 ##v1.2.1
 Changes:
 - ...
