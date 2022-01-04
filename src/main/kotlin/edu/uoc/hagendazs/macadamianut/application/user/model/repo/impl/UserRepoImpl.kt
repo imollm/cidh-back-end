@@ -75,12 +75,14 @@ class UserRepoImpl : UserRepo {
     override fun changePassword(user: MNUser, newPassword: String) {
         dsl.update(USER)
             .set(USER.PASSWORD, newPassword)
+            .where(USER.ID.eq(user.id))
             .execute()
     }
 
     override fun deleteUser(userId: String) {
         dsl.update(USER)
             .set(USER.DELETED_AT, LocalDateTime.now())
+            .where(USER.ID.eq(userId))
             .execute()
     }
 
