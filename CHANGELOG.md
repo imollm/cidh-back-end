@@ -1,5 +1,13 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.2.0
+Changes:
+- Support for partial, case-insensitive search in event names
+
+Fixes:
+- ...
+
+
 ##v1.1.3
 Changes:
 - ...
