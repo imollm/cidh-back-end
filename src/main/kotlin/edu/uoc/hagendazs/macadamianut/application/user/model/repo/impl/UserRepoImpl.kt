@@ -65,6 +65,7 @@ class UserRepoImpl : UserRepo {
             .set(USER.ADDRESS, user.address)
             .set(USER.IS_VALID_EMAIL, user.isValidEmail)
             .set(USER.PREFERRED_LANGUAGE, user.preferredLanguage)
+            .where(USER.ID.eq(user.id))
             .execute()
 
         return this.findById(user.id)
