@@ -177,7 +177,8 @@ class EventRepoImpl : EventRepo {
         }
 
         if (names.isNotEmpty()) {
-            condition = condition.and(EVENT.NAME.`in`(names))
+            val listAsRegex = names.joinToString(separator = "|")
+            condition = condition.and("{0} ~* {1}", EVENT.NAME, listAsRegex)
         }
 
         if (admins.isNotEmpty()) {
