@@ -107,6 +107,7 @@ class EventRepoImpl : EventRepo {
             .set(EVENT.HEADER_IMAGE, updateEventRequest.headerImage.toString())
             .set(EVENT.START_DATE, updateEventRequest.startDate)
             .set(EVENT.END_DATE, updateEventRequest.endDate)
+            .set(EVENT.EVENT_URL, updateEventRequest.eventUrl)
             .set(EVENT.CATEGORY_ID, categoryId)
             .set(EVENT.ORGANIZER_ID, updateEventRequest.organizerId)
             .where(EVENT.ID.eq(eventId))
