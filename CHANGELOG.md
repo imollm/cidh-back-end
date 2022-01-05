@@ -1,5 +1,14 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.3.0
+
+Changes:
+- Added `/ping` endpoint
+
+Fixes:
+- ...
+
+
 ##v1.2.2
 Changes:
 - ...
