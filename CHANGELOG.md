@@ -1,5 +1,13 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.4.0
+
+Changes:
+- Added `/buil-info` endpoint
+
+Fixes:
+- ...
+
 ##v1.3.0
 
 Changes:
