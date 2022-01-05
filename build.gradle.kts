@@ -18,6 +18,10 @@ version = "1.4.0"
 
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+springBoot {
+	buildInfo()
+}
+
 repositories {
 	mavenCentral()
 }
