@@ -1,5 +1,13 @@
 # MACADAMIA NUT CHANGELOG
 
+##v1.4.1
+
+Changes:
+- ...
+
+Fixes:
+- Fixed cors issues
+
 ##v1.4.0
 
 Changes:
