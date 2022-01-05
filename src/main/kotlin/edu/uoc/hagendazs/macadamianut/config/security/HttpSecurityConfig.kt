@@ -33,6 +33,7 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .authorizeRequests()
             // Ping health-check
             .antMatchers(HttpMethod.GET, "/api/v1/ping").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/build-info").permitAll()
             // USER EndPoints
             .antMatchers(HttpMethod.GET, "/api/v1/users/*").authenticated()
             .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
