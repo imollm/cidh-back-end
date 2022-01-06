@@ -56,3 +56,25 @@ INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4d');
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e');
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');
+
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb46', NULL, 'd578fae9-d376-4e37-a5b0-46f9128beb40', NULL, NOW(), 'Missatge de un usuari anonim');
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb47', NULL, 'd578fae9-d376-4e37-a5b0-46f9128beb40', 'd578fae9-d376-4e37-a5b0-46f9128beb46', NOW(), 'Aqui tens la teva contesta');
+
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb48', 'd578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb40', NULL, NOW(), 'Missatge de un usuari registrat');
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb49', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', 'd578fae9-d376-4e37-a5b0-46f9128beb40', 'd578fae9-d376-4e37-a5b0-46f9128beb48', NOW(), 'Aqui tens la teva contesta');
+
+INSERT INTO user_event_comment VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW(), 'Comentari per aquest event 1');
+INSERT INTO user_event_comment VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW(), 'Comentari per aquest event 2');
+INSERT INTO user_event_comment VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW(), 'Comentari per aquest event 3');
+
+INSERT INTO user_event_favorites VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW());
+INSERT INTO user_event_favorites VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW());
+INSERT INTO user_event_favorites VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW());
+
+INSERT INTO user_event_rating VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW(), 3);
+INSERT INTO user_event_rating VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW(), 4);
+INSERT INTO user_event_rating VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW(), 5);
+
+INSERT INTO user_event_subscription VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW());
+INSERT INTO user_event_subscription VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW());
+INSERT INTO user_event_subscription VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW());
