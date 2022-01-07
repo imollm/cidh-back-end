@@ -58,7 +58,6 @@ INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');
 
 INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb46', NULL, 'd578fae9-d376-4e37-a5b0-46f9128beb40', NULL, NOW(), 'Missatge de un usuari anonim');
-INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb47', NULL, 'd578fae9-d376-4e37-a5b0-46f9128beb40', 'd578fae9-d376-4e37-a5b0-46f9128beb46', NOW(), 'Aqui tens la teva contesta');
 
 INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb48', 'd578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb40', NULL, NOW(), 'Missatge de un usuari registrat');
 INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb49', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', 'd578fae9-d376-4e37-a5b0-46f9128beb40', 'd578fae9-d376-4e37-a5b0-46f9128beb48', NOW(), 'Aqui tens la teva contesta');
