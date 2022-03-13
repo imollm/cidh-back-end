@@ -2,6 +2,8 @@
 
 # PDP Häagen-Dazs Backend -> MacadamiaNut
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4a0b7e8eec2f410db2cf72bd203d72cd)](https://app.codacy.com/gh/imollm/cidh-back-end?utm_source=github.com&utm_medium=referral&utm_content=imollm/cidh-back-end&utm_campaign=Badge_Grade_Settings)
+
 ![HD Logo](https://i.imgur.com/MaPZD0w.png)
 
 ## Tech Stack
