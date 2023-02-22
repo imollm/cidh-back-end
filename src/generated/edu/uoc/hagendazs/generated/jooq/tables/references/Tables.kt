@@ -6,6 +6,7 @@ package edu.uoc.hagendazs.generated.jooq.tables.references
 
 import edu.uoc.hagendazs.generated.jooq.tables.Category
 import edu.uoc.hagendazs.generated.jooq.tables.Event
+import edu.uoc.hagendazs.generated.jooq.tables.EventForumMessage
 import edu.uoc.hagendazs.generated.jooq.tables.EventOrganizer
 import edu.uoc.hagendazs.generated.jooq.tables.FlywaySchemaHistory
 import edu.uoc.hagendazs.generated.jooq.tables.Label
@@ -14,6 +15,10 @@ import edu.uoc.hagendazs.generated.jooq.tables.PasswordReset
 import edu.uoc.hagendazs.generated.jooq.tables.RefreshToken
 import edu.uoc.hagendazs.generated.jooq.tables.Role
 import edu.uoc.hagendazs.generated.jooq.tables.User
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventComment
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventFavorites
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventRating
+import edu.uoc.hagendazs.generated.jooq.tables.UserEventSubscription
 import edu.uoc.hagendazs.generated.jooq.tables.UserRole
 
 
@@ -27,6 +32,11 @@ val CATEGORY = Category.CATEGORY
  * The table <code>public.event</code>.
  */
 val EVENT = Event.EVENT
+
+/**
+ * The table <code>public.event_forum_message</code>.
+ */
+val EVENT_FORUM_MESSAGE = EventForumMessage.EVENT_FORUM_MESSAGE
 
 /**
  * The table <code>public.event_organizer</code>.
@@ -67,6 +77,26 @@ val ROLE = Role.ROLE
  * The table <code>public.user</code>.
  */
 val USER = User.USER
+
+/**
+ * The table <code>public.user_event_comment</code>.
+ */
+val USER_EVENT_COMMENT = UserEventComment.USER_EVENT_COMMENT
+
+/**
+ * The table <code>public.user_event_favorites</code>.
+ */
+val USER_EVENT_FAVORITES = UserEventFavorites.USER_EVENT_FAVORITES
+
+/**
+ * The table <code>public.user_event_rating</code>.
+ */
+val USER_EVENT_RATING = UserEventRating.USER_EVENT_RATING
+
+/**
+ * The table <code>public.user_event_subscription</code>.
+ */
+val USER_EVENT_SUBSCRIPTION = UserEventSubscription.USER_EVENT_SUBSCRIPTION
 
 /**
  * The table <code>public.user_role</code>.

@@ -19,6 +19,9 @@ INSERT INTO user_role VALUES ('d5864ae9-d386-4o37-a5b0-46f9120beb4f', 'd578fae9-
 -- Create a user with role ADMIN
 INSERT INTO "user" VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4f', 'Admin', 'Admin', null, null, 'admin@indahou.se', null, true, 'English', '$2a$12$HbyTXCCqe6g40P58rnmwAerxkxHS2yyIAhFF2FNMgCD1WYY9trGH2', NOW(), NOW());
 INSERT INTO user_role VALUES ('d578fae9-d386-4o37-a5b0-46f9120beb4f', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', 'ADMIN');
+-- Create a user with role USER
+INSERT INTO "user" VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'User', 'User', null, null, 'user@indahou.se', null, true, 'English', '$2a$12$MEca2otGtxx.BRZZ04D5vuOEyCG5xUJ/TQuIvleGqOrjGop/YvgzW', NOW(), NOW());
+INSERT INTO user_role VALUES ('d578fae9-d386-4o37-a5b0-46f9120beb45', 'd578fae9-d376-4o37-a5b0-46f9128beb4g', 'USER');
 
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb4f', 'Event organizer 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'Event organizer 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
@@ -27,12 +30,19 @@ INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'Eve
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'Event organizer 5', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
 INSERT INTO event_organizer VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'Event organizer 6', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', NOW());
 
-INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'Event 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() - interval '2 days'), (NOW() - interval '1 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb4f', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4a');
-INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'Event 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() - interval '2 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb41', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4b');
-INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb42', 'Event 3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() - interval '2 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb42', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4c');
-INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'Event 4', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() + interval '1 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb43', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4d');
-INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'Event 5', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() + interval '1 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e');
-INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'Event 6', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() + interval '1 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');
+DELETE FROM event WHERE id in ('d578fae9-d376-4e37-a5b0-46f9128beb40',
+    'd578fae9-d376-4e37-a5b0-46f9128beb41',
+    'd578fae9-d376-4e37-a5b0-46f9128beb42',
+    'd578fae9-d376-4e37-a5b0-46f9128beb43',
+    'd578fae9-d376-4e37-a5b0-46f9128beb44',
+    'd578fae9-d376-4e37-a5b0-46f9128beb45');
+
+INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'Event 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() - interval '2 days'), (NOW() - interval '1 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb4f', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4a', 'https://www.youtube.com/embed/3thisaqhzW8');
+INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb41', 'Event 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() - interval '2 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb41', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4b', 'https://www.youtube.com/embed/gH8PrzEM5_M');
+INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb42', 'Event 3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() - interval '2 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb42', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4c', 'https://www.youtube.com/embed/x_uT79nxcVg');
+INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb43', 'Event 4', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() + interval '1 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb43', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4d', 'https://www.youtube.com/embed/riy86dFDfnQ');
+INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'Event 5', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() + interval '1 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e', 'https://www.youtube.com/embed/mXfSg7mLEdU');
+INSERT INTO event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'Event 6', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pellentesque sed sapien nec efficitur. Integer aliquet vehicula justo non tempus.', 'https://www.masquenegocio.com/wp-content/uploads/2018/03/evento-concierto-874x492.jpg', (NOW() + interval '1 days'), (NOW() + interval '3 days'), 'd578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f', 'https://www.youtube.com/embed/7eMfgS7rx_4');
 
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4a');
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb40', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4b');
@@ -46,3 +56,24 @@ INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb44', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4d');
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4e');
 INSERT INTO label_event VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb45', 'd5a8fae9-d376-4e37-a5b0-46f9128beb4f');
+
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb46', NULL, 'd578fae9-d376-4e37-a5b0-46f9128beb40', NULL, NOW(), 'Missatge de un usuari anonim');
+
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb48', 'd578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb40', NULL, NOW(), 'Missatge de un usuari registrat');
+INSERT INTO event_forum_message VALUES ('d578fae9-d376-4e37-a5b0-46f9128beb49', 'd578fae9-d376-4o37-a5b0-46f9128beb4f', 'd578fae9-d376-4e37-a5b0-46f9128beb40', 'd578fae9-d376-4e37-a5b0-46f9128beb48', NOW(), 'Aqui tens la teva contesta');
+
+INSERT INTO user_event_comment VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW(), 'Comentari per aquest event 1');
+INSERT INTO user_event_comment VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW(), 'Comentari per aquest event 2');
+INSERT INTO user_event_comment VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW(), 'Comentari per aquest event 3');
+
+INSERT INTO user_event_favorites VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW());
+INSERT INTO user_event_favorites VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW());
+INSERT INTO user_event_favorites VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW());
+
+INSERT INTO user_event_rating VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW(), 3);
+INSERT INTO user_event_rating VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW(), 4);
+INSERT INTO user_event_rating VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW(), 5);
+
+INSERT INTO user_event_subscription VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb41', NOW());
+INSERT INTO user_event_subscription VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb44', NOW());
+INSERT INTO user_event_subscription VALUES ('d578fae9-d376-4o37-a5b0-46f9128beb4g', 'd578fae9-d376-4e37-a5b0-46f9128beb45', NOW());

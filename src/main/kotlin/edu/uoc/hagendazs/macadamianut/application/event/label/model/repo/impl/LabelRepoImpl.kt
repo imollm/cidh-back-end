@@ -6,6 +6,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.label.model.repo.LabelRe
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL
+import edu.uoc.hagendazs.generated.jooq.tables.references.LABEL_EVENT
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
@@ -61,11 +62,32 @@ class LabelRepoImpl : LabelRepo {
             ?.into(Label::class.java)
     }
 
+    @Transactional
     override fun removeLabelById(labelId: String): Boolean? {
+        //delete event label association first
+        dsl.deleteFrom(LABEL_EVENT)
+            .where(LABEL_EVENT.LABEL_ID.eq(labelId))
+
         val deleted = dsl.deleteFrom(LABEL)
             .where(LABEL.ID.eq(labelId))
             .execute()
 
-        return if (deleted > 0) true else null
+        return deleted > 0
+    }
+
+    override fun labelsForEvent(eventId: String?): Collection<Label> {
+        eventId ?: return emptyList()
+        return dsl.select(LABEL.asterisk())
+            .from(LABEL)
+            .join(LABEL_EVENT)
+            .on(LABEL_EVENT.LABEL_ID.eq(LABEL.ID))
+            .where(LABEL_EVENT.EVENT_ID.eq(eventId))
+            .fetchInto(Label::class.java)
+    }
+
+    override fun findLabelsWithId(labelIds: Collection<String>): Collection<Label> {
+        return dsl.selectFrom(LABEL)
+            .where(LABEL.ID.`in`(labelIds))
+            .fetchInto(Label::class.java)
     }
 }

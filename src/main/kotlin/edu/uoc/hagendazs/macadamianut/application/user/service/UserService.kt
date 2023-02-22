@@ -9,7 +9,8 @@ interface UserService {
         roleFilter: Collection<RoleEnum> = RoleEnum.values().asList()
     ): Collection<MNUser>
     fun updatePerson(resolvedUserId: String, userData: UpdateUserRequest): MNUser?
-    fun findUserById(resolvedPersonId: String): MNUser?
+    fun findUserById(resolvedPersonId: String?): MNUser?
     fun createUser(user: MNUser, role: RoleEnum): MNUser?
     fun permissionsForRole(role: RoleEnum): String?
+    fun findUsersWithIds(userIds: Collection<String>): Collection<MNUser>
 }

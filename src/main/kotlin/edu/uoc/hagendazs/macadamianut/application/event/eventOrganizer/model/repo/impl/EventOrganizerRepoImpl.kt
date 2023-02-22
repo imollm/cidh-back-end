@@ -32,7 +32,7 @@ class EventOrganizerRepoImpl: EventOrganizerRepo {
         return this.findById(eventOrganizer.id)
     }
 
-    override fun showEventOrganizer(eventOrganizerId: String): EventOrganizer? {
+    override fun getEventOrganizer(eventOrganizerId: String): EventOrganizer? {
         return this.findById(eventOrganizerId)
     }
 

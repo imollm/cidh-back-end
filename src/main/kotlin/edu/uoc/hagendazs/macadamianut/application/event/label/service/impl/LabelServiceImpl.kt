@@ -34,7 +34,7 @@ class LabelServiceImpl: LabelService {
         return labelRepo.updateLabel(this.copyLabelEntity(labelToUpdate, labelBody))
     }
 
-    override fun showLabel(labelId: String): Label? {
+    override fun findById(labelId: String): Label? {
         return labelRepo.showLabel(labelId)
     }
 

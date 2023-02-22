@@ -27,6 +27,10 @@ class UserServiceImpl : UserService {
         return userRepo.findAll(roleFilter)
     }
 
+    override fun findUsersWithIds(userIds: Collection<String>): Collection<MNUser> {
+        return userRepo.findUsersWithIds(userIds)
+    }
+
     override fun updatePerson(resolvedUserId: String, userData: UpdateUserRequest): MNUser? {
         val user = userRepo.findById(resolvedUserId) ?: kotlin.run {
             throw UserNotFoundException("User with id $resolvedUserId not found.")
@@ -35,7 +39,8 @@ class UserServiceImpl : UserService {
         return userRepo.updateUser(updatedUser)
     }
 
-    override fun findUserById(resolvedPersonId: String): MNUser? {
+    override fun findUserById(resolvedPersonId: String?): MNUser? {
+        resolvedPersonId ?: return null
         return userRepo.findById(resolvedPersonId)
     }
 

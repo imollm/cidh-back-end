@@ -57,7 +57,7 @@ class LabelController {
     fun getLabelById(
         @PathVariable labelId: String
     ): ResponseEntity<Label> {
-        val label = labelService.showLabel(labelId) ?: run {
+        val label = labelService.findById(labelId) ?: run {
             throw LabelNotFoundException(HTTPMessages.NOT_FOUND)
         }
         return ResponseEntity.ok(label)

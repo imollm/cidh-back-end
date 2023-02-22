@@ -14,9 +14,13 @@ plugins {
 }
 
 group = "edu.uoc.hagendazs"
-version = "0.0.1"
+version = "1.4.1"
 
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+springBoot {
+	buildInfo()
+}
 
 repositories {
 	mavenCentral()

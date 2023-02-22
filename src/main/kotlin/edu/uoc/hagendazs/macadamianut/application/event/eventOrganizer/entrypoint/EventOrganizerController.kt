@@ -56,7 +56,7 @@ class EventOrganizerController {
     fun getEventOrganizerById(
         @PathVariable eventOrganizerId: String
     ): ResponseEntity<EventOrganizer> {
-        val eventOrganizer = eventOrganizerService.showEventOrganizer(eventOrganizerId) ?: run {
+        val eventOrganizer = eventOrganizerService.getEventOrganizer(eventOrganizerId) ?: run {
             throw EventOrganizerNotFound(HTTPMessages.NOT_FOUND)
         }
         return ResponseEntity.ok(eventOrganizer)

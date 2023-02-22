@@ -55,7 +55,8 @@ class CategoryRepoImpl : CategoryRepo {
             ?.into(Category::class.java)
     }
 
-    override fun findById(categoryId: String): Category? {
+    override fun findById(categoryId: String?): Category? {
+        categoryId ?: return null
         return dsl.selectFrom(CATEGORY)
             .where(CATEGORY.ID.eq(categoryId))
             .fetchOne()

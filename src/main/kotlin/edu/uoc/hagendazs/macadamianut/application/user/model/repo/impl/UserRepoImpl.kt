@@ -65,6 +65,7 @@ class UserRepoImpl : UserRepo {
             .set(USER.ADDRESS, user.address)
             .set(USER.IS_VALID_EMAIL, user.isValidEmail)
             .set(USER.PREFERRED_LANGUAGE, user.preferredLanguage)
+            .where(USER.ID.eq(user.id))
             .execute()
 
         return this.findById(user.id)
@@ -74,12 +75,14 @@ class UserRepoImpl : UserRepo {
     override fun changePassword(user: MNUser, newPassword: String) {
         dsl.update(USER)
             .set(USER.PASSWORD, newPassword)
+            .where(USER.ID.eq(user.id))
             .execute()
     }
 
     override fun deleteUser(userId: String) {
         dsl.update(USER)
             .set(USER.DELETED_AT, LocalDateTime.now())
+            .where(USER.ID.eq(userId))
             .execute()
     }
 
@@ -111,6 +114,12 @@ class UserRepoImpl : UserRepo {
 
         return objectMapper.readTree(stringPermission).toString()
 
+    }
+
+    override fun findUsersWithIds(userIds: Collection<String>): Collection<MNUser> {
+        return dsl.selectFrom(USER)
+            .where(USER.ID.`in`(userIds))
+            .fetchInto(MNUser::class.java)
     }
 
     override fun userRolesForUserId(userId: String): Iterable<UserRole> {

@@ -6,7 +6,7 @@ import edu.uoc.hagendazs.macadamianut.application.event.label.model.dataClass.La
 interface LabelService {
     fun addLabel(label: Label): Label?
     fun updateLabel(labelId: String, updateLabelRequest: UpdateLabelRequest): Label?
-    fun showLabel(labelId: String): Label?
+    fun findById(labelId: String): Label?
     fun listAllLabels(): Collection<Label>
     fun removeLabelById(labelId: String): Boolean?
 }

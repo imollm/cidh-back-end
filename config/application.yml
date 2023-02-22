@@ -27,3 +27,4 @@ logging:
     org.springframework.security: TRACE
     com.smiletronix.orchestrator: DEBUG
     org.flywaydb: DEBUG
+    org.jooq.tools.LoggerListener: DEBUG

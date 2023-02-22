@@ -1,6 +1,5 @@
 package edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.service.impl
 
-import edu.uoc.hagendazs.macadamianut.application.event.category.model.dataClass.Category
 import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.entrypoint.input.UpdateEventOrganizerRequest
 import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.dataClass.EventOrganizer
 import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.repo.EventOrganizerRepo
@@ -35,8 +34,8 @@ class EventOrganizerServiceImpl: EventOrganizerService {
         return eventOrganizerRepo.updateEventOrganizer(this.copyEventOrganizerEntity(eventOrganizerToUpdate, eventOrganizerBody))
     }
 
-    override fun showEventOrganizer(eventOrganizerId: String): EventOrganizer? {
-        return eventOrganizerRepo.showEventOrganizer(eventOrganizerId)
+    override fun getEventOrganizer(eventOrganizerId: String): EventOrganizer? {
+        return eventOrganizerRepo.getEventOrganizer(eventOrganizerId)
     }
 
     override fun listAllEventOrganizers(): Collection<EventOrganizer> {

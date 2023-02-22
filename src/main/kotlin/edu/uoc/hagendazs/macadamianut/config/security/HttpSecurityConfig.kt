@@ -33,6 +33,7 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .authorizeRequests()
             // Ping health-check
             .antMatchers(HttpMethod.GET, "/api/v1/ping").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/build-info").permitAll()
             // USER EndPoints
             .antMatchers(HttpMethod.GET, "/api/v1/users/*").authenticated()
             .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
@@ -45,7 +46,7 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.POST, "/api/v1/users/*/credentials/change-password").permitAll()
             // CATEGORIES EndPoints
             .antMatchers(HttpMethod.POST, "/api/v1/categories").authenticated()
-            .antMatchers(HttpMethod.PUT, "api/v1/categories/*").authenticated()
+            .antMatchers(HttpMethod.PUT, "/api/v1/categories/*").authenticated()
             .antMatchers(HttpMethod.GET, "/api/v1/categories/*").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/categories").permitAll()
             // EVENT ORGANIZERS EndPoints
@@ -62,6 +63,11 @@ class HttpSecurityConfig() : WebSecurityConfigurerAdapter() {
              // EVENTS EndPoints
             .antMatchers(HttpMethod.GET, "/api/v1/events").permitAll()
             .antMatchers(HttpMethod.GET, "/api/v1/events/*").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/v1/events/*/add-to-favorites").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/v1/events/*/subscribe").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/v1/events/*/forum/post-message").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/v1/events/*/forum").permitAll()
+
             .anyRequest().authenticated()
             .and()
             .oauth2ResourceServer(fun(obj: OAuth2ResourceServerConfigurer<HttpSecurity?>) {

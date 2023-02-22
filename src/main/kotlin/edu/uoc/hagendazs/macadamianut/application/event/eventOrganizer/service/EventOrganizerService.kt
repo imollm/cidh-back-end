@@ -6,6 +6,6 @@ import edu.uoc.hagendazs.macadamianut.application.event.eventOrganizer.model.dat
 interface EventOrganizerService {
     fun addEventOrganizer(eventOrganizer: EventOrganizer): EventOrganizer?
     fun updateEventOrganizer(eventOrganizerId: String, updateEventOrganizerRequest: UpdateEventOrganizerRequest): EventOrganizer?
-    fun showEventOrganizer(eventOrganizerId: String): EventOrganizer?
+    fun getEventOrganizer(eventOrganizerId: String): EventOrganizer?
     fun listAllEventOrganizers(): Collection<EventOrganizer>
 }
