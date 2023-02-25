@@ -87,7 +87,7 @@ tasks.withType<Test> {
 }
 
 
-val dbUrl = "jdbc:postgresql://localhost:6432/postgres"
+val dbUrl = "jdbc:postgresql://db:5432/postgres"
 val dbUser = "postgres"
 val dbPassword = "Pass2021!"
 

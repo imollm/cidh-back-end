@@ -20,13 +20,15 @@ services:
             - POSTGRES_PASSWORD=Pass2021!
             - POSTGRES_DB=postgres
         volumes:
-            - /root/dev/pdp/cidh-back-end/src/main/resources/db/migration:/var/lib/postgresql/dump
-            - /root/dev/pdp/cidh-back-end/docker/psql/data:/var/lib/postgresql/data
+            - ./src/main/resources/db/migration:/var/lib/postgresql/dump
+            - macadamia-nut-volume:/var/lib/postgresql/data
         ports:
-            - 6432:5432
+            - 5432:5432
         networks:
             - macadamia-nut-network
+
 networks:
     macadamia-nut-network:
-        driver: bridge
 
+volumes:
+    macadamia-nut-volume:
