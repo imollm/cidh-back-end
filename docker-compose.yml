@@ -20,7 +20,6 @@ services:
             - POSTGRES_PASSWORD=Pass2021!
             - POSTGRES_DB=postgres
         volumes:
-            - ./src/main/resources/db/migration:/var/lib/postgresql/dump
             - macadamia-nut-volume:/var/lib/postgresql/data
         ports:
             - 5432:5432
